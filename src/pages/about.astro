@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import QuoteRotator from '../components/QuoteRotator.astro';
+import SafetyNote from '../components/SafetyNote.astro';
+import Tbd from '../components/Tbd.astro';
+
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+
+const values = [
+  ['Nonviolence', 'No incitement, retaliation, humiliation or celebration of violence.'],
+  ['Youth agency', 'Young people shape the agenda, create the content and lead safe actions.'],
+  ['Inclusion', 'Every community, gender, ability, region, generation and location.'],
+  ['Truth', 'Facts are sourced. Rumours are not amplified.'],
+  ['Dignity', 'Victims, survivors and communities are shown with consent, care and respect.'],
+  ['Non-partisanship', 'We endorse no party, candidate or armed actor, and hold everyone to the same standard.'],
+  ['Do no harm', 'No public value justifies foreseeable harm to a person or community.'],
+  ['Accountability', 'We correct errors, record complaints and report results honestly.'],
+  ['Hope with action', 'Hope paired with practical responsibility, not slogans.'],
+];
+
+const messages = [
+  'Peace is not someone else’s department; it is a daily public responsibility.',
+  'Young people do not need to wait for a title before becoming peacebuilders.',
+  'No community can build South Sudan alone, and no child is born carrying an inherited enemy.',
+  'A gun may silence a disagreement, but it cannot create justice, trust or lasting security.',
+  'Moving forward does not require forgetting; it requires truth, justice, healing and a refusal to create new wounds.',
+  'Before forwarding a rumour, ask who may be harmed if it is false.',
+  'Leadership is measured by the lives protected, the trust built and the conflicts prevented.',
+  'We should inherit culture and wisdom, not enemies and unfinished revenge.',
+];
+---
+<BaseLayout title="About us" description="Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative for South Sudan. Our story, vision, mission, values and independence.">
+  <PageHead title="About Peace Across Generations">
+    <p class="lede">Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative for South Sudan. We use storytelling, letters, art, intergenerational dialogue, responsible digital communication and safe community action to make peaceful choices more visible in everyday life.</p>
+    <p>Young people are at the centre. But elders, parents, teachers, faith and traditional leaders, artists, journalists, public leaders, the diaspora and friends of South Sudan all have a place here.</p>
+  </PageHead>
+
+  <section class="section section--surface">
+    <div class="container grid grid--2">
+      <div class="card">
+        <h2>Our vision</h2>
+        <p>A peaceful South Sudan where every generation chooses dialogue, dignity and shared responsibility over violence, hatred and inherited division.</p>
+      </div>
+      <div class="card">
+        <h2>Our mission</h2>
+        <p>To connect and mobilise South Sudanese inside the country and across the world to speak, listen, create and act for peace through inclusive storytelling, responsible media, intergenerational dialogue and practical local action.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="believe">
+    <div class="container">
+      <h2 id="believe">What we believe</h2>
+      <ul class="grid grid--3 values">
+        {values.map(([v, line]) => <li class="card"><h3>{v}</h3><p>{line}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="say">
+    <div class="container">
+      <h2 id="say">What we say</h2>
+      <QuoteRotator quotes={messages} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="change">
+    <div class="container">
+      <h2 id="change">How change happens</h2>
+      <ol class="flow">
+        {['Reach', 'Engage', 'Act', 'Connect', 'Learn', 'Sustain'].map((s) => <li><span>{s}</span></li>)}
+      </ol>
+      <p>We will not claim that social media or public messaging alone can end armed conflict. We measure the contribution we make to participation, dialogue, social cohesion, responsible information-sharing and safe community action.</p>
+    </div>
+  </section>
+
+  <section class="section section--surface" id="independence">
+    <div class="container narrow">
+      <SafetyNote title="Our independence" variant="info">
+        <p>Peace Across Generations is independent from any political party, candidate, armed actor, government institution or other organisation. We may work with public institutions, civil society, media, schools, traditional and faith leaders and partners when that work advances peace and does not compromise our independence, safety or editorial standards.</p>
+        <ul>
+          <li>No party, candidate or armed actor may use our name, logo, events or content as an endorsement.</li>
+          <li>We disclose partnerships and sponsorships where relevant.</li>
+          <li>During the pilot we are an initiative, not a registered NGO. We will say so honestly until that changes.</li>
+        </ul>
+      </SafetyNote>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2>Where we come from</h2>
+      <p>Peace Across Generations continues the work of Foster Peace South Sudan, the founder’s earlier youth peace initiative. We carried forward what met today’s standards — school Peace Clubs, the 64 Voices idea and creative campaign materials — and refocused everything on safe, creative, intergenerational peacebuilding.</p>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="team">
+    <div class="container">
+      <h2 id="team">Who we are</h2>
+      <ul class="grid grid--3 team">
+        {team.map(({ data: m }) => (
+          <li class:list={['card', { 'team--open': m.open }]}>
+            <p class="eyebrow">{m.role}</p>
+            {m.open ? (
+              <>
+                <h3>Role open</h3>
+                <p><a href="/partner/#volunteer">Volunteer with us</a></p>
+              </>
+            ) : (
+              <>
+                <h3>{m.name}</h3>
+                {m.photo ? <img class="ld-hide" src={m.photo} alt={`${m.name}`} width="160" height="160" loading="lazy" /> : <p><Tbd>photo</Tbd></p>}
+                {m.bio ? <p>{m.bio}</p> : <p><Tbd>bio, 60–80 words</Tbd></p>}
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+  .values, .team { list-style: none; padding: 0; }
+  .values li, .team li { margin: 0; }
+  .values h3 { color: var(--accent-text); }
+  .team--open { border-style: dashed; box-shadow: none; }
+  .team img { border-radius: 50%; margin-bottom: 0.75rem; }
+</style>

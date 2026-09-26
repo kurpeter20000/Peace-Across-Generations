@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import Icon from '../../components/Icon.astro';
+import Email from '../../components/Email.astro';
+---
+<BaseLayout title="Running threads" description="Peace in 90 Seconds, Pause Before You Share, Peace Where We Live, and 64 Voices, One Future.">
+  <PageHead title="Running through everything" lede="Four threads appear inside every programme. They keep our work consistent and practical." />
+
+  <section class="section section--surface">
+    <div class="container grid grid--2">
+      <article class="card" id="90-seconds">
+        <span class="icon-badge"><Icon name="sun" /></span>
+        <h2>Peace in 90 Seconds</h2>
+        <p>Short explainers from our founder and invited experts: one idea, one source, one action. One or two every week.</p>
+        <a class="text-link" href="/stories/90-seconds/">Watch the explainers →</a>
+      </article>
+      <article class="card" id="pause">
+        <span class="icon-badge"><Icon name="search" /></span>
+        <h2>Pause Before You Share</h2>
+        <p>Before you forward anything, ask three questions:</p>
+        <ol>
+          <li>Who made this?</li>
+          <li>Who gains if I share it?</li>
+          <li>Who gets hurt if it is false?</li>
+        </ol>
+        <a class="text-link" href="/pause-before-you-share/">Learn the habit →</a>
+      </article>
+      <article class="card" id="where-we-live">
+        <span class="icon-badge"><Icon name="sprout" /></span>
+        <h2>Peace Where We Live</h2>
+        <p>One small offline action every weekend — small enough for anyone to do.</p>
+        <p>Examples: read a Letter for Peace aloud at dinner · ask an elder one question · greet someone from another community in their language · kindly correct one rumour.</p>
+        <Email class="text-link" label="Tell us what you did →" subject="Peace Where We Live – what I did" />
+      </article>
+      <article class="card" id="64-voices">
+        <span class="icon-badge"><Icon name="users" /></span>
+        <h2>64 Voices, One Future</h2>
+        <p>South Sudan is home to many communities — the number 64 is widely used, though no official count exists. This thread is our commitment to hear from as many as we can, steadily and honestly. Contributors choose whether to name their community. We never lead with tribal labels. We have no quota, and we will never claim to have heard from everyone.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

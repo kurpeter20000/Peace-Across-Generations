@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import Email from '../../components/Email.astro';
+import corrections from '../../data/corrections.json';
+import { formatDate } from '../../lib/content';
+
+type Correction = { date: string; item: string; change: string };
+const log = (corrections as Correction[]).sort((a, b) => b.date.localeCompare(a.date));
+---
+<BaseLayout title="Corrections and withdrawal" description="How we correct factual errors publicly, and how to ask us to change or remove your work.">
+  <PageHead title="Corrections and withdrawal" eyebrow="Our standards" />
+  <section class="section section--surface">
+    <div class="container narrow">
+      <p class="lede">We correct factual errors publicly and promptly. If you contributed something and want it changed or removed, email <Email subject="Withdrawal request" /> with the subject “Withdrawal request”. We will act as quickly as we can and confirm when it is done.</p>
+      <Email class="btn btn--primary" label="Send a withdrawal request" icon subject="Withdrawal request" />
+    </div>
+  </section>
+  <section class="section">
+    <div class="container narrow">
+      <h2>Corrections log</h2>
+      {log.length ? (
+        <div class="table-wrap">
+          <table class="table-cards">
+            <thead><tr><th scope="col">Date</th><th scope="col">Item</th><th scope="col">What changed</th></tr></thead>
+            <tbody>
+              {log.map((c) => <tr><td>{formatDate(new Date(`${c.date}T00:00:00Z`))}</td><td data-label="Item">{c.item}</td><td data-label="What changed">{c.change}</td></tr>)}
+            </tbody>
+          </table>
+        </div>
+      ) : <p>No corrections have been needed yet. When they are, they will be listed here.</p>}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+</style>

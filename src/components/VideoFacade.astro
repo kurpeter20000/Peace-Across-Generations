@@ -1,0 +1,42 @@
+---
+// Lightweight video facade: a thumbnail and a button. The heavy player only
+// loads after a click. In low-data mode only a text link is shown.
+import Icon from './Icon.astro';
+interface Props { platform: 'youtube' | 'facebook'; url: string; thumbnail?: string; title: string }
+const { platform, url, thumbnail, title } = Astro.props;
+const platformName = platform === 'youtube' ? 'YouTube' : 'Facebook';
+
+let embed = '';
+if (platform === 'youtube') {
+  const id = url.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/)?.[1];
+  if (id) embed = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+} else {
+  embed = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&autoplay=true`;
+}
+---
+<div class="video">
+  <div class="ld-hide">
+    {embed ? (
+      <button class="video__facade" type="button" data-video-embed={embed} data-video-title={title}>
+        {thumbnail && <img src={thumbnail} alt="" loading="lazy" decoding="async" width="640" height="360" />}
+        <span class="video__play"><Icon name="play" /> Play video <span class="visually-hidden">: {title}</span> (loads {platformName})</span>
+      </button>
+    ) : null}
+  </div>
+  <p><a href={url} rel="noopener">Watch on {platformName}</a></p>
+</div>
+
+<style>
+  .video__facade {
+    position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 16 / 9;
+    background: var(--color-navy); border: 0; border-radius: var(--radius); overflow: hidden; cursor: pointer; padding: 0;
+  }
+  .video__facade img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+  .video__play {
+    position: relative; display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--color-green); color: #fff; font-family: var(--font-heading); font-weight: 600;
+    border-radius: 999px; padding: 0.75rem 1.2rem;
+  }
+  .video__play :global(svg) { width: 1.2em; height: 1.2em; fill: currentColor; }
+  :global(.video-frame) { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radius); }
+</style>

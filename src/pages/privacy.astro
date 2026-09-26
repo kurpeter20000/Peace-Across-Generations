@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import Email from '../components/Email.astro';
+import Tbd from '../components/Tbd.astro';
+---
+<BaseLayout title="Privacy notice" description="What Peace Across Generations collects, why, who sees it and how to ask for deletion.">
+  <PageHead title="Privacy notice">
+    <p><Tbd>Draft – for team review</Tbd></p>
+  </PageHead>
+  <section class="section section--surface">
+    <div class="container narrow prose">
+      <h2>What we collect</h2>
+      <p>Only what you send us with your work. There are no accounts on this website, and no forms.</p>
+      <h2>Why</h2>
+      <p>To review your work, publish it with your consent, and contact you about it.</p>
+      <h2>Who sees it</h2>
+      <p>Only our core team. The name shown with your work is kept separate from your private contact details, such as your phone number or email address. We never publish your contact details.</p>
+      <h2>Analytics</h2>
+      <p>We count visits with a cookie-free analytics tool. It does not track you personally, does not follow you to other websites and does not use advertising trackers. This website sets no cookies.</p>
+      <h2>How long we keep it</h2>
+      <p>We keep your contact details only as long as we need them to manage your work and your consent. <Tbd>retention period to be confirmed by the team</Tbd></p>
+      <h2>Asking for deletion</h2>
+      <p>You can ask us to remove your published work, or delete your details, at any time. Email <Email subject="Privacy request" /> with the subject “Privacy request”. We will confirm when it is done.</p>
+      <h2>Contact for privacy requests</h2>
+      <p><Email subject="Privacy request" /></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 820px; }
+  .prose h2 { font-size: 1.25rem; margin-top: 1.75rem; }
+  .prose h2:first-child { margin-top: 0; }
+</style>

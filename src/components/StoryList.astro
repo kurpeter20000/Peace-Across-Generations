@@ -1,0 +1,23 @@
+---
+import type { Story } from '../lib/content';
+import { publishedThemes } from '../lib/content';
+import StoryCard from './StoryCard.astro';
+
+interface Props { stories: Story[]; emptyText?: string; showCta?: boolean }
+const {
+  stories,
+  emptyText = 'The first stories from our contributors are being reviewed with care. Check back soon — or be one of the first.',
+  showCta = true,
+} = Astro.props;
+const themeTitles = Object.fromEntries((await publishedThemes()).map((t) => [t.id, t.data.title]));
+---
+{stories.length ? (
+  <div class="grid grid--3">
+    {stories.map((s) => <StoryCard story={s} themeTitle={s.data.theme ? themeTitles[s.data.theme] : undefined} />)}
+  </div>
+) : (
+  <div class="note empty">
+    <p>{emptyText}</p>
+    {showCta && <a class="btn btn--primary" href="/take-part/">Take part</a>}
+  </div>
+)}

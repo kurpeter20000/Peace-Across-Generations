@@ -1,0 +1,16 @@
+---
+// Reusable callout box for safety, safeguarding and important notes.
+import Icon from './Icon.astro';
+interface Props { title?: string; variant?: 'safety' | 'info' | 'warning'; headingLevel?: 'h2' | 'h3' }
+const { title, variant = 'safety', headingLevel: H = 'h2' } = Astro.props;
+const icon = variant === 'warning' ? 'alert' : variant === 'info' ? 'leaf' : 'shield';
+---
+<aside class:list={['note', `note--${variant}`]} aria-label={title}>
+  {title && <H class="note__title"><Icon name={icon} />{title}</H>}
+  <slot />
+</aside>
+
+<style>
+  .note__title { display: flex; align-items: center; gap: 0.5rem; }
+  .note__title :global(svg) { width: 1.3em; height: 1.3em; flex: none; }
+</style>

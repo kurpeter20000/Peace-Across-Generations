@@ -1,0 +1,28 @@
+---
+// Honest pilot tracker: target vs so far, updated monthly from
+// src/data/pilot-progress.json. No animated vanity counters.
+import progress from '../data/pilot-progress.json';
+import { formatDate } from '../lib/content';
+---
+<p class="muted">Updated monthly after our learning review. Last updated: <time datetime={progress.lastUpdated}>{formatDate(new Date(`${progress.lastUpdated}T00:00:00Z`))}</time>.</p>
+<div class="table-wrap">
+  <table class="table-cards">
+    <caption class="visually-hidden">Pilot targets and progress so far</caption>
+    <thead>
+      <tr><th scope="col">Indicator</th><th scope="col" class="num">Pilot target</th><th scope="col" class="num">So far</th></tr>
+    </thead>
+    <tbody>
+      {progress.indicators.map((row) => (
+        <tr>
+          <td>{row.indicator}</td>
+          <td class="num" data-label="Pilot target">{row.target}</td>
+          <td class="num" data-label="So far">{row.current}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  @media (max-width: 719px) { td.num { text-align: left; } }
+</style>

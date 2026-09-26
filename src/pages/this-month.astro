@@ -1,0 +1,24 @@
+---
+// Renders the theme whose dates contain today (Juba time). The site is
+// static, so it must be rebuilt at least daily — see README.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ThemePage from '../components/ThemePage.astro';
+import PageHead from '../components/PageHead.astro';
+import { currentTheme, publishedThemes, monthName } from '../lib/content';
+
+const theme = await currentTheme();
+const archive = (await publishedThemes()).filter((t) => t.id !== theme?.id);
+---
+<BaseLayout title={theme ? `This month: ${theme.data.title}` : 'This month'} description={theme?.data.intro}>
+  {theme ? <ThemePage theme={theme} isCurrent /> : <PageHead title="This month" lede="Our next theme will be announced soon." />}
+  {archive.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <h2>Other months</h2>
+        <ul>
+          {archive.map((t) => <li><a href={`/themes/${t.id}/`}>{monthName(t.data.month)}: {t.data.title}</a></li>)}
+        </ul>
+      </div>
+    </section>
+  )}
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import Email from '../components/Email.astro';
+import Icon from '../components/Icon.astro';
+import Tbd from '../components/Tbd.astro';
+---
+<BaseLayout title="Schools & Communities" description="Host a supervised Peace Club at your school or a Community Peace Circle in your group.">
+  <PageHead title="Host a Peace Club or a Community Peace Circle" />
+
+  <section class="section section--surface">
+    <div class="container grid grid--2">
+      <article class="card card--tag" data-programme="clubs">
+        <span class="icon-badge"><Icon name="school" /></span>
+        <h2>For head teachers</h2>
+        <p>A Peace Club gives 25–40 of your students a supervised space, twice a month, to practise dialogue, creativity and leadership. You name a Patron or Matron; students elect four leaders — President, Secretary, Programmes Coordinator and Media & Advocacy Lead. We provide the curriculum and monthly content.</p>
+        <p><strong>What we need from you:</strong> written permission, a named Patron or Matron, and help obtaining guardian consent for any student who will appear in photos or recordings.</p>
+        <p><strong>What we guarantee:</strong> every adult involved signs our code of conduct; a named safeguarding focal person; no student identified in public without consent; no weapons, trauma processing or dispute mediation in club sessions.</p>
+        <Email class="btn btn--primary" label="Email us to host a club" icon subject="Host a Peace Club" />
+      </article>
+      <article class="card card--tag" data-programme="clubs">
+        <span class="icon-badge"><Icon name="users" /></span>
+        <h2>For community groups</h2>
+        <p>Already running a church youth fellowship, youth association, student union or women’s group? A Community Peace Circle uses the trust you have already built. One of your volunteers leads, we brief them, and each session follows three simple steps: listen, discuss, act. During the pilot, circles are for adults aged 18–35.</p>
+        <Email class="btn btn--primary" label="Email us to host a circle" icon subject="Host a Community Peace Circle" />
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <p class="note"><em>During the pilot we are working with a small number of schools and groups we can supervise directly. If we can’t start with you now, we’ll keep your details for the next phase.</em></p>
+      <h2>Downloads</h2>
+      <ul>
+        <li>School letter <Tbd>PDF</Tbd></li>
+        <li>Club concept note <Tbd>PDF</Tbd></li>
+        <li>Circle conversation guide <Tbd>PDF</Tbd></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+  article { display: flex; flex-direction: column; }
+  article .btn { margin-top: auto; align-self: flex-start; }
+</style>

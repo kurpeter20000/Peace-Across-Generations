@@ -1,0 +1,28 @@
+---
+// Core messages as a CSS-only horizontal strip (swipe on phones).
+// No autoplay, so it respects prefers-reduced-motion by design.
+interface Props { quotes: readonly string[] }
+const { quotes } = Astro.props;
+---
+<ul class="quotes" aria-label="What we say">
+  {quotes.map((q) => <li><blockquote><p>{q}</p></blockquote></li>)}
+</ul>
+
+<style>
+  .quotes {
+    list-style: none; padding: 0 0 0.75rem; margin: 0;
+    display: grid; grid-auto-flow: column; grid-auto-columns: min(85%, 340px); gap: 1rem;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  }
+  @media (min-width: 960px) {
+    .quotes { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; }
+  }
+  li { margin: 0; scroll-snap-align: start; }
+  blockquote {
+    margin: 0; height: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1.25rem; border-top: 4px solid var(--color-leaf);
+  }
+  p { font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 1.02rem; margin: 0; }
+  p::before { content: '“'; }
+  p::after { content: '”'; }
+</style>

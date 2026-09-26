@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+---
+<BaseLayout title="Community guidelines" description="What Peace Across Generations removes and does not publish, in comments, submissions and events.">
+  <PageHead title="Community guidelines" eyebrow="Our standards" lede="For comments, submissions and events." />
+  <section class="section section--surface">
+    <div class="container narrow">
+      <h2>We remove, and do not publish:</h2>
+      <ul class="rules">
+        <li>Calls for violence, retaliation, collective punishment or forced displacement</li>
+        <li>Ethnic slurs, dehumanising stereotypes, or naming an entire community as guilty</li>
+        <li>Graphic images of bodies, sexual violence or distressed children</li>
+        <li>Unverified accusations against identifiable individuals</li>
+        <li>Precise live locations or details that could endanger people</li>
+        <li>Real weapons used as props</li>
+        <li>Any sexual exploitation, abuse, harassment or coercion</li>
+        <li>A child’s identifying details without consent and a safety check</li>
+      </ul>
+      <p class="welcome"><strong>We welcome respectful disagreement.</strong></p>
+      <p><a href="/standards/">← All standards</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 820px; }
+  .rules li { margin-bottom: 0.5rem; }
+  .welcome { font-size: 1.15rem; color: var(--accent-text); }
+</style>

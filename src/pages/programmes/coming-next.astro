@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+
+const next = [
+  ['Play for Peace', 'Inter-community football, volleyball and wrestling with mixed teams and a peace conversation after each match', '2027'],
+  ['Peace on Air', 'A regular radio slot built from our episodes, letters and talks', '2027'],
+  ['Youth Peace Creators Fellowship', 'A cohort of 20–30 young people trained in storytelling, digital safety and facilitation', 'Mid-2027'],
+  ['Diaspora Chapters', 'Volunteer focal points hosting circles and translating in countries with large South Sudanese communities', '2027'],
+  ['Peace Forums', 'In-person Peace Talks, starting in Juba or Bor', 'Late 2027'],
+  ['Youth Voices on Peace', 'A published report and anthology of the pilot’s best work', '2027'],
+];
+---
+<BaseLayout title="Coming after the pilot" description="Programmes that will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run them properly.">
+  <PageHead title="Coming after the pilot" lede="These programmes are worth doing well — so each will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run it properly." />
+  <section class="section section--surface">
+    <div class="container">
+      <div class="table-wrap">
+        <table class="table-cards">
+          <thead><tr><th scope="col">Programme</th><th scope="col">What it would do</th><th scope="col">Earliest start</th></tr></thead>
+          <tbody>
+            {next.map(([p, what, when]) => <tr><td>{p}</td><td data-label="What it would do">{what}</td><td data-label="Earliest start">{when}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <div class="btn-row"><a class="btn btn--secondary" href="/partner/#partner">Interested in partnering on one of these? →</a></div>
+    </div>
+  </section>
+</BaseLayout>

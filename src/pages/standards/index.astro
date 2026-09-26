@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import Icon from '../../components/Icon.astro';
+
+const pages = [
+  { href: '/standards/community-guidelines/', icon: 'message', title: 'Community guidelines', text: 'What we remove and never publish — in comments, submissions and events.' },
+  { href: '/standards/safeguarding/', icon: 'shield', title: 'Safeguarding', text: 'How we protect children, young people and adults connected with our work.' },
+  { href: '/standards/corrections-and-withdrawal/', icon: 'check', title: 'Corrections and withdrawal', text: 'How we correct mistakes, and how to change or remove your work.' },
+  { href: '/report-a-concern/', icon: 'alert', title: 'Report a concern', text: 'A safe route to tell us if you are worried about someone’s safety.' },
+] as const;
+const promise = ['One message', 'one human truth', 'one source', 'one action', 'one question', 'one safety review', 'one access check'];
+---
+<BaseLayout title="Our standards" description="Safety is part of the work, not paperwork after it. Community guidelines, safeguarding, editorial promise and corrections.">
+  <PageHead title="Our standards" lede="Safety is part of the work, not paperwork after it." />
+
+  <section class="section section--surface">
+    <div class="container grid grid--2">
+      {pages.map((p) => (
+        <article class="card card--link">
+          <span class="icon-badge"><Icon name={p.icon} /></span>
+          <h2><a class="card__link" href={p.href}>{p.title}</a></h2>
+          <p>{p.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="editorial">
+    <div class="container">
+      <h2 id="editorial">Editorial promise</h2>
+      <ul class="promise">{promise.map((p) => <li>{p}</li>)}</ul>
+      <p>— for every major piece we publish.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h2 { font-size: 1.3rem; }
+  .card h2 a { text-decoration: none; color: inherit; }
+  .promise { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .promise li { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 0.45rem 1rem; font-family: var(--font-heading); font-weight: 600; color: var(--heading); }
+  .promise li::first-letter { text-transform: uppercase; }
+</style>

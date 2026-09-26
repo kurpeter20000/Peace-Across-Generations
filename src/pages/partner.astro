@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import SafetyNote from '../components/SafetyNote.astro';
+import Email from '../components/Email.astro';
+import Icon from '../components/Icon.astro';
+---
+<BaseLayout title="Work with us" description="Speak at Peace Talks, volunteer, partner, broadcast our programmes or offer in-kind support.">
+  <PageHead title="Work with us" lede="Partnerships should widen safe participation, reach and quality — without changing who we are: youth-led and non-partisan." />
+
+  <nav class="container jump" aria-label="On this page">
+    <ul>
+      <li><a href="#speak">Speak</a></li>
+      <li><a href="#volunteer">Volunteer</a></li>
+      <li><a href="#partner">Partner</a></li>
+      <li><a href="#radio">Radio stations</a></li>
+      <li><a href="#support">Support</a></li>
+    </ul>
+  </nav>
+
+  <section class="section section--surface">
+    <div class="container grid grid--2">
+      <article class="card" id="speak">
+        <span class="icon-badge"><Icon name="mic" /></span>
+        <h2>Speak at Peace Talks</h2>
+        <p>Peacebuilding practitioners, fact-checkers, mental-health educators (teaching, not treating), youth and community leaders, traditional and faith leaders, entrepreneurs, diaspora professionals and peers from other African countries. Speakers agree our speaker standard in writing.</p>
+        <Email class="text-link" label="Offer to speak →" subject="Peace Talks – speaker" />
+      </article>
+      <article class="card" id="volunteer">
+        <span class="icon-badge"><Icon name="heart" /></span>
+        <h2>Volunteer</h2>
+        <p>Translate, caption, recruit contributors, document approved actions, help with audio editing. Every volunteer signs our code of conduct.</p>
+        <Email class="text-link" label="Volunteer with us →" subject="Volunteering" />
+      </article>
+      <article class="card" id="partner">
+        <span class="icon-badge"><Icon name="link" /></span>
+        <h2>Partner</h2>
+        <p>Schools and universities, youth networks, media and radio stations, peacebuilding and fact-checking organisations, diaspora associations, development partners.</p>
+        <Email class="text-link" label="Talk to us about partnering →" subject="Partnership" />
+      </article>
+      <article class="card" id="radio">
+        <span class="icon-badge"><Icon name="headphones" /></span>
+        <h2>Radio stations</h2>
+        <p>Our Peace Talks and conversation episodes are free to broadcast.</p>
+        <Email class="text-link" label="Email us for radio-ready files →" subject="Radio-ready files" />
+      </article>
+      <article class="card" id="support">
+        <span class="icon-badge"><Icon name="hand" /></span>
+        <h2>Support</h2>
+        <p>In-kind support (data bundles for watch parties, a microphone, transport to elders, venues) is as valuable as money.</p>
+        <p><strong>We are not accepting online donations during the pilot. To offer support, email us.</strong></p>
+        <Email class="text-link" label="Offer support →" subject="Offer of support" />
+      </article>
+      <SafetyNote title="Our partnership red lines" variant="info">
+        <ul>
+          <li>No funding or partnership may require endorsement of a party, candidate, armed actor or divisive agenda.</li>
+          <li>No partner may control a contributor’s testimony or require us to publish unsafe content.</li>
+          <li>We disclose conflicts of interest and material partnerships.</li>
+          <li>We decline support that would undermine public trust in our independence.</li>
+        </ul>
+      </SafetyNote>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .jump ul { list-style: none; padding: 0 0 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; }
+  .jump li { margin: 0; }
+  .jump a { display: inline-block; padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; font-weight: 600; font-size: 0.92rem; }
+  h2 { font-size: 1.3rem; }
+</style>

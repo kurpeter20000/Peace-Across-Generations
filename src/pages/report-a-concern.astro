@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import SafetyNote from '../components/SafetyNote.astro';
+import Email from '../components/Email.astro';
+import Tbd from '../components/Tbd.astro';
+import site from '../data/site.json';
+
+const sg = site.safeguardingEmail as { user: string; domain: string } | null;
+---
+<BaseLayout title="Report a concern" description="Tell us if you are worried about the safety of anyone connected with our work. You will not face retaliation for raising a concern in good faith.">
+  <PageHead title="Report a concern">
+    <p class="lede">If you are worried about the safety of a child or adult connected with our work, or about the behaviour of anyone representing Peace Across Generations, tell us. You will not face retaliation for raising a concern in good faith.</p>
+  </PageHead>
+
+  <section class="section section--tight">
+    <div class="container narrow">
+      <SafetyNote title="If someone is in immediate danger" variant="warning">
+        <p><strong>Contact local emergency services or a trusted local authority first.</strong></p>
+        <p><Tbd>verified South Sudan emergency and child helpline numbers — must be confirmed by the team before publishing</Tbd></p>
+      </SafetyNote>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container narrow">
+      <h2>How to report</h2>
+      {sg ? (
+        <p>Email: <Email user={sg.user} domain={sg.domain} subject="Safeguarding – Confidential" /></p>
+      ) : (
+        <>
+          <p><Tbd>dedicated safeguarding address</Tbd></p>
+          <p>Until then, email <Email subject="Safeguarding – Confidential" /> with the subject “Safeguarding – Confidential”.</p>
+        </>
+      )}
+      <Email class="btn btn--primary" label="Report a concern by email" icon subject="Safeguarding – Confidential" user={sg?.user} domain={sg?.domain} />
+      <p class="handled">Handled by our Safeguarding focal person, who is not the founder.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 820px; }
+  .handled { margin-top: 1.25rem; }
+</style>

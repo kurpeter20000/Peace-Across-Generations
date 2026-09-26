@@ -1,0 +1,16 @@
+---
+import Icon from './Icon.astro';
+interface Props { key: string; title: string; href: string; icon: any; line: string; headingLevel?: 'h2' | 'h3' }
+const { key, title, href, icon, line, headingLevel: H = 'h3' } = Astro.props;
+---
+<article class="card card--tag card--link" data-programme={key}>
+  <span class="icon-badge"><Icon name={icon} /></span>
+  <H><a class="card__link" href={href}>{title}</a></H>
+  <p>{line}</p>
+</article>
+
+<style>
+  h2, h3 { font-size: 1.2rem; }
+  h2 a, h3 a { text-decoration: none; color: inherit; }
+  .card:hover h2 a, .card:hover h3 a { text-decoration: underline; }
+</style>

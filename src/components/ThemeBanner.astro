@@ -1,0 +1,29 @@
+---
+import type { Theme } from '../lib/content';
+import { monthName } from '../lib/content';
+
+interface Props { theme?: Theme; linkLabel?: string }
+const { theme, linkLabel = 'See this month’s prompt' } = Astro.props;
+---
+{theme && (
+  <div class="theme-banner">
+    <p class="eyebrow">This month’s theme</p>
+    <h2><span class="month">{monthName(theme.data.month).split(' ')[0]}:</span> {theme.data.title}</h2>
+    <p class="intro">{theme.data.intro}</p>
+    <p class="prompt"><strong>This month:</strong> {theme.data.creativePrompt}</p>
+    <div class="btn-row">
+      <a class="btn btn--primary" href="/this-month/">{linkLabel}</a>
+    </div>
+  </div>
+)}
+
+<style>
+  .theme-banner {
+    background: var(--surface); border-radius: var(--radius); border: 1px solid var(--line);
+    padding: clamp(1.35rem, 1rem + 2vw, 2.25rem); box-shadow: var(--shadow);
+    border-top: 6px solid var(--color-green);
+  }
+  .month { color: var(--accent-text); }
+  .intro { font-size: 1.08em; }
+  .prompt { background: var(--surface-alt); border-radius: var(--radius-sm); padding: 0.9rem 1rem; }
+</style>

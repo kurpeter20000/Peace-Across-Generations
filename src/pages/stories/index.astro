@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import StoryList from '../../components/StoryList.astro';
+import foundingCreators from '../../data/founding-creators.json';
+import { publishedStories, publishedThemes, storySections, monthName } from '../../lib/content';
+
+const stories = await publishedStories();
+const themes = await publishedThemes();
+const creatorOfMonth = stories.find((s) => s.data.creatorOfTheMonth);
+const founders = foundingCreators as string[];
+---
+<BaseLayout title="Stories" description="Letters, poems, songs, art, conversations and talks from South Sudanese at home and around the world.">
+  <PageHead title="Stories" lede="Letters, poems, songs, art, conversations and talks from South Sudanese at home and around the world." />
+
+  <nav class="container filters" aria-label="Browse stories">
+    <p class="filters__label">Browse by type</p>
+    <ul>
+      <li><a href="/stories/" aria-current="page">All</a></li>
+      {Object.entries(storySections).map(([slug, s]) => <li><a href={`/stories/${slug}/`}>{s.title}</a></li>)}
+    </ul>
+    {themes.length > 0 && (
+      <>
+        <p class="filters__label">Browse by theme</p>
+        <ul>{themes.map((t) => <li><a href={`/themes/${t.id}/#theme-stories`}>{monthName(t.data.month).split(' ')[0]}: {t.data.title}</a></li>)}</ul>
+      </>
+    )}
+  </nav>
+
+  {(creatorOfMonth || founders.length > 0) && (
+    <section class="section section--tight">
+      <div class="container grid grid--2">
+        {creatorOfMonth && (
+          <div class="card featured">
+            <p class="eyebrow">Creator of the Month</p>
+            <h2><a href={`/stories/${creatorOfMonth.id}/`}>{creatorOfMonth.data.title}</a></h2>
+            <p>{creatorOfMonth.data.anonymous ? 'Anonymous creator' : creatorOfMonth.data.contributorDisplayName}</p>
+          </div>
+        )}
+        {founders.length > 0 && (
+          <div class="card featured">
+            <p class="eyebrow">Founding Creators</p>
+            <ul class="founders">{founders.map((n) => <li>{n}</li>)}</ul>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="section section--surface">
+    <div class="container">
+      <h2 class="visually-hidden">All stories</h2>
+      <StoryList stories={stories} />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .filters { padding-bottom: 1.5rem; }
+  .filters__label { font-weight: 600; margin: 0.75rem 0 0.4rem; font-size: 0.9rem; color: var(--text-muted); }
+  .filters ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; }
+  .filters li { margin: 0; }
+  .filters a {
+    display: inline-block; padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--surface); text-decoration: none; font-size: 0.92rem; font-weight: 600;
+  }
+  .filters a[aria-current='page'] { background: var(--color-navy); color: #fff; border-color: var(--color-navy); }
+  .featured { border-top: 6px solid var(--color-leaf); }
+  .founders { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+  .founders li { margin: 0; }
+</style>

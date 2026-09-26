@@ -1,0 +1,75 @@
+---
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-700.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import TakePartBand from '../components/TakePartBand.astro';
+import site from '../data/site.json';
+import { lowDataInit } from '../lib/inline-scripts.mjs';
+import { t, defaultLang, languages } from '../i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Hide the closing "Take part" band (e.g. on Take Part pages themselves). */
+  hideTakePart?: boolean;
+  lang?: keyof typeof languages;
+  ogType?: 'website' | 'article';
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+const { title, description = site.description, hideTakePart = false, lang = defaultLang, ogType = 'website', jsonLd } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og-default.png', Astro.site);
+
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  slogan: site.tagline,
+  description: site.positioning,
+  url: Astro.site?.toString(),
+  logo: new URL('/icon-512.png', Astro.site).toString(),
+};
+const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+---
+<!doctype html>
+<html lang={lang} dir={languages[lang].dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={lowDataInit} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#003366" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="Stories · Peace Across Generations" href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title ?? site.tagline} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Peace Across Generations — Every Voice. Every Generation. One Peace." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t('skipToContent')}</a>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    {!hideTakePart && <TakePartBand />}
+    <Footer />
+    <script>import '../scripts/site.ts';</script>
+  </body>
+</html>

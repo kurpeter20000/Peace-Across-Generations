@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import SafetyNote from '../../components/SafetyNote.astro';
+import status from '../../data/pilot-status.json';
+
+const rows = [
+  ['Who', 'Secondary students', 'Out-of-school young adults, 18–35'],
+  ['Size', '25–40 members, at least 40% girls', '12–20 people'],
+  ['Hosted by', 'The school, with a Patron or Matron named by the head teacher', 'A trusted group: church youth fellowship, youth association, student union or women’s group'],
+  ['Meets', 'Twice a month, 60–90 minutes, during term', 'Once or twice a month, 90 minutes'],
+  ['Led by', 'Elected student leaders, supervised by the Patron or Matron', 'A volunteer from the host group, briefed by us'],
+];
+---
+<BaseLayout title="Peace Clubs & Community Peace Circles" description="Peace is something you practise, not just something you watch. Supervised school Peace Clubs and Community Peace Circles for young adults.">
+  <div data-programme="clubs">
+    <PageHead title="Peace Clubs & Community Peace Circles" eyebrow="Programme">
+      <p class="lede"><strong>Peace is something you practise, not just something you watch.</strong></p>
+      <p>Twice a month, face to face, young people meet to talk, create and take one small action for peace.</p>
+    </PageHead>
+  </div>
+
+  <section class="section section--surface">
+    <div class="container">
+      <div class="table-wrap">
+        <table class="table-cards">
+          <caption class="visually-hidden">School Peace Clubs compared with Community Peace Circles</caption>
+          <thead><tr><th scope="col"><span class="visually-hidden">Detail</span></th><th scope="col">School Peace Clubs</th><th scope="col">Community Peace Circles</th></tr></thead>
+          <tbody>
+            {rows.map(([k, club, circle]) => (
+              <tr><th scope="row">{k}</th><td data-label="School Peace Clubs">{club}</td><td data-label="Community Peace Circles">{circle}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2>What happens in a club</h2>
+      <p>One meeting a month follows our peace curriculum. The other uses that month’s content — a Letter for Peace, a podcast clip or a Peace Talk — to start a discussion. Each month the club carries out one supervised school action, like a peace assembly, an art display or a short drama, and members take home a simple family question, such as asking a parent how disputes were settled when they were young.</p>
+      <h2>What happens in a circle</h2>
+      <p>Every session has three steps: listen to a short piece of content, discuss one question, and agree one small action before the next meeting. If a live local dispute comes up, the facilitator refers it to chiefs or established mediators.</p>
+
+      <SafetyNote title="Safety comes first">
+        <p>Clubs begin only after every safeguarding condition is in place: an approved safeguarding policy and code of conduct, signed by every adult; a named safeguarding focal person; written permission from the head teacher; guardian consent for any student who appears in content; and referral contacts for any student who needs support.</p>
+        <p>Clubs never handle or discuss handling real weapons, never offer counselling, never ask students to recount war experiences and never mediate serious disputes. Sharing is always voluntary, with the right to pass.</p>
+      </SafetyNote>
+
+      <div class="card status">
+        <p class="eyebrow">Pilot status</p>
+        <p>{status.clubsAndCircles}</p>
+      </div>
+
+      <div class="btn-row"><a class="btn btn--primary" href="/schools-and-communities/">Host a club or circle →</a></div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+  .narrow > h2:not(:first-child) { margin-top: 2rem; }
+  .status { margin-top: 1.5rem; border-left: 5px solid var(--color-green); }
+  tbody th { background: var(--surface-alt); width: 18%; }
+  @media (max-width: 719px) {
+    .table-cards tbody th { display: block; width: 100%; background: none; padding: 0.25rem 1rem; font-size: 1.1rem; }
+    .table-cards td:first-child::before { display: block; }
+    .table-cards td:first-child { font-family: var(--font-body); font-weight: 400; color: var(--text); }
+  }
+</style>

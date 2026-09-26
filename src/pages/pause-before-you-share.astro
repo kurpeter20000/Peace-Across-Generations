@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import SafetyNote from '../components/SafetyNote.astro';
+import Tbd from '../components/Tbd.astro';
+import { currentTheme } from '../lib/content';
+
+const theme = await currentTheme();
+---
+<BaseLayout title="Pause Before You Share" description="Rumours move faster than truth. Before you forward anything, ask three questions.">
+  <PageHead title="Pause Before You Share" lede="Rumours move faster than truth — and in South Sudan, a false message can cost lives." />
+
+  <section class="section section--surface" aria-labelledby="habit">
+    <div class="container">
+      <h2 id="habit">The habit</h2>
+      <ol class="habit">
+        <li><span>1</span><strong>Who made this?</strong></li>
+        <li><span>2</span><strong>Who gains if I share it?</strong></li>
+        <li><span>3</span><strong>Who gets hurt if it is false?</strong></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid--2">
+      <div>
+        <h2>Correcting a rumour</h2>
+        <p>Lead with the truth. Don’t repeat the false claim in a way that spreads it further. Be kind — people share rumours because they are afraid, not because they are bad.</p>
+        {theme?.data.pauseFocus && (
+          <div class="card focus">
+            <p class="eyebrow">This month’s focus</p>
+            <p>{theme.data.pauseFocus}</p>
+          </div>
+        )}
+      </div>
+      <SafetyNote title="Never share">
+        <ul>
+          <li>Images of victims or bodies</li>
+          <li>Messages that blame a whole community</li>
+          <li>Unverified accusations against a named person</li>
+          <li>Someone’s exact location during tension</li>
+        </ul>
+      </SafetyNote>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <h2>Check with South Sudanese fact-checkers</h2>
+      <ul>
+        <li>#defyhatenow — <Tbd>link to be verified by the team</Tbd></li>
+        <li>211Check — <Tbd>link to be verified by the team</Tbd></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .habit { list-style: none; padding: 0; display: grid; gap: 1rem; }
+  @media (min-width: 800px) { .habit { grid-template-columns: repeat(3, 1fr); } }
+  .habit li {
+    margin: 0; display: flex; flex-direction: column; gap: 0.75rem; max-width: none;
+    background: var(--surface-alt); border-radius: var(--radius); padding: 1.75rem 1.5rem; border-top: 6px solid var(--color-sky);
+  }
+  .habit span { font-family: var(--font-heading); font-weight: 700; font-size: 2.5rem; line-height: 1; color: var(--color-sky); }
+  .habit strong { font-family: var(--font-heading); font-size: clamp(1.35rem, 1.1rem + 1vw, 1.7rem); color: var(--heading); line-height: 1.25; }
+  .focus { margin-top: 1.5rem; border-left: 5px solid var(--color-sky); }
+</style>

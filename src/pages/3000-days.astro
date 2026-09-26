@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import DayCounter from '../components/DayCounter.astro';
+import ProgressTable from '../components/ProgressTable.astro';
+import { jubaToday } from '../lib/day';
+
+const phases = [
+  { n: 1, name: 'Prove the model', period: 'Sep 2026 – Feb 2027', start: '2026-09-21', end: '2027-02-28', purpose: 'Launch safely; test content, participation, offline action, safeguards and partnerships.' },
+  { n: 2, name: 'Deepen participation', period: '2027 – 2028', start: '2027-03-01', end: '2028-12-31', purpose: 'Strengthen local and diaspora participation, language access, school and youth partnerships and repeat contributors.' },
+  { n: 3, name: 'Build evidence and networks', period: '2029 – 2031', start: '2029-01-01', end: '2031-12-31', purpose: 'Develop stronger learning products, partner-led activities and evidence-based advocacy if capacity allows.' },
+  { n: 4, name: 'Sustain and transfer', period: '2032 – Dec 2034', start: '2032-01-01', end: '2034-12-07', purpose: 'Consolidate lessons, strengthen local ownership and define the initiative’s long-term future.' },
+];
+const today = jubaToday();
+const isCurrent = (p: (typeof phases)[number]) => Date.parse(`${p.start}T00:00:00Z`) <= today && today <= Date.parse(`${p.end}T00:00:00Z`);
+
+const moments = [
+  ['18 June', 'International Day for Countering Hate Speech'],
+  ['9 July', 'South Sudan Independence Day'],
+  ['12 August', 'International Youth Day'],
+  ['21 September', 'International Day of Peace and anniversary of the 3,000-day commitment'],
+  ['9 January', 'Anniversary of the 2005 Comprehensive Peace Agreement'],
+];
+---
+<BaseLayout title="3,000 Days for Peace" description="3,000 consecutive days of keeping peace visible, practical and passed between generations: 21 September 2026 – 7 December 2034.">
+  <PageHead title="3,000 Days for Peace">
+    <p class="dates"><strong>21 September 2026 – 7 December 2034</strong></p>
+    <p class="lede">Peace advocacy too often appears only after a crisis and disappears when the headlines move on. We are committing to 3,000 consecutive days of keeping peace visible, practical and passed between generations — beginning on the International Day of Peace, 21 September 2026.</p>
+    <p>This is a promise of continuity, not a rigid eight-year plan. Evidence, safety, community demand and partnerships — not ambition alone — will decide how fast we grow.</p>
+  </PageHead>
+
+  <section class="section section--tight">
+    <div class="container narrow">
+      <DayCounter variant="large" />
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="phases">
+    <div class="container">
+      <h2 id="phases">The four phases</h2>
+      <ol class="phases">
+        {phases.map((p) => (
+          <li class:list={['card', { current: isCurrent(p) }]} aria-current={isCurrent(p) ? 'step' : undefined}>
+            <p class="eyebrow">Phase {p.n} · {p.period}{isCurrent(p) && <span class="now"> · Now</span>}</p>
+            <h3>{p.name}</h3>
+            <p>{p.purpose}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="progress">
+    <div class="container">
+      <h2 id="progress">Pilot progress</h2>
+      <ProgressTable />
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="moments">
+    <div class="container">
+      <h2 id="moments">Moments we mark each year</h2>
+      <ul class="moments">
+        {moments.map(([date, name]) => <li><strong>{date}</strong><span>{name}</span></li>)}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 720px; }
+  .dates { font-family: var(--font-heading); color: var(--accent-text); font-size: 1.1rem; }
+  .phases { list-style: none; padding: 0; display: grid; gap: 1rem; }
+  @media (min-width: 900px) { .phases { grid-template-columns: repeat(4, 1fr); } }
+  .phases li { margin: 0; }
+  .phases .current { border: 2px solid var(--color-green); }
+  .now { color: var(--accent-text); }
+  .moments { list-style: none; padding: 0; display: grid; gap: 0.75rem; }
+  @media (min-width: 700px) { .moments { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); } }
+  .moments li { margin: 0; background: var(--surface-alt); border-radius: var(--radius-sm); padding: 1rem; display: grid; gap: 0.25rem; border-top: 4px solid var(--color-leaf); }
+  .moments strong { font-family: var(--font-heading); color: var(--heading); }
+</style>

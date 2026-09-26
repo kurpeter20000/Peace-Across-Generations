@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ThemePage from '../../components/ThemePage.astro';
+import { publishedThemes, currentTheme, type Theme } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const themes = await publishedThemes();
+  return themes.map((theme) => ({ params: { slug: theme.id }, props: { theme } }));
+}
+
+const { theme } = Astro.props as { theme: Theme };
+const current = await currentTheme();
+---
+<BaseLayout title={theme.data.title} description={theme.data.intro}>
+  <ThemePage theme={theme} isCurrent={current?.id === theme.id} />
+</BaseLayout>

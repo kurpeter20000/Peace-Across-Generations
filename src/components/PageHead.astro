@@ -1,0 +1,14 @@
+---
+import LeafDivider from './LeafDivider.astro';
+interface Props { title: string; eyebrow?: string; lede?: string }
+const { title, eyebrow, lede } = Astro.props;
+---
+<header class="page-head">
+  <div class="container">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    <LeafDivider align="left" />
+    {lede && <p class="lede">{lede}</p>}
+    <slot />
+  </div>
+</header>

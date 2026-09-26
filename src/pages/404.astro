@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeafDivider from '../components/LeafDivider.astro';
+---
+<BaseLayout title="Page not found" hideTakePart>
+  <section class="section">
+    <div class="container nf">
+      <h1>This path doesn’t lead anywhere — yet.</h1>
+      <LeafDivider />
+      <p class="lede">Like peace, some roads are still being built.</p>
+      <div class="btn-row">
+        <a class="btn btn--secondary" href="/">Go home</a>
+        <a class="btn btn--primary" href="/take-part/">Take part</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf { text-align: center; max-width: 720px; padding-block: 3rem; }
+  .nf p { margin-inline: auto; margin-top: 1rem; }
+  .btn-row { justify-content: center; }
+</style>

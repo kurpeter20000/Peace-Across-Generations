@@ -1,0 +1,28 @@
+---
+// Native audio, never autoplayed or preloaded; size shown before playing.
+import Icon from './Icon.astro';
+interface Props { src: string; sizeMB: number; durationMin: number; title: string; summary?: string }
+const { src, sizeMB, durationMin, title, summary } = Astro.props;
+const size = `${sizeMB.toFixed(sizeMB < 10 ? 1 : 0)} MB`;
+---
+<div class="audio">
+  <p class="audio__meta"><Icon name="headphones" /> Listen ({size}) · {durationMin} min</p>
+  <audio controls preload="none" src={src} aria-label={`${title} (${size})`}>
+    <a href={src}>Download the audio ({size})</a>
+  </audio>
+  <p><a href={src} download class="text-link"><Icon name="download" class="inline-icon" /> Download ({size})</a></p>
+  {summary && (
+    <details>
+      <summary>English summary</summary>
+      <p>{summary}</p>
+    </details>
+  )}
+</div>
+
+<style>
+  .audio { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; }
+  .audio__meta { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: var(--heading); }
+  .audio__meta :global(svg), .text-link :global(svg) { width: 1.2em; height: 1.2em; vertical-align: -0.2em; }
+  audio { width: 100%; margin-bottom: 0.75rem; }
+  summary { cursor: pointer; font-weight: 600; color: var(--link); }
+</style>

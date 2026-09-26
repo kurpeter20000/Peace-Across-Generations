@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import Email from '../components/Email.astro';
+import Tbd from '../components/Tbd.astro';
+import Icon from '../components/Icon.astro';
+import site from '../data/site.json';
+---
+<BaseLayout title="Contact us" description="Email Peace Across Generations. Based in South Sudan, working with South Sudanese everywhere.">
+  <PageHead title="Contact us" />
+  <section class="section section--surface">
+    <div class="container narrow">
+      <dl class="contact">
+        <div><dt><Icon name="mail" /> Email</dt><dd><Email /></dd></div>
+        <div><dt><Icon name="whatsapp" /> WhatsApp (submissions)</dt><dd>{site.whatsapp ?? <Tbd>number</Tbd>}</dd></div>
+        <div><dt><Icon name="globe" /> Follow us</dt><dd><Tbd>social handles</Tbd></dd></div>
+      </dl>
+      <p class="lede">Based in South Sudan, working with South Sudanese everywhere.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container narrow">
+      <h2>Quick links</h2>
+      <ul class="quick">
+        <li><a href="/take-part/submit/">Send your work</a></li>
+        <li><a href="/schools-and-communities/">Host a club</a></li>
+        <li><a href="/partner/#speak">Speak</a></li>
+        <li><Email label="Media enquiries" subject="Media enquiry" /></li>
+        <li><a href="/report-a-concern/">Report a concern</a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 820px; }
+  .contact { display: grid; gap: 1.25rem; margin-bottom: 2rem; }
+  dt { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading); font-weight: 600; color: var(--heading); }
+  dt :global(svg) { width: 22px; height: 22px; }
+  dd { margin: 0.25rem 0 0; font-size: 1.15rem; }
+  .quick { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .quick li { margin: 0; }
+  .quick a { display: inline-block; padding: 0.5rem 1rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-weight: 600; text-decoration: none; }
+</style>

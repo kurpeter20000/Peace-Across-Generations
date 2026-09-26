@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import SafetyNote from '../../components/SafetyNote.astro';
+
+const strands = [
+  ['Letters for Peace', 'An open letter of up to 500 words — or a voice note — to South Sudan, a leader, a future child, a former enemy or the next generation.'],
+  ['Poetry and spoken word', 'Written or performed poems in any language, with a short English summary.'],
+  ['Music', 'An original peace song. Send a 60-second clip. Watch for our Peace Song Challenge in November and February.'],
+  ['Visual art and photography', 'Drawings, posters, and phone photos of what peace looks like on an ordinary day.'],
+  ['Drama and comedy', 'A 2–5 minute phone skit. Comedy may laugh at habits and choices — never at a community.'],
+  ['Global solidarity', 'Friends of South Sudan: send a short message that supports South Sudanese voices without speaking for them.'],
+];
+---
+<BaseLayout title="Youth Creative Peace" description="Our front door. Anyone with a phone, a pen or a voice can take part this month.">
+  <div data-programme="creative">
+    <PageHead title="Youth Creative Peace" eyebrow="Programme">
+      <p class="lede"><strong>Our front door. Anyone with a phone, a pen or a voice can take part this month.</strong></p>
+      <p>Each month we announce one theme and one prompt. You answer in whatever form you are good at. We feature one work every week and name one Creator of the Month.</p>
+    </PageHead>
+  </div>
+
+  <section class="section section--surface" aria-labelledby="make">
+    <div class="container">
+      <h2 id="make">What you can make</h2>
+      <ul class="grid grid--3 plain">
+        {strands.map(([s, what]) => <li class="card card--tag" data-programme="creative"><h3>{s}</h3><p>{what}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="month">
+    <div class="container narrow">
+      <h2 id="month">How each month works</h2>
+      <ol class="steps">
+        <li><strong>Week 1</strong> — We announce the theme with one prompt and one example.</li>
+        <li><strong>Weeks 1–4</strong> — You send your work by WhatsApp or email. We check every piece for consent and safety.</li>
+        <li><strong>Every week</strong> — We feature one work, with the creator’s story.</li>
+        <li><strong>Week 4</strong> — We name the Creator of the Month.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container narrow grid">
+      <div>
+        <h2>Recognition</h2>
+        <p>Featured creators receive a certificate and a public thank-you. The first 100 contributors become <strong>Founding Creators</strong>. In February 2027 we will hold an online showcase of the pilot’s best work.</p>
+      </div>
+      <SafetyNote title="Before you send">
+        <ul>
+          <li>It must be your own work, or properly credited.</li>
+          <li>If you are under 18, a parent or guardian must consent too.</li>
+          <li>No real weapons in photos, skits or art.</li>
+          <li>No piece may name a whole community as guilty.</li>
+        </ul>
+      </SafetyNote>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/take-part/">Take part →</a>
+        <a class="btn btn--secondary" href="/stories/letters/">Read Letters for Peace →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+  .plain { list-style: none; padding: 0; }
+  .plain li { margin: 0; }
+</style>

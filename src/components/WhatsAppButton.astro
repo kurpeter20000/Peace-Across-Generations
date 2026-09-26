@@ -1,0 +1,22 @@
+---
+import site from '../data/site.json';
+import Icon from './Icon.astro';
+import Tbd from './Tbd.astro';
+import { t } from '../i18n';
+
+interface Props { text?: string; label?: string; block?: boolean }
+const { text, label = t('whatsapp.send'), block = false } = Astro.props;
+const number = site.whatsapp as string | null;
+const href = number ? `https://wa.me/${number.replace(/\D/g, '')}${text ? `?text=${encodeURIComponent(text)}` : ''}` : undefined;
+---
+{href ? (
+  <a class:list={['btn btn--primary', { 'btn--block': block }]} href={href} rel="noopener">
+    <Icon name="whatsapp" />{label}
+  </a>
+) : (
+  <span class:list={['btn btn--primary', { 'btn--block': block }]} aria-disabled="true">
+    <Icon name="whatsapp" />{label}
+    <span class="visually-hidden"> (number not yet available)</span>
+  </span>
+  <span class="wa-tbd"><Tbd>WhatsApp submission number</Tbd></span>
+)}

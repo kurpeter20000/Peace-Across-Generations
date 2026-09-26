@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import SafetyNote from '../../components/SafetyNote.astro';
+import Tbd from '../../components/Tbd.astro';
+import { monthName, formatDate } from '../../lib/content';
+
+const talks = (await getCollection('talks')).sort((a, b) => a.data.month.localeCompare(b.data.month));
+const statusLabel = { upcoming: 'Upcoming', live: 'Live now', recorded: 'Recording available' };
+
+const events = talks
+  .filter((t) => t.data.date)
+  .map((t) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: `Peace Talks: ${t.data.topic}`,
+    startDate: t.data.date!.toISOString().slice(0, 10),
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    location: { '@type': 'VirtualLocation', url: t.data.facebookLiveUrl ?? 'https://www.facebook.com/' },
+    isAccessibleForFree: true,
+  }));
+---
+<BaseLayout title="Peace Talks" description="One expert. One live conversation. Every month. Free — live on Facebook, then as audio small enough to share on WhatsApp." jsonLd={events}>
+  <div data-programme="talks">
+    <PageHead title="Peace Talks" eyebrow="Programme">
+      <p class="lede"><strong>One expert. One live conversation. Every month. Free.</strong></p>
+      <p>Peace Talks brings peace and youth-empowerment experts to young people — live on Facebook, then as an audio file small enough to share on WhatsApp.</p>
+    </PageHead>
+  </div>
+
+  <section class="section section--surface">
+    <div class="container grid grid--2">
+      <div>
+        <h2>The format (45–60 minutes)</h2>
+        <ol class="steps">
+          <li>The expert speaks for about 20 minutes on the month’s theme.</li>
+          <li>A young co-host leads 20–25 minutes of questions from the audience.</li>
+          <li>We close with one practical action you can take that week.</li>
+        </ol>
+        <blockquote class="pull">Every session pairs a peace topic with a skill you can use — for example, how hate speech spreads online, plus how to check a claim in two minutes.</blockquote>
+      </div>
+      <div class="card">
+        <h2>Built for low data</h2>
+        <ul>
+          <li>Live on Facebook — no new app to install.</li>
+          <li>Audio-only version on WhatsApp within 48 hours.</li>
+          <li>Short 60–90 second clips the week after.</li>
+          <li>Free to community radio stations.</li>
+          <li><strong>Watch parties:</strong> a club or circle watches together on one phone or projector, so one data bundle serves thirty people.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="schedule">
+    <div class="container">
+      <h2 id="schedule">Upcoming and past talks</h2>
+      <p>Pilot schedule (topics confirmed, speakers to be announced):</p>
+      <ul class="talks">
+        {talks.map(({ data: t }) => (
+          <li class="card card--tag" data-programme="talks">
+            <p class="eyebrow">{monthName(t.month)} · {statusLabel[t.status]}</p>
+            <h3>{t.topic}{t.skill && <span class="skill"> — plus {t.skill.charAt(0).toLowerCase() + t.skill.slice(1)}</span>}</h3>
+            <dl>
+              <div><dt>Date</dt><dd>{t.date ? `${formatDate(t.date)}${t.time ? `, ${t.time} (Juba time)` : ''}` : <Tbd>date</Tbd>}</dd></div>
+              <div><dt>Speaker</dt><dd>{t.speaker === 'TBD' ? <Tbd>speaker to be announced</Tbd> : t.speaker}</dd></div>
+            </dl>
+            {t.recording && <p><a href={`/${t.recording}/`}>Listen to the recording</a></p>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container narrow">
+      <SafetyNote title="Our speaker standard" variant="info">
+        <p>Every speaker, whatever their position, speaks without campaigning or promoting a party. Officials and politicians take part only in issue-based sessions, under the same rules as everyone else. Factual claims are sourced. Audience questions are screened, and none may accuse a named person or community.</p>
+      </SafetyNote>
+      <div class="btn-row"><a class="btn btn--secondary" href="/partner/#speak">Suggest a speaker or offer to speak →</a></div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+  .talks { list-style: none; padding: 0; display: grid; gap: 1rem; }
+  .talks li { margin: 0; }
+  .skill { font-weight: 400; color: var(--text); }
+  dl { display: grid; gap: 0.25rem; margin: 0; }
+  dl div { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  dt { font-weight: 600; }
+  dd { margin: 0; }
+</style>

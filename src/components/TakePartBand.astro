@@ -1,0 +1,27 @@
+---
+// The "Take part" call to action that closes every page (brief §2).
+import { currentTheme } from '../lib/content';
+import LeafDivider from './LeafDivider.astro';
+const theme = await currentTheme();
+---
+<section class="take-part-band" aria-labelledby="tpb-title">
+  <div class="container">
+    <LeafDivider />
+    <h2 id="tpb-title">Take part this month</h2>
+    <p>
+      {theme ? <>This month’s theme is <strong>{theme.data.title}</strong>. </> : null}
+      If you have a phone, a pen or a voice, you can take part.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn--primary" href="/take-part/">Take part</a>
+      <a class="btn btn--secondary" href="/take-part/submit/">How to send your work</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .take-part-band { background: var(--surface); border-top: 1px solid var(--line); padding-block: 3rem; text-align: center; }
+  .take-part-band p { margin-inline: auto; }
+  .take-part-band .btn-row { justify-content: center; }
+  h2 { margin-top: 1rem; }
+</style>

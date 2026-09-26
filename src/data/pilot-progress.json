@@ -1,0 +1,18 @@
+{
+  "lastUpdated": "2026-09-26",
+  "indicators": [
+    { "indicator": "Creative contributions received", "target": "100+", "current": 0 },
+    { "indicator": "Letters for Peace published", "target": "24+", "current": 0 },
+    { "indicator": "Peace in 90 Seconds explainers", "target": "32", "current": 0 },
+    { "indicator": "Youth–elder and youth–leader dialogues", "target": "12", "current": 0 },
+    { "indicator": "Generations in Conversation episodes", "target": "10", "current": 0 },
+    { "indicator": "Peace Talks sessions", "target": "5", "current": 0 },
+    { "indicator": "Weekly peace action prompts", "target": "26", "current": 0 },
+    { "indicator": "Documented offline peace actions", "target": "24+", "current": 0 },
+    { "indicator": "Diaspora countries participating", "target": "10+", "current": 0 },
+    { "indicator": "Women and girls among identifiable contributors", "target": "at least 40%", "current": "—" },
+    { "indicator": "Published contributions with documented consent", "target": "100%", "current": "—" },
+    { "indicator": "School Peace Clubs (supervised pilot)", "target": "2–3", "current": 0 },
+    { "indicator": "Community Peace Circles", "target": "1–2", "current": 0 }
+  ]
+}

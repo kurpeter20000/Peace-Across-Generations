@@ -1,0 +1,33 @@
+---
+import type { Story } from '../lib/content';
+import { typeLabels, readingMinutes, formatDate } from '../lib/content';
+import { programmeNames } from '../data/programmes';
+
+interface Props { story: Story; themeTitle?: string }
+const { story, themeTitle } = Astro.props;
+const d = story.data;
+const size = d.audio
+  ? `Audio · ${d.audio.sizeMB.toFixed(d.audio.sizeMB < 10 ? 1 : 0)} MB`
+  : d.video
+    ? `Video · opens on ${d.video.platform === 'youtube' ? 'YouTube' : 'Facebook'}`
+    : `Read · ${readingMinutes(story.body)} min`;
+---
+<article class="card card--tag card--link story-card" data-programme={d.programme}>
+  <p class="tag">{typeLabels[d.type]}<span class="visually-hidden"> — {programmeNames[d.programme]}</span></p>
+  <h3><a class="card__link" href={`/stories/${story.id}/`}>{d.title}</a></h3>
+  <p class="meta">
+    <span>{d.anonymous ? 'Anonymous' : d.contributorDisplayName}</span>
+    {themeTitle && <span>{themeTitle}</span>}
+    <span>{d.language}</span>
+    <span><time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time></span>
+  </p>
+  <p class="size">{size}</p>
+</article>
+
+<style>
+  h3 { font-size: 1.15rem; }
+  h3 a { text-decoration: none; color: inherit; }
+  .story-card:hover h3 a { text-decoration: underline; }
+  .meta { display: flex; flex-wrap: wrap; gap: 0.25rem 0.9rem; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .size { font-size: 0.85rem; font-weight: 600; color: var(--accent-text); }
+</style>

@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import Tbd from '../../components/Tbd.astro';
+import Email from '../../components/Email.astro';
+---
+<BaseLayout title="Safeguarding" description="How Peace Across Generations protects children, young people and adults connected with its work.">
+  <PageHead title="Safeguarding" eyebrow="Our standards" />
+  <section class="section section--surface">
+    <div class="container narrow">
+      <ul class="rules">
+        <li>Zero tolerance for sexual exploitation, abuse and harassment. Safe reporting, no retaliation.</li>
+        <li>Guardian consent plus the young person’s own agreement for anyone under 18. We minimise names, school uniforms and precise locations.</li>
+        <li>Voluntary participation, right to stop, no pressure to forgive, no graphic retelling.</li>
+        <li><strong>No unsafe heroism:</strong> participants must not enter active conflict zones, confront armed actors, handle weapons, expose survivors or mediate serious disputes. We do not provide clinical trauma services or disarmament.</li>
+        <li>Our full Policies & Safeguarding Manual is available on request. <Email label="Request it by email" subject="Policies & Safeguarding Manual request" /> <Tbd>or link to PDF</Tbd></li>
+      </ul>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/report-a-concern/">Report a concern</a>
+        <a class="btn btn--secondary" href="/standards/">All standards</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 820px; }
+  .rules li { margin-bottom: 0.75rem; }
+</style>

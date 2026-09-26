@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import SafetyNote from '../../components/SafetyNote.astro';
+import StoryList from '../../components/StoryList.astro';
+import Tbd from '../../components/Tbd.astro';
+import Email from '../../components/Email.astro';
+import { publishedStories } from '../../lib/content';
+
+const episodes = (await publishedStories()).filter((s) => s.data.programme === 'conversations').slice(0, 6);
+
+const formats = [
+  ['Main episode', 'A young person and an elder talk around one question, sometimes across communities', '15–25 minutes, twice a month'],
+  ['Ask an Elder', 'One elder, one question', '60 seconds, weekly'],
+  ['What I’d Tell My Younger Self', 'Elders, and people in their thirties, speak to teenagers', '1–2 minutes'],
+  ['Letters Across Generations', 'An elder and a young person write to each other', 'Occasional'],
+  ['64 Voices, One Future', 'Each episode features a different community and ends with one question: What should our children inherit, and what should end with us?', 'Ongoing'],
+];
+---
+<BaseLayout title="Generations in Conversation" description="Young people ask. Elders answer from what they have lived. Together they decide what should be passed forward — and what should end with them.">
+  <div data-programme="conversations">
+    <PageHead title="Generations in Conversation" eyebrow="Programme">
+      <p class="lede"><strong>Young people ask. Elders answer from what they have lived. Together they decide what should be passed forward — and what should end with them.</strong></p>
+    </PageHead>
+  </div>
+
+  <section class="section section--surface">
+    <div class="container">
+      <h2>Formats</h2>
+      <div class="table-wrap">
+        <table class="table-cards">
+          <thead><tr><th scope="col">Format</th><th scope="col">What it is</th><th scope="col">Length</th></tr></thead>
+          <tbody>
+            {formats.map(([f, what, len]) => <tr><td>{f}</td><td data-label="What it is">{what}</td><td data-label="Length">{len}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2>Questions we ask</h2>
+      <ul class="questions">
+        <li>What were you taught about people from other communities, and was it true?</li>
+        <li>Before guns were common, what made a young man respected?</li>
+        <li>What did peace look like on an ordinary day when you were young?</li>
+        <li>What is one thing you would ask my generation never to repeat?</li>
+      </ul>
+      <SafetyNote title="How we record with care">
+        <p>We explain consent in the elder’s own language and record their agreement. Contributors can hear the edit before it is published, and can withdraw. We ask about wisdom, choices and hopes — not for graphic accounts of violence. We never name perpetrators or blame a community. Grief is welcome; pressure to forgive is not. Anyone can take part anonymously, voice only.</p>
+      </SafetyNote>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="episodes">
+    <div class="container">
+      <h2 id="episodes">Latest episodes</h2>
+      <StoryList stories={episodes} emptyText="Our first episodes are being recorded and reviewed with care. Check back soon." showCta={false} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <div class="card cta">
+        <h2>Record a conversation in your family</h2>
+        <p>Have an elder whose story should be heard? Download our one-page interview guide <Tbd>interview guide PDF</Tbd> and get in touch. Under 18? Interview only with an adult present.</p>
+        <Email class="btn btn--primary" label="Get in touch" subject="Generations in Conversation – recording" icon />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+  .questions { list-style: none; padding: 0; display: grid; gap: 0.75rem; margin-bottom: 2rem; }
+  .questions li { margin: 0; font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 1.1rem; border-left: 4px solid var(--color-leaf); padding-left: 1rem; }
+  .cta { border-top: 6px solid var(--color-leaf); }
+</style>

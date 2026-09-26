@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import { programmes } from '../../data/programmes';
+
+const rows = [
+  { key: 'creative', does: 'Turns creativity into public peace messages', who: 'Young creators 15–35, at home and in the diaspora', rhythm: 'One themed challenge a month; one featured work a week; 4–5 Letters for Peace a month' },
+  { key: 'clubs', does: 'A regular, supervised place to practise peace', who: 'Secondary students; out-of-school youth 18–35', rhythm: 'Meet twice a month' },
+  { key: 'talks', does: 'Brings peace and youth-empowerment experts to young people', who: 'Youth leaders, club members, students, diaspora', rhythm: 'One live session a month, released as audio' },
+  { key: 'conversations', does: 'Honest conversations between young people and elders', who: 'Youth–elder pairs; listeners of every age', rhythm: 'Two episodes a month' },
+];
+const byKey = Object.fromEntries(programmes.map((p) => [p.key, p]));
+const fullTitle: Record<string, string> = { clubs: 'Peace Clubs & Community Peace Circles' };
+---
+<BaseLayout title="Our programmes" description="Four core programmes, four running threads, one monthly theme.">
+  <PageHead title="Our programmes" lede="Four core programmes, four running threads, one monthly theme.">
+    <p>Every month, each programme answers the same theme, so one idea reaches people four ways: as a poem, a club session, an expert talk and an elder’s story.</p>
+  </PageHead>
+
+  <section class="section section--surface">
+    <div class="container">
+      <div class="table-wrap">
+        <table class="table-cards">
+          <caption class="visually-hidden">Programmes overview</caption>
+          <thead><tr><th scope="col">Programme</th><th scope="col">What it does</th><th scope="col">Who it’s for</th><th scope="col">Rhythm</th></tr></thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr data-programme={r.key}>
+                <td><a class="tag" href={byKey[r.key].href}>{fullTitle[r.key] ?? byKey[r.key].title}</a></td>
+                <td data-label="What it does">{r.does}</td>
+                <td data-label="Who it’s for">{r.who}</td>
+                <td data-label="Rhythm">{r.rhythm}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid--2">
+      <div class="card card--link" data-programme="threads">
+        <h2><a class="card__link" href="/programmes/running-threads/">Running through everything</a></h2>
+        <p>Four threads appear inside every programme: Peace in 90 Seconds, Pause Before You Share, Peace Where We Live, and 64 Voices, One Future.</p>
+      </div>
+      <div class="card card--link">
+        <h2><a class="card__link" href="/programmes/coming-next/">Coming after the pilot</a></h2>
+        <p>Programmes that will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run them properly.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  td .tag { font-size: 1rem; text-decoration: none; }
+  td .tag:hover { text-decoration: underline; }
+  h2 { font-size: 1.3rem; }
+  h2 a { text-decoration: none; color: inherit; }
+</style>
