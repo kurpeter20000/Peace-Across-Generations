@@ -8,6 +8,7 @@ import SafetyNote from './SafetyNote.astro';
 import VideoFacade from './VideoFacade.astro';
 import SocialShare from './SocialShare.astro';
 import Icon from './Icon.astro';
+import site from '../data/site.json';
 import PhotoFig from './Photo.astro';
 import { photos as catalogue, type Photo } from '../data/photos';
 
@@ -92,6 +93,7 @@ const blocks = [
       )}
       <p>{d.participation ?? 'Answer in whatever form you are good at, then send it to us. We check every piece for consent and safety before anything is published.'}</p>
       <p><a class="text-link" href={`/take-action/share-your-voice/?campaign=${theme.id}`}>Send your contribution →</a></p>
+      {site.youthCreativeForm && <p>Youth Creative Peace creators: <a href={site.youthCreativeForm} rel="noopener" target="_blank" data-track="cta:google-form">use our Google Form ↗</a></p>}
     </div>
   </div>
 </section>

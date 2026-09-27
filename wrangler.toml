@@ -19,6 +19,6 @@ database_id = "d5265b69-c8e6-4aaa-b2f6-1cdba8962a92"
 
 # Cloudflare Access for /admin (see README). Not secrets: the AUD tag and
 # team name are public identifiers.
-# [vars]
-# ACCESS_TEAM_DOMAIN = "your-team-name"
-# ACCESS_AUD = "your-access-application-aud-tag"
+[vars]
+ACCESS_TEAM_DOMAIN = "sparkling-water-af12"
+ACCESS_AUD = "2dc7d3f339729b6fe23e8e998cddbd130ee496b54cd8fdb1d6561ac83b95b972"

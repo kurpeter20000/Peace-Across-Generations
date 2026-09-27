@@ -1,0 +1,23 @@
+---
+// Youth Creative Peace sign-up / submission via the team's Google Form.
+import site from '../data/site.json';
+import Icon from './Icon.astro';
+interface Props { headingLevel?: 'h2' | 'h3'; compact?: boolean }
+const { headingLevel: H = 'h3', compact = false } = Astro.props;
+const url = site.youthCreativeForm as string | undefined;
+---
+{url && (
+  <div class:list={['card gform', { 'gform--compact': compact }]} data-programme="creative">
+    <span class="icon-badge"><Icon name="pen" /></span>
+    <H>Youth Creative Peace: sign up or send your work</H>
+    <p>Creators can join Youth Creative Peace or share their poems, songs, art, photos, letters and videos through our Google Form.</p>
+    <a class="btn btn--primary" href={url} rel="noopener" target="_blank" data-track="cta:google-form">Open the Google Form <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
+    <p class="gform__note">Google Forms is run by Google, and your answers are stored there. <a href="/privacy/">Privacy</a></p>
+  </div>
+)}
+
+<style>
+  .gform { border-top: 6px solid var(--tag-creative); display: flex; flex-direction: column; align-items: flex-start; }
+  .gform h2, .gform h3 { font-size: 1.2rem; }
+  .gform__note { font-size: 0.85rem; color: var(--text-muted); margin: 0.75rem 0 0; }
+</style>

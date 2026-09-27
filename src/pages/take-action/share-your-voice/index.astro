@@ -7,6 +7,8 @@ import SafetyNote from '../../../components/SafetyNote.astro';
 import WhatsAppButton from '../../../components/WhatsAppButton.astro';
 import Email from '../../../components/Email.astro';
 import Tbd from '../../../components/Tbd.astro';
+import GoogleFormCard from '../../../components/GoogleFormCard.astro';
+import site from '../../../data/site.json';
 import { ageRanges, contributionTypes, upload } from '../../../data/forms';
 import { currentTheme, publishedThemes } from '../../../lib/content';
 
@@ -31,6 +33,7 @@ Anything we should know for my safety:
   <PageHead photo={photos.megaphone} title="Share your voice" eyebrow="Take action">
     <p class="lede">{current?.data.message ?? 'Tell us why peace cannot wait, what peace means to you, or what you believe we can do to build it.'}</p>
     <p>You don’t need money, a title, professional equipment or perfect English. Nothing is published automatically: our team reviews every contribution for consent, facts and safety first.</p>
+    <p>Youth Creative Peace creators can also <a href={site.youthCreativeForm} rel="noopener" target="_blank" data-track="cta:google-form">sign up or send work through our Google Form ↗</a>.</p>
   </PageHead>
 
   <section class="section section--tight">
@@ -173,8 +176,9 @@ Anything we should know for my safety:
 
   <section class="section" aria-labelledby="other-ways">
     <div class="container">
-      <h2 id="other-ways">Prefer WhatsApp or email?</h2>
-      <div class="grid grid--2">
+      <h2 id="other-ways">Other ways to send your work</h2>
+      <div class="grid grid--3">
+        <GoogleFormCard />
         <div class="card send">
           <h3>WhatsApp</h3>
           <p>The message below is filled in for you. Attach your work in the chat.</p>

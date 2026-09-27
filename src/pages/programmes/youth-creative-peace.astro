@@ -3,6 +3,7 @@ import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
+import GoogleFormCard from '../../components/GoogleFormCard.astro';
 
 const strands = [
   ['Letters for Peace', 'An open letter of up to 500 words — or a voice note — to South Sudan, a leader, a future child, a former enemy or the next generation.'],
@@ -28,6 +29,10 @@ const strands = [
         {strands.map(([s, what]) => <li class="card card--tag" data-programme="creative"><h3>{s}</h3><p>{what}</p></li>)}
       </ul>
     </div>
+  </section>
+
+  <section class="section section--tight" id="sign-up">
+    <div class="container narrow"><GoogleFormCard headingLevel="h2" /></div>
   </section>
 
   <section class="section" aria-labelledby="month">
