@@ -1,0 +1,15 @@
+---
+// The editorial promise for the blog: progress is reported factually and
+// without endorsing anyone, so the blog never reads as anyone's PR.
+import SafetyNote from './SafetyNote.astro';
+interface Props { headingLevel?: 'h2' | 'h3' }
+const { headingLevel = 'h2' } = Astro.props;
+---
+<SafetyNote title="How we write this blog" variant="info" headingLevel={headingLevel}>
+  <ul>
+    <li>Every fact has a source, linked at the end of the post.</li>
+    <li>We report progress without endorsing any party, government, official or armed actor.</li>
+    <li>We don’t hide what still needs to change.</li>
+    <li>We correct mistakes publicly. <a href="/standards/corrections-and-withdrawal/">Corrections →</a></li>
+  </ul>
+</SafetyNote>

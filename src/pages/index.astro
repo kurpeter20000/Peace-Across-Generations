@@ -7,12 +7,15 @@ import ProgrammeCard from '../components/ProgrammeCard.astro';
 import StoryList from '../components/StoryList.astro';
 import LeafDivider from '../components/LeafDivider.astro';
 import Icon from '../components/Icon.astro';
+import IntroVideo from '../components/IntroVideo.astro';
+import PostCard from '../components/PostCard.astro';
 import { programmes } from '../data/programmes';
-import { currentTheme, weeklyAction, publishedStories } from '../lib/content';
+import { currentTheme, weeklyAction, publishedStories, publishedPosts } from '../lib/content';
 
 const theme = await currentTheme();
 const action = weeklyAction(theme);
 const latest = (await publishedStories()).slice(0, 3);
+const posts = (await publishedPosts()).slice(0, 3);
 
 const promises = [
   { icon: 'scale', title: 'Non-partisan.', text: 'We endorse no party, candidate or armed actor.' },
@@ -35,6 +38,14 @@ const promises = [
         <p class="hero-day"><Icon name="sun" /><DayCounter /></p>
       </div>
       <HeroArt />
+    </div>
+  </section>
+
+  <!-- Introductory video -->
+  <section class="section section--tight" aria-labelledby="intro-video">
+    <div class="container narrow">
+      <h2 id="intro-video" class="visually-hidden">Watch our introduction</h2>
+      <IntroVideo />
     </div>
   </section>
 
@@ -75,6 +86,17 @@ const promises = [
       {latest.length > 0 && <p class="more"><a class="text-link" href="/stories/">All stories →</a></p>}
     </div>
   </section>
+
+  {posts.length > 0 && (
+    <section class="section" aria-labelledby="blog">
+      <div class="container">
+        <p class="eyebrow">Blog</p>
+        <h2 id="blog">Progress for peace</h2>
+        <div class="grid grid--3">{posts.map((p) => <PostCard post={p} />)}</div>
+        <p class="more"><a class="text-link" href="/blog/">More from the blog →</a></p>
+      </div>
+    </section>
+  )}
 
   <!-- 6. Everyone has an entry point -->
   <section class="section">

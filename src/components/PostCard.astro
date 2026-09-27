@@ -1,0 +1,25 @@
+---
+import type { Post } from '../lib/content';
+import { categoryLabels, formatDate, readingMinutes } from '../lib/content';
+
+interface Props { post: Post; headingLevel?: 'h2' | 'h3' }
+const { post, headingLevel: H = 'h3' } = Astro.props;
+const d = post.data;
+---
+<article class="card card--link post-card" data-category={d.category}>
+  <p class="tag">{categoryLabels[d.category]}</p>
+  <H><a class="card__link" href={`/blog/${post.id}/`}>{d.title}</a></H>
+  <p>{d.summary}</p>
+  <p class="meta">
+    <time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time>
+    <span>Read · {readingMinutes(post.body)} min</span>
+  </p>
+</article>
+
+<style>
+  h2, h3 { font-size: 1.2rem; }
+  h2 a, h3 a { text-decoration: none; color: inherit; }
+  .post-card:hover h2 a, .post-card:hover h3 a { text-decoration: underline; }
+  .meta { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+  .post-card { border-top: 4px solid var(--tag, var(--color-sky)); }
+</style>

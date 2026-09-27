@@ -100,4 +100,24 @@ const team = defineCollection({
   }),
 });
 
-export const collections = { themes, stories, talks, team };
+export const postCategories = ['peace', 'development', 'youth', 'education', 'community', 'culture'] as const;
+
+// Blog: sourced reports on peace and development progress in South Sudan.
+const posts = defineCollection({
+  loader: md('posts'),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    summary: z.string(),
+    category: z.enum(postCategories),
+    author: z.string().default('Peace Across Generations'),
+    location: z.string().optional(),
+    image: z.object({ src: z.string(), alt: z.string(), credit: z.string().optional() }).optional(),
+    // Every post must cite at least one source (enforced in publishedPosts()).
+    sources: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
+    contentWarning: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { themes, stories, talks, team, posts };

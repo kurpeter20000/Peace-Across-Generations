@@ -7,9 +7,13 @@ const { platform, url, thumbnail, title } = Astro.props;
 const platformName = platform === 'youtube' ? 'YouTube' : 'Facebook';
 
 let embed = '';
+let poster = thumbnail;
 if (platform === 'youtube') {
   const id = url.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/)?.[1];
-  if (id) embed = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+  if (id) {
+    embed = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+    poster ??= `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+  }
 } else {
   embed = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&autoplay=true`;
 }
@@ -18,7 +22,7 @@ if (platform === 'youtube') {
   <div class="ld-hide">
     {embed ? (
       <button class="video__facade" type="button" data-video-embed={embed} data-video-title={title}>
-        {thumbnail && <img src={thumbnail} alt="" loading="lazy" decoding="async" width="640" height="360" />}
+        {poster && <img src={poster} alt="" loading="lazy" decoding="async" width="640" height="360" />}
         <span class="video__play"><Icon name="play" /> Play video <span class="visually-hidden">: {title}</span> (loads {platformName})</span>
       </button>
     ) : null}
@@ -27,6 +31,7 @@ if (platform === 'youtube') {
 </div>
 
 <style>
+  .video p { margin: 0.6rem 0 0; }
   .video__facade {
     position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 16 / 9;
     background: var(--color-navy); border: 0; border-radius: var(--radius); overflow: hidden; cursor: pointer; padding: 0;

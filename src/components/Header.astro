@@ -9,6 +9,7 @@ const links = [
   { href: '/programmes/', label: t('nav.programmes') },
   { href: '/this-month/', label: t('nav.thisMonth') },
   { href: '/stories/', label: t('nav.stories') },
+  { href: '/blog/', label: t('nav.blog') },
 ];
 const isCurrent = (href: string) => {
   const h = href.replace(/\/$/, '') || '/';
@@ -92,7 +93,7 @@ const isCurrent = (href: string) => {
 
   /* Small screens: hamburger (only when JavaScript is available;
      without it the menu simply stays open below the logo). */
-  @media (max-width: 959px) {
+  @media (max-width: 1199px) {
     :global(.js) .menu-toggle { display: grid; }
     .site-menu { flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem; padding-bottom: 1rem; }
     :global(.js) .site-menu:not([data-open]) { display: none; }

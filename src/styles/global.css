@@ -210,6 +210,11 @@ a:hover { color: var(--link-hover); text-decoration-thickness: 2px; }
 [data-programme='talks'] { --tag: var(--tag-talks); }
 [data-programme='conversations'] { --tag: var(--tag-conversations); }
 [data-programme='threads'] { --tag: var(--tag-threads); }
+/* Blog categories */
+[data-category='peace'], [data-category='culture'] { --tag: var(--color-sky); }
+[data-category='development'], [data-category='community'] { --tag: var(--color-green); }
+[data-category='youth'] { --tag: var(--color-leaf); }
+[data-category='education'] { --tag: var(--tag-talks); }
 
 .icon-badge {
   display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 50%;

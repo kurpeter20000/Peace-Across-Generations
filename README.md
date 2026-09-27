@@ -92,9 +92,32 @@ npm run brand     # regenerate logo WebP, favicons and OG image from public/bran
 - **Email obfuscation:** use `<Email />` for every address. It is assembled client-side.
 - **i18n:** UI strings in `src/i18n/en.json`. Add a language to `astro.config.mjs` `i18n.locales` and `src/i18n/index.ts` (Arabic needs `dir: 'rtl'`). Don't add a language switcher until a translated page exists.
 
-### Deploying (Cloudflare Pages or Netlify)
+### Deploying on Cloudflare Pages
 
-- Build command `npm run build`, output directory `dist`, Node 22+.
-- **Schedule a daily rebuild** (a deploy hook called by a cron, e.g. at 00:05 Africa/Juba). The day counter updates itself in the browser, but the current monthly theme and weekly action are chosen at build time.
-- Analytics: add Cloudflare Web Analytics (cookie-free) from the Cloudflare dashboard. The CSP already allows `cloudflareinsights.com`.
-- Set the final domain in `astro.config.mjs` (`SITE`) and `public/robots.txt`.
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git** → choose `kurpeter20000/Peace-Across-Generations`.
+2. Framework preset **Astro**. Build command `npm run build`, output directory `dist`, production branch `main`. Node 22 is pinned in `.node-version`.
+3. Every push to `main` deploys automatically. Pull requests get preview links.
+4. **Daily rebuild** (keeps the current theme and weekly action correct): in the Pages project go to **Settings → Builds → Deploy hooks**, create a hook for `main`, then add its URL in GitHub under **Settings → Secrets and variables → Actions** as `CLOUDFLARE_DEPLOY_HOOK`. The workflow in `.github/workflows/daily-rebuild.yml` calls it at 00:05 Juba time.
+5. **Analytics:** Pages project → **Metrics → Web Analytics** → enable (cookie-free). The CSP already allows Cloudflare's beacon.
+6. **Custom domain:** Pages project → **Custom domains** → add the domain, then set the same domain as `SITE` in `astro.config.mjs` and in `public/robots.txt`.
+
+Security headers and caching rules are in `public/_headers`, which Cloudflare Pages reads automatically.
+
+## Blog: adding a post
+
+1. Go to `src/content/posts/`, copy `_template.md` into a new file named after the post (e.g. `new-school-opens-in-bor.md`).
+2. Fill in the title, date, summary and category, and write the post under the second `---`.
+3. List **at least one source**. A post without sources will not publish.
+4. Change `draft: true` to `draft: false`.
+
+The blog reports real progress in peace and development with facts and sources. It never praises or blames a party, government, official or armed actor, and it stays honest about what still needs to change.
+
+## Introductory video
+
+Upload the video to YouTube or Facebook (never to this repository), then set `introVideo` in `src/data/site.json`:
+
+```json
+"introVideo": { "platform": "youtube", "url": "https://www.youtube.com/watch?v=VIDEO_ID", "thumbnail": "/images/intro-thumb.webp" }
+```
+
+The thumbnail is optional; keep it under 80 KB. The video player loads only when someone presses play, and Low-data mode shows a plain link instead.

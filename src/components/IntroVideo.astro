@@ -1,0 +1,28 @@
+---
+// The initiative's introductory video, hosted on YouTube or Facebook and
+// shown through the lightweight facade. Set "introVideo" in site.json:
+// { "platform": "youtube", "url": "https://www.youtube.com/watch?v=…", "thumbnail": "/images/intro-thumb.webp" }
+import site from '../data/site.json';
+import VideoFacade from './VideoFacade.astro';
+import Tbd from './Tbd.astro';
+
+type Video = { platform: 'youtube' | 'facebook'; url: string; thumbnail?: string } | null;
+const video = site.introVideo as Video;
+---
+<div class="intro-video">
+  <p class="eyebrow">Watch our introduction</p>
+  {video ? (
+    <VideoFacade platform={video.platform} url={video.url} thumbnail={video.thumbnail} title="Peace Across Generations — introduction" />
+  ) : (
+    <div class="intro-video__placeholder">
+      <p><Tbd>link to the introductory video on YouTube or Facebook</Tbd></p>
+    </div>
+  )}
+</div>
+
+<style>
+  .intro-video__placeholder {
+    display: grid; place-items: center; aspect-ratio: 16 / 9; max-height: 320px; width: 100%;
+    border: 2px dashed var(--line); border-radius: var(--radius); background: var(--surface); padding: 1rem; text-align: center;
+  }
+</style>

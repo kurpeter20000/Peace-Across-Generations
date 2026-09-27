@@ -1,0 +1,105 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogStandard from '../../components/BlogStandard.astro';
+import SafetyNote from '../../components/SafetyNote.astro';
+import PostCard from '../../components/PostCard.astro';
+import Icon from '../../components/Icon.astro';
+import site from '../../data/site.json';
+import { t } from '../../i18n';
+import { publishedPosts, categoryLabels, formatDate, readingMinutes, type Post } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const posts = await publishedPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, posts } }));
+}
+
+const { post, posts } = Astro.props as { post: Post; posts: Post[] };
+const d = post.data;
+const { Content } = await render(post);
+const url = new URL(`/blog/${post.id}/`, Astro.site).toString();
+const more = posts.filter((p) => p.id !== post.id).slice(0, 3);
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.summary,
+  datePublished: d.date.toISOString().slice(0, 10),
+  author: { '@type': 'Organization', name: d.author },
+  publisher: { '@type': 'Organization', name: site.name },
+  mainEntityOfPage: url,
+};
+---
+<BaseLayout title={d.title} description={d.summary} ogType="article" jsonLd={ld}>
+  <article>
+    <header class="page-head">
+      <div class="container narrow">
+        <p class="eyebrow"><a href="/blog/">Blog</a> · {categoryLabels[d.category]}</p>
+        <h1>{d.title}</h1>
+        <p class="lede">{d.summary}</p>
+        <ul class="meta">
+          <li>{d.author}</li>
+          {d.location && <li>{d.location}</li>}
+          <li><time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time></li>
+          <li>{readingMinutes(post.body)} min read</li>
+        </ul>
+      </div>
+    </header>
+
+    <div class="container narrow post-body">
+      {d.contentWarning && <SafetyNote title="Take care" variant="warning" headingLevel="h2"><p>{t('contentWarning')}</p></SafetyNote>}
+
+      {d.image && (
+        <figure class="ld-hide">
+          <img src={d.image.src} alt={d.image.alt} loading="lazy" decoding="async" />
+          {d.image.credit && <figcaption>{d.image.credit}</figcaption>}
+        </figure>
+      )}
+      {d.image && <p class="ld-only"><a href={d.image.src}>View the image</a> ({d.image.alt})</p>}
+
+      <div class="prose"><Content /></div>
+
+      <section class="sources">
+        <h2>Sources</h2>
+        <ol>{d.sources.map((s) => <li><a href={s.url} rel="noopener">{s.label}</a></li>)}</ol>
+      </section>
+
+      <section aria-label="Share">
+        <h2>Share</h2>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={`https://wa.me/?text=${encodeURIComponent(`${d.title} — ${url}`)}`} rel="noopener"><Icon name="whatsapp" />WhatsApp</a>
+          <a class="btn btn--secondary" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} rel="noopener"><Icon name="facebook" />Facebook</a>
+        </div>
+      </section>
+
+      <BlogStandard />
+    </div>
+  </article>
+
+  {more.length > 0 && (
+    <section class="section section--surface">
+      <div class="container">
+        <h2>More progress</h2>
+        <div class="grid grid--3">{more.map((p) => <PostCard post={p} />)}</div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 760px; }
+  .eyebrow a { color: inherit; }
+  .meta { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; color: var(--text-muted); }
+  .meta li { margin: 0; }
+  .post-body { padding-bottom: 3rem; }
+  .post-body > :global(* + *) { margin-top: 2rem; }
+  .post-body h2 { font-size: 1.25rem; }
+  .prose { font-size: 1.1em; }
+  .prose :global(h2) { font-size: 1.4rem; margin-top: 2rem; }
+  .prose :global(img) { border-radius: var(--radius); }
+  .prose :global(blockquote) { border-left: 4px solid var(--color-leaf); margin: 1.5rem 0; padding-left: 1rem; font-style: italic; }
+  figure { margin: 0; }
+  figure img { border-radius: var(--radius); }
+  figcaption { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem; }
+  .sources { border-top: 1px solid var(--line); padding-top: 1.5rem; font-size: 0.95rem; }
+</style>

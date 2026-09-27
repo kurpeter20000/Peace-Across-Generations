@@ -1,0 +1,25 @@
+# Rebuilds the site on Cloudflare Pages every day at 00:05 Juba time
+# (22:05 UTC), so the current monthly theme and weekly action stay correct.
+# Setup: Cloudflare dashboard → Workers & Pages → the project → Settings →
+# Builds → Deploy hooks → create one for "main", then add its URL to GitHub
+# as a repository secret named CLOUDFLARE_DEPLOY_HOOK.
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: '5 22 * * *'
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy hook
+        env:
+          HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "CLOUDFLARE_DEPLOY_HOOK secret is not set; skipping."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK"

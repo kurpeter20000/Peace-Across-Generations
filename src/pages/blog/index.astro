@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import PostCard from '../../components/PostCard.astro';
+import BlogStandard from '../../components/BlogStandard.astro';
+import { publishedPosts, categoryLabels } from '../../lib/content';
+
+const posts = await publishedPosts();
+const [lead, ...rest] = posts;
+const used = new Set(posts.map((p) => p.data.category));
+---
+<BaseLayout title="Blog: Progress for peace" description="Sourced reports on real progress in peace and development in South Sudan — and honest about what still needs to change.">
+  <PageHead title="Progress for peace" eyebrow="Blog">
+    <p class="lede">News about South Sudan often shows only crisis. This blog follows the other story too: real, sourced progress in peace and development — from schools and farms to reconciliation in communities.</p>
+    <p><a href="/blog/rss.xml">Follow by RSS</a></p>
+  </PageHead>
+
+  <section class="section section--surface">
+    <div class="container">
+      {posts.length === 0 ? (
+        <div class="note empty">
+          <p>Our first posts are being researched and checked. Check back soon.</p>
+          <p>Know of real progress in your community? Tell us, with a source we can check.</p>
+          <a class="btn btn--primary" href="/contact/">Contact us</a>
+        </div>
+      ) : (
+        <>
+          {used.size > 1 && (
+            <p class="cats" aria-label="Topics">
+              {[...used].map((c) => <span class="tag" data-category={c}>{categoryLabels[c]}</span>)}
+            </p>
+          )}
+          {lead && <div class="lead"><PostCard post={lead} headingLevel="h2" /></div>}
+          {rest.length > 0 && <div class="grid grid--3">{rest.map((p) => <PostCard post={p} headingLevel="h2" />)}</div>}
+        </>
+      )}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow"><BlogStandard /></div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 820px; }
+  .lead { margin-bottom: 1rem; }
+  .lead :global(h2) { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.9rem); }
+  .cats { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
+</style>

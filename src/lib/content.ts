@@ -57,6 +57,30 @@ export async function publishedStories(): Promise<Story[]> {
   return all.filter(passesGuard).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 }
 
+export type Post = CollectionEntry<'posts'>;
+
+/** Blog posts must cite at least one source; unsourced posts are excluded. */
+export async function publishedPosts(): Promise<Post[]> {
+  const all = await getCollection('posts', ({ data }) => !data.draft);
+  return all
+    .filter((p) => {
+      if (p.data.sources.length > 0) return true;
+      if (!warned.has(`post:${p.id}`)) console.warn(`\n[PAG editorial] EXCLUDED blog post "${p.id}": no sources\n`);
+      warned.add(`post:${p.id}`);
+      return false;
+    })
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+}
+
+export const categoryLabels: Record<Post['data']['category'], string> = {
+  peace: 'Peace',
+  development: 'Development',
+  youth: 'Youth',
+  education: 'Education',
+  community: 'Community',
+  culture: 'Culture',
+};
+
 export const typeLabels: Record<Story['data']['type'], string> = {
   letter: 'Letter for Peace',
   poem: 'Poem',
