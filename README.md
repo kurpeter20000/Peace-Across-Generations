@@ -121,11 +121,11 @@ Done:
 
 - ✅ D1 database `pag`, bound as `DB` (tables create themselves). Forms and the newsletter work.
 - ✅ Secret `HASH_SALT` set on the production project.
+- ✅ R2 bucket `pag-uploads` (private), bound as `UPLOADS`. File uploads work.
 
 Still to do:
 
-1. **File uploads (R2):** in the Cloudflare dashboard, open **R2** and enable it (Cloudflare asks for a payment method, even on the free tier). Then run `npx wrangler r2 bucket create pag-uploads`, uncomment the `[[r2_buckets]]` block in `wrangler.toml`, and deploy. Until then, the form accepts text and links, and asks people to send files by link, WhatsApp or email.
-2. **Protect the admin (Cloudflare Access):** Zero Trust → **Access → Applications → Add → Self-hosted**:
+1. **Protect the admin (Cloudflare Access):** ✅ done (team `sparkling-water-af12`, values in `wrangler.toml`). To change who can sign in, edit the policy under Zero Trust → Access → Applications. How it was set up: Zero Trust → **Access → Applications → Add → Self-hosted**:
    - Domain `peace-across-generations.pages.dev` (and later `peace-agen.org`), with paths `admin` **and** `api/admin`.
    - Policy: **Allow** → *Emails* → each team member’s email.
    - Copy the application’s **AUD tag** and your **team name** (Zero Trust → Settings, e.g. `peace-agen` in `peace-agen.cloudflareaccess.com`). Put both in the `[vars]` block of `wrangler.toml`, then deploy.
