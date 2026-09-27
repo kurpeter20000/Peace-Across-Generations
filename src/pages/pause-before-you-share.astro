@@ -1,4 +1,5 @@
 ---
+import { photos } from '../data/photos';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 import SafetyNote from '../components/SafetyNote.astro';
@@ -8,7 +9,7 @@ import { currentTheme } from '../lib/content';
 const theme = await currentTheme();
 ---
 <BaseLayout title="Pause Before You Share" description="Rumours move faster than truth. Before you forward anything, ask three questions.">
-  <PageHead title="Pause Before You Share" lede="Rumours move faster than truth — and in South Sudan, a false message can cost lives." />
+  <PageHead photo={photos.workshop3} title="Pause Before You Share" lede="Rumours move faster than truth — and in South Sudan, a false message can cost lives." />
 
   <section class="section section--surface" aria-labelledby="habit">
     <div class="container">

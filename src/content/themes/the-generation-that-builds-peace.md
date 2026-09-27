@@ -14,5 +14,6 @@ coreMessage: "Young people do not need to wait for a title before becoming peace
 contentWarning: false
 # Draft until the team confirms weekly actions and publishes the month.
 stage: build
+gallery: [certificatesStudents, certificatesGroup1, footballTeam3, footballTeamSmall]
 draft: true
 ---

@@ -26,5 +26,6 @@ keyQuestions:
   - "What were you taught about people from other communities — and was it true?"
   - "What do you choose to unlearn?"
 contributionTypes: ["Letter", "Photo", "Video", "Poetry", "Story", "Elder interview"]
+gallery: [unityInDiversity, handsGenerations, footballTeam2]
 draft: false
 ---

@@ -19,5 +19,6 @@ keyQuestions:
   - "What do you believe we can do to build it?"
 contributionTypes: ["Video", "Letter", "Poetry", "Song", "Story", "Artwork", "Drama", "Personal reflection"]
 participation: "Answer in whatever form you are good at. Send it through the form on this site, by WhatsApp, or by email to peaceacrossgenerations@gmail.com. We check every piece for consent and safety before anything is published."
+gallery: [stopWar, peaceSignNight, footballMatch3]
 draft: false
 ---

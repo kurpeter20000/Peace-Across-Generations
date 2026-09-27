@@ -1,4 +1,5 @@
 ---
+import { photos } from '../data/photos';
 import { getCollection } from 'astro:content';
 import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -39,7 +40,7 @@ const messages = [
 ];
 ---
 <BaseLayout title="About us" description="Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative for South Sudan. Our story, mission, vision, approach and principles.">
-  <PageHead title="About Peace Across Generations" eyebrow="Independent · Youth-led · Non-partisan">
+  <PageHead photo={photos.workshopDiscussion} title="About Peace Across Generations" eyebrow="Independent · Youth-led · Non-partisan">
     <p class="lede">Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.</p>
   </PageHead>
 
@@ -48,7 +49,7 @@ const messages = [
       <li><a href="#story">Our story</a></li>
       <li><a href="#mission">Mission & vision</a></li>
       <li><a href="#approach">Our approach</a></li>
-      <li><a href="#principles">Our principles</a></li>
+      <li><a href="#principles">What we believe</a></li>
       <li><a href="#programmes">Programmes</a></li>
       <li><a href="#team">Who we are</a></li>
     </ul>
@@ -71,11 +72,11 @@ const messages = [
     <div class="container grid grid--2">
       <div class="card statement">
         <p class="eyebrow">Our mission</p>
-        <p>To create spaces for dialogue, storytelling, learning and community action that help people understand conflict, challenge division, promote peaceful relationships and contribute to sustainable peace.</p>
+        <p>To connect and mobilise South Sudanese inside the country and across the world to speak, listen, create and act for peace through inclusive storytelling, responsible media, intergenerational dialogue and practical local action.</p>
       </div>
       <div class="card statement">
         <p class="eyebrow">Our vision</p>
-        <p>A South Sudan where people across generations and communities can live together with dignity, safety, trust and hope.</p>
+        <p>A peaceful South Sudan where every generation chooses dialogue, dignity and shared responsibility over violence, hatred and inherited division.</p>
       </div>
     </div>
   </section>
@@ -108,7 +109,7 @@ const messages = [
 
   <section class="section" id="principles" aria-labelledby="principles-h">
     <div class="container">
-      <h2 id="principles-h">Our principles</h2>
+      <h2 id="principles-h">What we believe</h2>
       <ul class="grid grid--3 plain">
         {principles.map(([v, line]) => <li class="card"><h3>{v}</h3><p>{line}</p></li>)}
       </ul>

@@ -1,4 +1,5 @@
 ---
+import { photos } from '../data/photos';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 import DayCounter from '../components/DayCounter.astro';
@@ -23,7 +24,7 @@ const moments = [
 ];
 ---
 <BaseLayout title="3,000 Days for Peace" description="3,000 consecutive days of keeping peace visible, practical and passed between generations: 21 September 2026 – 7 December 2034.">
-  <PageHead title="3,000 Days for Peace">
+  <PageHead photo={photos.peaceSignSunset} title="3,000 Days for Peace">
     <p class="dates"><strong>21 September 2026 – 7 December 2034</strong></p>
     <p class="lede">Peace advocacy too often appears only after a crisis and disappears when the headlines move on. We are committing to 3,000 consecutive days of keeping peace visible, practical and passed between generations — beginning on the International Day of Peace, 21 September 2026.</p>
     <p>This is a promise of continuity, not a rigid eight-year plan. Evidence, safety, community demand and partnerships — not ambition alone — will decide how fast we grow.</p>

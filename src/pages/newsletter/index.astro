@@ -1,10 +1,11 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import NewsletterForm from '../../components/NewsletterForm.astro';
 ---
 <BaseLayout title="Newsletter" description="One short email a month from Peace Across Generations: the new campaign, voices worth hearing and ways to take part.">
-  <PageHead title="Stay in the conversation" eyebrow="Newsletter" lede="One short email a month: the new campaign, voices worth hearing and ways to take part. No spam, no tracking, and you can leave at any time." />
+  <PageHead photo={photos.doveAndEarth} title="Stay in the conversation" eyebrow="Newsletter" lede="One short email a month: the new campaign, voices worth hearing and ways to take part. No spam, no tracking, and you can leave at any time." />
   <section class="section section--surface" id="form">
     <div class="container narrow">
       <NewsletterForm source="newsletter-page" id="newsletter-page" />

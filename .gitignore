@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # Cloudflare local dev state
 .wrangler/
+
+# Original, full-size photos (up to 20 MB each). Web-ready copies are made
+# with `npm run photos` into src/assets/photos/, which is committed.
+/images/

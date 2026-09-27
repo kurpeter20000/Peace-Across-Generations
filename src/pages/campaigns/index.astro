@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import CampaignCard from '../../components/CampaignCard.astro';
@@ -8,7 +9,7 @@ const campaigns = await allCampaigns();
 const current = await currentTheme();
 ---
 <BaseLayout title="Campaigns" description="One campaign a month. Each asks one question and invites everyone to answer — in a video, a letter, a poem, a song, a story or a conversation.">
-  <PageHead title="Campaigns" lede="One campaign a month. Each asks one question and invites everyone to answer — in a video, a letter, a poem, a song, a story or a conversation.">
+  <PageHead photo={photos.loveCrowd} title="Campaigns" lede="One campaign a month. Each asks one question and invites everyone to answer — in a video, a letter, a poem, a song, a story or a conversation.">
     {current && (
       <div class="btn-row">
         <a class="btn btn--primary" href={campaignUrl(current)} data-track="cta:join-campaigns">Join “{current.data.title}”</a>

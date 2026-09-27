@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 
@@ -12,7 +13,7 @@ const next = [
 ];
 ---
 <BaseLayout title="Coming after the pilot" description="Programmes that will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run them properly.">
-  <PageHead title="Coming after the pilot" lede="These programmes are worth doing well — so each will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run it properly." />
+  <PageHead photo={photos.footballMatch1} title="Coming after the pilot" lede="These programmes are worth doing well — so each will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run it properly." />
   <section class="section section--surface">
     <div class="container">
       <div class="table-wrap">

@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import TakeActionCards from '../../components/TakeActionCards.astro';
@@ -25,7 +26,7 @@ const prompts = [
 ];
 ---
 <BaseLayout title="Take action" description="Share your voice, volunteer, become a contributor or partner with Peace Across Generations." hideTakePart>
-  <PageHead title="Take action" lede="You don’t need money, a title, professional equipment or perfect English. Choose where you fit." />
+  <PageHead photo={photos.certificatesGroup2} title="Take action" lede="You don’t need money, a title, professional equipment or perfect English. Choose where you fit." />
 
   <section class="section section--surface">
     <div class="container"><TakeActionCards headingLevel="h2" /></div>

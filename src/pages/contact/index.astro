@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import Email from '../../components/Email.astro';
@@ -13,7 +14,7 @@ const live = socials.filter(([, url]) => url);
 const missing = socials.filter(([, url]) => !url).map(([k]) => labels[k]);
 ---
 <BaseLayout title="Contact us" description="Email Peace Across Generations. Based in South Sudan, working with South Sudanese everywhere.">
-  <PageHead title="Contact us" />
+  <PageHead photo={photos.founderListening} title="Contact us" />
   <section class="section section--surface">
     <div class="container narrow">
       <dl class="contact">

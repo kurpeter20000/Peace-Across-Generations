@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
@@ -16,7 +17,7 @@ const founders = foundingCreators as string[];
 const contributors = await getCollection('contributors', ({ data }) => !data.draft && data.profileConsent === true);
 ---
 <BaseLayout title="Stories & Voices" description="Videos, stories, letters, poetry, music, art, drama and conversations from South Sudanese at home and around the world.">
-  <PageHead title="Stories & Voices" lede="Videos, stories, letters, poetry, music, art, drama and conversations from South Sudanese at home and around the world — young people, elders, women, artists, educators, community leaders, peacebuilders and the diaspora." />
+  <PageHead photo={photos.footballTeam1} title="Stories & Voices" lede="Videos, stories, letters, poetry, music, art, drama and conversations from South Sudanese at home and around the world — young people, elders, women, artists, educators, community leaders, peacebuilders and the diaspora." />
 
   <StoryFilters />
 

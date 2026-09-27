@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../../data/photos';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHead from '../../../components/PageHead.astro';
 import FormGuard from '../../../components/FormGuard.astro';
@@ -27,7 +28,7 @@ Anything we should know for my safety:
 `;
 ---
 <BaseLayout title="Share your voice" description="Send a video, letter, poem, song, story, artwork, drama or reflection to Peace Across Generations. Every contribution is reviewed with care before anything is published." hideTakePart>
-  <PageHead title="Share your voice" eyebrow="Take action">
+  <PageHead photo={photos.megaphone} title="Share your voice" eyebrow="Take action">
     <p class="lede">{current?.data.message ?? 'Tell us why peace cannot wait, what peace means to you, or what you believe we can do to build it.'}</p>
     <p>You don’t need money, a title, professional equipment or perfect English. Nothing is published automatically: our team reviews every contribution for consent, facts and safety first.</p>
   </PageHead>

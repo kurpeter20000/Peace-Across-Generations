@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import Icon from '../../components/Icon.astro';
@@ -12,7 +13,7 @@ const pages = [
 const promise = ['One message', 'one human truth', 'one source', 'one action', 'one question', 'one safety review', 'one access check'];
 ---
 <BaseLayout title="Our standards" description="Safety is part of the work, not paperwork after it. Community guidelines, safeguarding, editorial promise and corrections.">
-  <PageHead title="Our standards" lede="Safety is part of the work, not paperwork after it." />
+  <PageHead photo={photos.handsSunset} title="Our standards" lede="Safety is part of the work, not paperwork after it." />
 
   <section class="section section--surface">
     <div class="container grid grid--2">

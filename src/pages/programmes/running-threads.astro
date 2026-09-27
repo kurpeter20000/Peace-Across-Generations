@@ -1,11 +1,12 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import Icon from '../../components/Icon.astro';
 import Email from '../../components/Email.astro';
 ---
 <BaseLayout title="Running threads" description="Peace in 90 Seconds, Pause Before You Share, Peace Where We Live, and 64 Voices, One Future.">
-  <PageHead title="Running through everything" lede="Four threads appear inside every programme. They keep our work consistent and practical." />
+  <PageHead photo={photos.peaceWatercolour} title="Running through everything" lede="Four threads appear inside every programme. They keep our work consistent and practical." />
 
   <section class="section section--surface">
     <div class="container grid grid--2">
@@ -13,7 +14,7 @@ import Email from '../../components/Email.astro';
         <span class="icon-badge"><Icon name="sun" /></span>
         <h2>Peace in 90 Seconds</h2>
         <p>Short explainers from our founder and invited experts: one idea, one source, one action. One or two every week.</p>
-        <a class="text-link" href="/stories/90-seconds/">Watch the explainers →</a>
+        <a class="text-link" href="/stories/videos/">Watch the explainers →</a>
       </article>
       <article class="card" id="pause">
         <span class="icon-badge"><Icon name="search" /></span>

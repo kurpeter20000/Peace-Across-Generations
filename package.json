@@ -10,7 +10,8 @@
     "build": "astro build && node scripts/og.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "brand": "node scripts/brand.mjs"
+    "brand": "node scripts/brand.mjs",
+    "photos": "node scripts/photos.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

@@ -1,14 +1,24 @@
 ---
 import LeafDivider from './LeafDivider.astro';
-interface Props { title: string; eyebrow?: string; lede?: string }
-const { title, eyebrow, lede } = Astro.props;
+import PhotoFig from './Photo.astro';
+import type { Photo } from '../data/photos';
+interface Props { title: string; eyebrow?: string; lede?: string; photo?: Photo }
+const { title, eyebrow, lede, photo } = Astro.props;
 ---
-<header class="page-head">
-  <div class="container">
-    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-    <h1>{title}</h1>
-    <LeafDivider align="left" />
-    {lede && <p class="lede">{lede}</p>}
-    <slot />
+<header class:list={['page-head', { 'page-head--photo': photo }]}>
+  <div class="container page-head__grid">
+    <div>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      <LeafDivider align="left" />
+      {lede && <p class="lede">{lede}</p>}
+      <slot />
+    </div>
+    {photo && <PhotoFig photo={photo} eager ratio="photo" sizes="(min-width: 960px) 45vw, 100vw" widths={[400, 720, 1000]} />}
   </div>
 </header>
+
+<style>
+  .page-head__grid { display: grid; gap: 1.5rem; align-items: center; }
+  @media (min-width: 960px) { .page-head--photo .page-head__grid { grid-template-columns: 1.1fr 0.9fr; gap: 3rem; } }
+</style>

@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
@@ -19,7 +20,7 @@ const formats = [
 ---
 <BaseLayout title="Generations in Conversation" description="Young people ask. Elders answer from what they have lived. Together they decide what should be passed forward — and what should end with them.">
   <div data-programme="conversations">
-    <PageHead title="Generations in Conversation" eyebrow="Programme">
+    <PageHead photo={photos.handsGenerations} title="Generations in Conversation" eyebrow="Programme">
       <p class="lede"><strong>Young people ask. Elders answer from what they have lived. Together they decide what should be passed forward — and what should end with them.</strong></p>
     </PageHead>
   </div>

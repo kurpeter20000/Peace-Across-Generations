@@ -41,6 +41,8 @@ const themes = defineCollection({
       weeklyActions: z.array(z.object({ weekOf: z.coerce.date(), action: z.string() })).default([]),
       videos: z.array(video).default([]),
       photos: z.array(z.object({ src: image(), alt: z.string(), credit: z.string().optional() })).default([]),
+      /** Photos from the site catalogue (src/data/photos.ts), by name, e.g. [footballDuel, unityInDiversity]. */
+      gallery: z.array(z.string()).default([]),
       /** Honest results, added after the month ends. */
       impact: z.string().optional(),
       coreMessage: z.string().optional(),

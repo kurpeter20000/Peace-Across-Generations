@@ -1,0 +1,24 @@
+---
+// A small gallery of real moments. The first photo is shown large.
+import PhotoFig from './Photo.astro';
+import type { Photo } from '../data/photos';
+interface Props { photos: Photo[] }
+const { photos } = Astro.props;
+---
+<div class="mosaic">
+  {photos.map((p, i) => (
+    <PhotoFig photo={p} ratio={i === 0 ? 'photo' : 'square'} sizes={i === 0 ? '(min-width: 900px) 50vw, 100vw' : '(min-width: 900px) 25vw, 50vw'} widths={i === 0 ? [400, 720, 1000] : [240, 400, 600]} class={i === 0 ? 'mosaic__lead' : ''} />
+  ))}
+</div>
+
+<style>
+  .mosaic { display: grid; gap: 0.75rem; grid-template-columns: repeat(2, 1fr); }
+  .mosaic :global(.mosaic__lead) { grid-column: 1 / -1; }
+  @media (min-width: 900px) {
+    .mosaic { grid-template-columns: 2fr 1fr 1fr; grid-template-rows: auto auto; }
+    .mosaic :global(.mosaic__lead) { grid-column: 1; grid-row: 1 / span 2; }
+    .mosaic :global(.mosaic__lead .photo__frame) { height: 100%; aspect-ratio: auto; }
+    .mosaic :global(.mosaic__lead) { display: flex; flex-direction: column; }
+    .mosaic :global(.mosaic__lead .photo__frame) { flex: 1; }
+  }
+</style>

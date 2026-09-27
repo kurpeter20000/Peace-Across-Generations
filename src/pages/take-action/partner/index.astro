@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../../data/photos';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHead from '../../../components/PageHead.astro';
 import SafetyNote from '../../../components/SafetyNote.astro';
@@ -7,7 +8,7 @@ import Icon from '../../../components/Icon.astro';
 import EnquiryForm from '../../../components/EnquiryForm.astro';
 ---
 <BaseLayout title="Partner with us" description="Speak at Peace Talks, volunteer, partner, broadcast our programmes or offer in-kind support.">
-  <PageHead title="Partner with us" eyebrow="Take action" lede="Partnerships should widen safe participation, reach and quality — without changing who we are: youth-led and non-partisan." />
+  <PageHead photo={photos.founderAtEvent} title="Partner with us" eyebrow="Take action" lede="Partnerships should widen safe participation, reach and quality — without changing who we are: youth-led and non-partisan." />
 
   <nav class="container jump" aria-label="On this page">
     <ul>

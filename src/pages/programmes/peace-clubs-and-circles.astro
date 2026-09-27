@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
@@ -14,7 +15,7 @@ const rows = [
 ---
 <BaseLayout title="Peace Clubs & Community Peace Circles" description="Peace is something you practise, not just something you watch. Supervised school Peace Clubs and Community Peace Circles for young adults.">
   <div data-programme="clubs">
-    <PageHead title="Peace Clubs & Community Peace Circles" eyebrow="Programme">
+    <PageHead photo={photos.workshop1} title="Peace Clubs & Community Peace Circles" eyebrow="Programme">
       <p class="lede"><strong>Peace is something you practise, not just something you watch.</strong></p>
       <p>Twice a month, face to face, young people meet to talk, create and take one small action for peace.</p>
     </PageHead>

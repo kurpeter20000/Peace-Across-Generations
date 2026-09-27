@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
@@ -23,7 +24,7 @@ const events = talks
 ---
 <BaseLayout title="Peace Talks" description="One expert. One live conversation. Every month. Free — live on Facebook, then as audio small enough to share on WhatsApp." jsonLd={events}>
   <div data-programme="talks">
-    <PageHead title="Peace Talks" eyebrow="Programme">
+    <PageHead photo={photos.founderSpeaking} title="Peace Talks" eyebrow="Programme">
       <p class="lede"><strong>One expert. One live conversation. Every month. Free.</strong></p>
       <p>Peace Talks brings peace and youth-empowerment experts to young people — live on Facebook, then as an audio file small enough to share on WhatsApp.</p>
     </PageHead>

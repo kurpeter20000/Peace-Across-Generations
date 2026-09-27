@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import { programmes } from '../../data/programmes';
@@ -13,7 +14,7 @@ const byKey = Object.fromEntries(programmes.map((p) => [p.key, p]));
 const fullTitle: Record<string, string> = { clubs: 'Peace Clubs & Community Peace Circles' };
 ---
 <BaseLayout title="Our programmes" description="Four core programmes, four running threads, one monthly theme.">
-  <PageHead title="Our programmes" lede="Four core programmes, four running threads, one monthly theme.">
+  <PageHead photo={photos.workshopGroup} title="Our programmes" lede="Four core programmes, four running threads, one monthly theme.">
     <p>Every month, each programme answers the same theme, so one idea reaches people four ways: as a poem, a club session, an expert talk and an elder’s story.</p>
   </PageHead>
 

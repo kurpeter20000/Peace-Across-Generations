@@ -1,4 +1,5 @@
 ---
+import { photos } from '../data/photos';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 import Email from '../components/Email.astro';
@@ -6,7 +7,7 @@ import Icon from '../components/Icon.astro';
 import Tbd from '../components/Tbd.astro';
 ---
 <BaseLayout title="Schools & Communities" description="Host a supervised Peace Club at your school or a Community Peace Circle in your group.">
-  <PageHead title="Host a Peace Club or a Community Peace Circle" />
+  <PageHead photo={photos.certificatesStudents} title="Host a Peace Club or a Community Peace Circle" />
 
   <section class="section section--surface">
     <div class="container grid grid--2">

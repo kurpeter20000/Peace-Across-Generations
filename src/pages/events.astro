@@ -1,4 +1,5 @@
 ---
+import { photos } from '../data/photos';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
@@ -25,7 +26,7 @@ const eventsLd = upcoming.map((e) => ({
 }));
 ---
 <BaseLayout title="Events" description="Peace Talks, showcases and gatherings from Peace Across Generations." jsonLd={eventsLd}>
-  <PageHead title="Events" lede="Peace Talks, showcases and gatherings — online first, so anyone with a phone can join." />
+  <PageHead photo={photos.workshop2} title="Events" lede="Peace Talks, showcases and gatherings — online first, so anyone with a phone can join." />
 
   <section class="section section--surface">
     <div class="container">

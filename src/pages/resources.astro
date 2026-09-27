@@ -1,4 +1,5 @@
 ---
+import { photos } from '../data/photos';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
@@ -12,7 +13,7 @@ const resources = (await getCollection('resources', ({ data }) => !data.draft)).
 const groups = order.map((type) => ({ type, items: resources.filter((r) => r.data.type === type) })).filter((g) => g.items.length);
 ---
 <BaseLayout title="Resources" description="Guides, toolkits, videos, articles and research for peacebuilding in South Sudan — chosen and checked by Peace Across Generations.">
-  <PageHead title="Resources" lede="Guides, toolkits, videos, articles and research for everyday peacebuilding. We only list resources we have checked." />
+  <PageHead photo={photos.peaceInHands} title="Resources" lede="Guides, toolkits, videos, articles and research for everyday peacebuilding. We only list resources we have checked." />
 
   {groups.length > 1 && (
     <nav class="container jump" aria-label="Resource types">

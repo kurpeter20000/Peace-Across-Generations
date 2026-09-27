@@ -1,0 +1,56 @@
+---
+// A responsive photo: AVIF/WebP at phone-friendly sizes, metadata stripped,
+// hidden in Low-data mode (a text link is shown instead).
+import { Picture, getImage } from 'astro:assets';
+import type { Photo } from '../data/photos';
+
+interface Props {
+  photo: Photo;
+  /** CSS sizes hint, e.g. "(min-width: 960px) 50vw, 100vw" */
+  sizes?: string;
+  widths?: number[];
+  /** Above the fold: load immediately. */
+  eager?: boolean;
+  ratio?: string;
+  caption?: string;
+  class?: string;
+  rounded?: boolean;
+}
+const { photo, sizes = '100vw', widths = [400, 720, 1100, 1500], eager = false, ratio, caption, class: cls, rounded = true } = Astro.props;
+const w = widths.filter((x) => x <= photo.src.width);
+const full = await getImage({ src: photo.src, width: Math.min(1200, photo.src.width), format: 'webp', quality: 70 });
+---
+<figure class:list={['photo', cls, { 'photo--rounded': rounded }]}>
+  <div class="ld-hide photo__frame" data-ratio={ratio}>
+    <Picture
+      src={photo.src}
+      alt={photo.alt}
+      widths={w.length ? w : [photo.src.width]}
+      sizes={sizes}
+      formats={['avif', 'webp']}
+      quality={60}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      decoding="async"
+    />
+  </div>
+  <p class="ld-only photo__ld"><a href={full.src}>View photo</a>: {photo.alt}</p>
+  {(caption || photo.credit) && (
+    <figcaption>{caption}{caption && photo.credit && ' · '}{photo.credit && <span class="credit">{photo.credit}</span>}</figcaption>
+  )}
+</figure>
+
+<style>
+  .photo { margin: 0; }
+  .photo__frame { overflow: hidden; background: var(--surface-alt); }
+  .photo--rounded .photo__frame { border-radius: var(--radius); }
+  .photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  [data-ratio='wide'] { aspect-ratio: 16 / 9; }
+  [data-ratio='banner'] { aspect-ratio: 21 / 9; }
+  [data-ratio='square'] { aspect-ratio: 1; }
+  [data-ratio='portrait'] { aspect-ratio: 4 / 5; }
+  [data-ratio='photo'] { aspect-ratio: 3 / 2; }
+  @media (max-width: 640px) { [data-ratio='banner'] { aspect-ratio: 16 / 9; } }
+  figcaption { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.4rem; }
+  .photo__ld { font-size: 0.9rem; }
+</style>

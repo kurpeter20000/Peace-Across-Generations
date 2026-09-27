@@ -14,5 +14,6 @@ coreMessage: "A gun may silence a disagreement, but it cannot create justice, tr
 contentWarning: false
 # Draft until the team confirms weekly actions and publishes the month.
 stage: choose
+gallery: [doveStencil, noWarPoster, noWarFence, footballMatch4]
 draft: true
 ---

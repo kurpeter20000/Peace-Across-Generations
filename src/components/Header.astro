@@ -6,6 +6,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const links = [
   { href: '/', label: t('nav.home'), mobileOnly: true },
   { href: '/about/', label: t('nav.about') },
+  { href: '/programmes/', label: t('nav.programmes') },
   { href: '/campaigns/', label: t('nav.campaigns') },
   { href: '/stories/', label: t('nav.stories') },
   { href: '/take-action/', label: t('nav.takeAction') },
@@ -93,7 +94,7 @@ const isCurrent = (href: string) => {
   nav ul { list-style: none; display: flex; gap: 0.1rem; margin: 0; padding: 0; }
   nav li { margin: 0; }
   nav a {
-    display: block; padding: 0.55rem 0.6rem; border-radius: 8px; white-space: nowrap;
+    display: block; padding: 0.55rem 0.5rem; border-radius: 8px; white-space: nowrap;
     color: #003366; text-decoration: none; font-family: var(--font-heading); font-weight: 600; font-size: 0.94rem;
   }
   nav a:hover { background: #f7f3e9; color: #0b6cb8; }
@@ -101,11 +102,11 @@ const isCurrent = (href: string) => {
   .nav-cta { background: #2e7130; color: #fff; white-space: nowrap; padding-inline: 1.1rem; }
   .nav-cta:hover { background: #245a26; color: #fff; }
   .site-header :global(:focus-visible) { outline-color: #0b6cb8; }
-  @media (min-width: 1200px) { .mobile-only { display: none; } }
+  @media (min-width: 1280px) { .mobile-only { display: none; } }
 
   /* Small screens: hamburger (only when JavaScript is available;
      without it the menu simply stays open below the logo). */
-  @media (max-width: 1199px) {
+  @media (max-width: 1279px) {
     :global(.js) .menu-toggle { display: grid; }
     .site-menu { flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem; padding-bottom: 1rem; }
     :global(.js) .site-menu:not([data-open]) { display: none; }

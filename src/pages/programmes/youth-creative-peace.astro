@@ -1,4 +1,5 @@
 ---
+import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
@@ -14,7 +15,7 @@ const strands = [
 ---
 <BaseLayout title="Youth Creative Peace" description="Our front door. Anyone with a phone, a pen or a voice can take part this month.">
   <div data-programme="creative">
-    <PageHead title="Youth Creative Peace" eyebrow="Programme">
+    <PageHead photo={photos.groupWithBooklets} title="Youth Creative Peace" eyebrow="Programme">
       <p class="lede"><strong>Our front door. Anyone with a phone, a pen or a voice can take part this month.</strong></p>
       <p>Each month we announce one theme and one prompt. You answer in whatever form you are good at. We feature one work every week and name one Creator of the Month.</p>
     </PageHead>
