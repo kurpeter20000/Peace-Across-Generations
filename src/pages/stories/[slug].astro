@@ -2,18 +2,20 @@
 // Serves both the library sections (/stories/letters …) and single
 // stories (/stories/<file-name>).
 import { render } from 'astro:content';
+import { Picture, getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import StoryList from '../../components/StoryList.astro';
 import AudioPlayer from '../../components/AudioPlayer.astro';
 import VideoFacade from '../../components/VideoFacade.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
-import Icon from '../../components/Icon.astro';
+import SocialShare from '../../components/SocialShare.astro';
+import StoryFilters from '../../components/StoryFilters.astro';
 import site from '../../data/site.json';
 import { programmeNames } from '../../data/programmes';
 import { t } from '../../i18n';
 import {
-  publishedStories, publishedThemes, storySections, typeLabels, formatDate, monthName, type Story,
+  publishedStories, publishedThemes, storySections, typeLabels, formatDate, monthName, contributorCategoryLabels, type Story,
 } from '../../lib/content';
 
 type SectionKey = keyof typeof storySections;
@@ -44,8 +46,9 @@ const d = s?.data as Story['data'];
 const Content = s ? (await render(s)).Content : undefined;
 const theme = d?.theme ? themes[d.theme] : undefined;
 const url = s ? new URL(`/stories/${s.id}/`, Astro.site).toString() : '';
-// Share text never tags contributors (brief §10).
-const shareText = d ? `${d.title} — ${site.name}` : '';
+const ageLabels: Record<string, string> = { '18-24': '18–24', '25-35': '25–35', '36-59': '36–59', '60-plus': '60 and over', 'over-35': 'over 35' };
+// Full-size optimised image for the low-data "View the image" link.
+const fullImage = d?.image ? await getImage({ src: d.image.src, width: 1600, format: 'webp' }) : undefined;
 const ld = d?.audio
   ? {
       '@context': 'https://schema.org',
@@ -61,9 +64,8 @@ const ld = d?.audio
 ---
 {props.kind === 'section' ? (
   <BaseLayout title={storySections[props.section].title}>
-    <PageHead title={storySections[props.section].title} eyebrow="Stories">
-      <p><a href="/stories/">← All stories</a></p>
-    </PageHead>
+    <PageHead title={storySections[props.section].title} eyebrow="Stories & Voices" />
+    <StoryFilters current={`/stories/${props.section}/`} />
     <section class="section section--surface">
       <div class="container"><StoryList stories={props.stories} /></div>
     </section>
@@ -77,10 +79,11 @@ const ld = d?.audio
               <h1>{d.title}</h1>
               <ul class="meta">
                 <li>{d.anonymous ? 'Anonymous' : d.contributorDisplayName}</li>
-                {d.ageGroup && d.ageGroup !== 'under-18' && <li>Age {d.ageGroup.replace('-', '–').replace('over–35', 'over 35')}</li>}
+                {d.contributorCategories.length > 0 && <li>{d.contributorCategories.map((c) => contributorCategoryLabels[c]).join(', ')}</li>}
+                {d.ageGroup && d.ageGroup !== 'under-18' && <li>Age {ageLabels[d.ageGroup]}</li>}
                 {d.location && <li>{d.location}</li>}
                 <li>{d.language}</li>
-                {theme && <li><a href={`/themes/${theme.id}/`}>{monthName(theme.data.month).split(' ')[0]}: {theme.data.title}</a></li>}
+                {theme && <li><a href={`/campaigns/${theme.id}/`}>{monthName(theme.data.month).split(' ')[0]}: {theme.data.title}</a></li>}
                 <li><time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time></li>
               </ul>
             </div>
@@ -93,10 +96,10 @@ const ld = d?.audio
 
             {d.image && (
               <figure class="ld-hide">
-                <img src={d.image.src} alt={d.image.alt} loading="lazy" decoding="async" />
+                <Picture src={d.image.src} alt={d.image.alt} widths={[480, 800, 1200]} sizes="(min-width: 800px) 760px, 100vw" formats={['avif', 'webp']} loading="lazy" />
               </figure>
             )}
-            {d.image && <p class="ld-only"><a href={d.image.src}>View the image</a> ({d.image.alt})</p>}
+            {d.image && fullImage && <p class="ld-only"><a href={fullImage.src}>View the image</a> ({d.image.alt})</p>}
 
             {d.video && <VideoFacade platform={d.video.platform} url={d.video.url} thumbnail={d.video.thumbnail} title={d.title} />}
             {d.audio && <AudioPlayer src={d.audio.src} sizeMB={d.audio.sizeMB} durationMin={d.audio.durationMin} title={d.title} />}
@@ -125,14 +128,7 @@ const ld = d?.audio
               <div class="card"><p class="eyebrow">One action</p><p>{d.action}</p></div>
             </div>
 
-            <section class="share" aria-label="Share">
-              <h2>Share</h2>
-              <div class="btn-row">
-                <a class="btn btn--primary" href={`https://wa.me/?text=${encodeURIComponent(`${shareText} ${url}`)}`} rel="noopener"><Icon name="whatsapp" />WhatsApp</a>
-                <a class="btn btn--secondary" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} rel="noopener"><Icon name="facebook" />Facebook</a>
-              </div>
-              <p class="copy">Or copy the link: <input type="text" readonly value={url} aria-label="Link to this story" /></p>
-            </section>
+            <SocialShare title={d.title} url={url} />
 
             <p class="consent-note">{t('consentNote')} <a href="/standards/corrections-and-withdrawal/">{t('consentNoteLink')}</a>.</p>
           </div>
@@ -148,9 +144,8 @@ const ld = d?.audio
   .story-body h2 { font-size: 1.25rem; }
   .prose { font-size: 1.1em; }
   figure { margin: 0; }
-  figure img { border-radius: var(--radius); }
+  figure :global(img) { border-radius: var(--radius); width: 100%; height: auto; }
   .reflect .card { border-top: 4px solid var(--color-leaf); }
   .reflect .card p:last-child { font-weight: 600; color: var(--heading); }
-  .copy input { width: 100%; max-width: 420px; padding: 0.5rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); font: inherit; }
   .consent-note { font-size: 0.95rem; border-top: 1px solid var(--line); padding-top: 1rem; margin-bottom: 3rem; }
 </style>

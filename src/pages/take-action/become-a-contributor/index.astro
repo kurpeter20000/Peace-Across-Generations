@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import EnquiryForm from '../../../components/EnquiryForm.astro';
+---
+<BaseLayout title="Become a contributor" description="Writers, poets, musicians, artists, filmmakers, elders, educators and community leaders: create with Peace Across Generations regularly." hideTakePart>
+  <PageHead title="Become a contributor" eyebrow="Take action">
+    <p class="lede">Writers, poets, musicians, artists, filmmakers, elders, educators and community leaders: create with us regularly, not just once.</p>
+    <p>Contributors receive each month’s campaign brief early, help shape the questions we ask, and are credited for their work — or stay anonymous if they prefer. Want to send one piece? <a href="/take-action/share-your-voice/">Share your voice</a> instead.</p>
+  </PageHead>
+  <section class="section section--surface" id="form">
+    <div class="container narrow">
+      <EnquiryForm type="contributor" submitLabel="Join as a contributor" messageLabel="Tell us about your work (links welcome) and what you would like to create" />
+    </div>
+  </section>
+</BaseLayout>
+<style>.narrow { max-width: 860px; }</style>

@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import CampaignCard from '../../components/CampaignCard.astro';
+import { allCampaigns, currentTheme, campaignUrl } from '../../lib/content';
+
+const campaigns = await allCampaigns();
+const current = await currentTheme();
+---
+<BaseLayout title="Campaigns" description="One campaign a month. Each asks one question and invites everyone to answer — in a video, a letter, a poem, a song, a story or a conversation.">
+  <PageHead title="Campaigns" lede="One campaign a month. Each asks one question and invites everyone to answer — in a video, a letter, a poem, a song, a story or a conversation.">
+    {current && (
+      <div class="btn-row">
+        <a class="btn btn--primary" href={campaignUrl(current)} data-track="cta:join-campaigns">Join “{current.data.title}”</a>
+        <a class="btn btn--secondary" href="/take-action/share-your-voice/">Share your voice</a>
+      </div>
+    )}
+  </PageHead>
+
+  <section class="section section--surface">
+    <div class="container">
+      <h2>The pilot season, September 2026 – February 2027</h2>
+      <p>Together the six campaigns follow our approach: understand, unlearn, choose, lead, heal and build. <a href="/about/#approach">About our approach</a></p>
+      <div class="grid grid--3">
+        {campaigns.map((c) => <CampaignCard campaign={c} current={c.id === current?.id} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

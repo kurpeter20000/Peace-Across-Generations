@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHead from '../components/PageHead.astro';
+import EventCard from '../components/EventCard.astro';
+import Tbd from '../components/Tbd.astro';
+import { jubaToday } from '../lib/day';
+import { monthName, formatDate } from '../lib/content';
+
+const today = jubaToday();
+const events = (await getCollection('events', ({ data }) => !data.draft)).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+const upcoming = events.filter((e) => e.data.date.valueOf() >= today);
+const past = events.filter((e) => e.data.date.valueOf() < today).reverse();
+const talks = (await getCollection('talks')).filter((t) => t.data.status !== 'recorded').sort((a, b) => a.data.month.localeCompare(b.data.month));
+
+const eventsLd = upcoming.map((e) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: e.data.title,
+  description: e.data.summary,
+  startDate: e.data.date.toISOString().slice(0, 10),
+  eventAttendanceMode: e.data.online ? 'https://schema.org/OnlineEventAttendanceMode' : 'https://schema.org/OfflineEventAttendanceMode',
+  location: e.data.online ? { '@type': 'VirtualLocation', url: e.data.registrationUrl ?? Astro.site?.toString() } : { '@type': 'Place', name: e.data.location },
+  isAccessibleForFree: true,
+}));
+---
+<BaseLayout title="Events" description="Peace Talks, showcases and gatherings from Peace Across Generations." jsonLd={eventsLd}>
+  <PageHead title="Events" lede="Peace Talks, showcases and gatherings — online first, so anyone with a phone can join." />
+
+  <section class="section section--surface">
+    <div class="container">
+      <h2>Coming up</h2>
+      {upcoming.length ? <div class="grid grid--2">{upcoming.map((e) => <EventCard event={e} />)}</div> : <p>No other events are scheduled yet. Peace Talks are listed below.</p>}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Peace Talks</h2>
+      <p>One expert, one live conversation, every month — free, live on Facebook and then as audio. <a href="/programmes/peace-talks/">About Peace Talks</a></p>
+      <ul class="talks">
+        {talks.map(({ data: t }) => (
+          <li class="card card--tag" data-programme="talks">
+            <p class="eyebrow">{monthName(t.month)}</p>
+            <h3>{t.topic}</h3>
+            <p>{t.date ? `${formatDate(t.date)}${t.time ? `, ${t.time} (Juba time)` : ''}` : <Tbd>date</Tbd>}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {past.length > 0 && (
+    <section class="section section--surface">
+      <div class="container">
+        <h2>Past events</h2>
+        <div class="grid grid--2">{past.map((e) => <EventCard event={e} />)}</div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .talks { list-style: none; padding: 0; display: grid; gap: 1rem; }
+  @media (min-width: 800px) { .talks { grid-template-columns: repeat(2, 1fr); } }
+  .talks li { margin: 0; }
+  h3 { font-size: 1.1rem; }
+</style>

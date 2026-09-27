@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { resource: CollectionEntry<'resources'> }
+const { resource } = Astro.props;
+const d = resource.data;
+const external = /^https?:\/\//.test(d.url);
+const typeLabel = { article: 'Article', research: 'Research', guide: 'Guide', book: 'Book', video: 'Video', toolkit: 'Toolkit', podcast: 'Podcast' }[d.type];
+---
+<article class="card card--link resource">
+  <p class="tag">{typeLabel}{d.language !== 'English' && ` · ${d.language}`}</p>
+  <h3><a class="card__link" href={d.url} rel={external ? 'noopener' : undefined}>{d.title}{external && <span class="visually-hidden"> (external site)</span>}</a></h3>
+  <p>{d.summary}</p>
+  <p class="meta">{[d.publisher, d.year, d.size].filter(Boolean).join(' · ')}{external && ' ↗'}</p>
+</article>
+
+<style>
+  h3 { font-size: 1.15rem; }
+  h3 a { text-decoration: none; color: inherit; }
+  .resource:hover h3 a { text-decoration: underline; }
+  .resource { --tag: var(--color-sky); }
+  .meta { font-size: 0.88rem; color: var(--text-muted); }
+</style>

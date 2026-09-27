@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import TakeActionCards from '../../components/TakeActionCards.astro';
+import Icon from '../../components/Icon.astro';
+import { currentTheme, campaignUrl } from '../../lib/content';
+
+const theme = await currentTheme();
+
+const pathways = [
+  { icon: 'pen', name: 'Create', examples: 'Video, letter, poem, drawing, song, photo, short drama' },
+  { icon: 'message', name: 'Converse', examples: 'Interview an elder, join a live session, talk as a family' },
+  { icon: 'sprout', name: 'Act', examples: 'School activity, peace wall, community reading, checking a rumour' },
+  { icon: 'globe', name: 'Amplify', examples: 'Translate, caption, share responsibly, introduce us to your network' },
+  { icon: 'hand', name: 'Enable', examples: 'Mentor, offer expertise, airtime, a safe venue or funding' },
+] as const;
+
+const prompts = [
+  ['Video', 'What is one form of violence South Sudanese have normalised that our generation must reject?'],
+  ['Letter', 'Write to a child who will inherit South Sudan in 2040. What must we change before then?'],
+  ['Elder interview', 'What traditional practice helped your community prevent or resolve conflict?'],
+  ['Art', 'What does peace look like in an ordinary South Sudanese day?'],
+  ['Leader response', 'What concrete action will you take to protect young people from violence and hate?'],
+  ['Global solidarity', 'What lesson from your community could encourage South Sudanese peacebuilders without speaking for them?'],
+];
+---
+<BaseLayout title="Take action" description="Share your voice, volunteer, become a contributor or partner with Peace Across Generations." hideTakePart>
+  <PageHead title="Take action" lede="You don’t need money, a title, professional equipment or perfect English. Choose where you fit." />
+
+  <section class="section section--surface">
+    <div class="container"><TakeActionCards headingLevel="h2" /></div>
+  </section>
+
+  {theme && (
+    <section class="section">
+      <div class="container">
+        <div class="card month">
+          <p class="eyebrow">This month’s campaign</p>
+          <h2>{theme.data.title}</h2>
+          <p class="month__msg">{theme.data.message ?? theme.data.creativePrompt}</p>
+          <div class="btn-row">
+            <a class="btn btn--primary" href={campaignUrl(theme)}>Join the conversation</a>
+            <a class="btn btn--secondary" href="/take-action/share-your-voice/">Share your voice</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section section--surface" aria-labelledby="ways">
+    <div class="container">
+      <h2 id="ways">Five ways to take part</h2>
+      <ul class="grid grid--3 plain">
+        {pathways.map((p) => (
+          <li class="card"><span class="icon-badge"><Icon name={p.icon} /></span><h3>{p.name}</h3><p>{p.examples}</p></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="bank">
+    <div class="container">
+      <h2 id="bank">Prompts that work any month</h2>
+      <dl class="grid grid--2 prompts">
+        {prompts.map(([k, v]) => <div class="card"><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .plain { list-style: none; padding: 0; }
+  .plain li { margin: 0; }
+  .month { border-top: 6px solid var(--color-green); }
+  .month__msg { font-family: var(--font-heading); font-weight: 600; font-size: 1.2rem; color: var(--heading); }
+  .prompts { margin: 0; }
+  dt { font-family: var(--font-heading); font-weight: 700; color: var(--accent-text); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+  dd { margin: 0; font-size: 1.05rem; }
+</style>

@@ -1,0 +1,17 @@
+---
+// Always shows the campaign whose dates contain today (Juba time). The site
+// is static, so it relies on the daily rebuild — see README.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CampaignPage from '../../components/CampaignPage.astro';
+import PageHead from '../../components/PageHead.astro';
+import { currentTheme, campaignUrl } from '../../lib/content';
+
+const theme = await currentTheme();
+---
+<BaseLayout
+  title={theme ? `${theme.data.title} — this month’s campaign` : 'This month’s campaign'}
+  description={theme?.data.message ?? theme?.data.intro}
+  canonical={theme ? campaignUrl(theme) : undefined}
+>
+  {theme ? <CampaignPage theme={theme} isCurrent /> : <PageHead title="This month’s campaign" lede="Our next campaign will be announced soon." />}
+</BaseLayout>

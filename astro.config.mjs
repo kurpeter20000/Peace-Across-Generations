@@ -13,7 +13,9 @@ export default defineConfig({
   site: SITE,
   output: 'static',
   trailingSlash: 'ignore',
-  build: { format: 'directory', inlineStylesheets: 'auto' },
+  // CSS is inlined into each page: one less round trip before first paint on
+  // slow mobile connections (about 5 KB compressed per page).
+  build: { format: 'directory', inlineStylesheets: 'always' },
   i18n: {
     // Only English exists at launch. Add 'ar' (RTL) and South Sudanese
     // languages here once the first translated page is ready.
@@ -23,7 +25,8 @@ export default defineConfig({
   },
   // Shiki's inline styles break the CSP, and the site shows no code.
   markdown: { syntaxHighlight: false },
-  integrations: [sitemap({ filter: (page) => !page.includes('/404') })],
+  // Keep admin, API, thank-you and 404 pages out of the sitemap.
+  integrations: [sitemap({ filter: (page) => !/\/(404|admin|api)(\/|$)|\/thanks\/$/.test(new URL(page).pathname) })],
   security: {
     csp: {
       directives: [

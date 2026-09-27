@@ -1,0 +1,17 @@
+---
+// Hidden anti-spam fields and the error message area shared by every form.
+// The server redirects back with ?error=<code>; site.ts shows the message.
+---
+<div class="hp" aria-hidden="true">
+  <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+</div>
+<input type="hidden" name="started" value="" data-form-started />
+<p class="form-error" role="alert" hidden data-form-error></p>
+
+<style>
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .form-error {
+    background: #fdecea; color: #7a1d12; border: 1px solid #f1b8ae; border-left: 5px solid #b3261e;
+    border-radius: var(--radius-sm); padding: 0.85rem 1rem; font-weight: 600;
+  }
+</style>

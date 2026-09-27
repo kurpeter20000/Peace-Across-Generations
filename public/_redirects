@@ -1,0 +1,17 @@
+# Old addresses → new structure (301 = permanent)
+/this-month                 /campaigns/current/                    301
+/this-month/                /campaigns/current/                    301
+/themes/:slug               /campaigns/:slug/                      301
+/themes/:slug/              /campaigns/:slug/                      301
+/take-part                  /take-action/                          301
+/take-part/                 /take-action/                          301
+/take-part/submit           /take-action/share-your-voice/         301
+/take-part/submit/          /take-action/share-your-voice/         301
+/partner                    /take-action/partner/                  301
+/partner/                   /take-action/partner/                  301
+/stories/creative           /stories/                              301
+/stories/creative/          /stories/                              301
+/stories/talks              /stories/videos/                       301
+/stories/talks/             /stories/videos/                       301
+/stories/90-seconds         /stories/videos/                       301
+/stories/90-seconds/        /stories/videos/                       301

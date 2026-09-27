@@ -13,5 +13,6 @@ weeklyActions: []
 coreMessage: "Leadership is measured by the lives protected, the trust built and the conflicts prevented."
 contentWarning: false
 # Draft until the team confirms weekly actions and publishes the month.
+stage: lead
 draft: true
 ---

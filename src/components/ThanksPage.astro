@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeafDivider from './LeafDivider.astro';
+interface Props { title: string; lede: string; showRef?: boolean }
+const { title, lede, showRef = false } = Astro.props;
+---
+<BaseLayout title={title} noindex>
+  <section class="section">
+    <div class="container thanks">
+      <h1>{title}</h1>
+      <LeafDivider />
+      <p class="lede">{lede}</p>
+      {showRef && <p class="ref" hidden data-show-ref>Your reference: <strong data-ref></strong>. Please keep it if you contact us about this contribution.</p>}
+      <slot />
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/campaigns/current/">Back to this month’s campaign</a>
+        <a class="btn btn--secondary" href="/stories/">Read stories & voices</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .thanks { max-width: 760px; text-align: center; padding-block: 2rem; }
+  .thanks p { margin-inline: auto; }
+  .thanks .btn-row { justify-content: center; }
+  .ref { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.75rem 1rem; display: inline-block; }
+</style>

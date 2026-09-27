@@ -1,0 +1,180 @@
+---
+// Body of a campaign page (/campaigns/<slug>/ and /campaigns/current/).
+import { Picture } from 'astro:assets';
+import type { Theme } from '../lib/content';
+import { monthName, weeklyAction, publishedStories, formatDate, approachStages, campaignUrl } from '../lib/content';
+import PageHead from './PageHead.astro';
+import StoryList from './StoryList.astro';
+import SafetyNote from './SafetyNote.astro';
+import VideoFacade from './VideoFacade.astro';
+import SocialShare from './SocialShare.astro';
+import Icon from './Icon.astro';
+
+interface Props { theme: Theme; isCurrent?: boolean }
+const { theme, isCurrent = false } = Astro.props;
+const d = theme.data;
+const action = weeklyAction(theme);
+const stories = (await publishedStories()).filter((s) => s.data.theme === theme.id);
+const stage = approachStages.find((s) => s.key === d.stage);
+const ended = new Date() > d.endDate;
+const url = new URL(campaignUrl(theme), Astro.site).toString();
+
+const blocks = [
+  { key: 'creative', title: 'Youth Creative Peace', text: d.creativePrompt, href: '/programmes/youth-creative-peace/' },
+  { key: 'talks', title: 'Peace Talks', text: d.peaceTalk, href: '/programmes/peace-talks/' },
+  { key: 'conversations', title: 'Generations in Conversation', text: d.conversationQuestion, href: '/programmes/generations-in-conversation/' },
+  { key: 'clubs', title: 'Clubs & circles', text: d.clubsAndCircles, href: '/programmes/peace-clubs-and-circles/' },
+].filter((b) => b.text);
+---
+<PageHead
+  title={d.title}
+  eyebrow={`${isCurrent ? 'Current campaign · ' : 'Campaign · '}${monthName(d.month)}${stage ? ` · ${stage.n} ${stage.name}` : ''}`}
+  lede={d.intro}
+/>
+
+{d.contentWarning && (
+  <div class="container"><SafetyNote title="Take care" variant="warning" headingLevel="h2"><p>Some pieces in this campaign talk about loss. Take care while reading or listening.</p></SafetyNote></div>
+)}
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="message card">
+      <p class="eyebrow">The campaign message</p>
+      <p class="message__text">{d.message ?? d.creativePrompt}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href={`/take-action/share-your-voice/?campaign=${theme.id}`} data-track="cta:share-campaign-page">Share your voice</a>
+        <a class="btn btn--secondary" href="#take-part">How to take part</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{d.videos.length > 0 && (
+  <section class="section section--tight">
+    <div class="container grid grid--2">
+      {d.videos.map((v) => <div><h2 class="video-title">{v.title}</h2><VideoFacade platform={v.platform} url={v.url} title={v.title} /></div>)}
+    </div>
+  </section>
+)}
+
+<section class="section section--surface">
+  <div class="container grid grid--2">
+    {d.keyQuestions.length > 0 && (
+      <div>
+        <h2>Key questions</h2>
+        <ul class="questions">{d.keyQuestions.map((q) => <li>{q}</li>)}</ul>
+      </div>
+    )}
+    {d.objectives.length > 0 && (
+      <div>
+        <h2>Objectives</h2>
+        <ul>{d.objectives.map((o) => <li>{o}</li>)}</ul>
+      </div>
+    )}
+    <div id="take-part">
+      <h2>How to take part</h2>
+      {d.contributionTypes.length > 0 && (
+        <>
+          <p>You can contribute:</p>
+          <ul class="chips">{d.contributionTypes.map((c) => <li>{c}</li>)}</ul>
+        </>
+      )}
+      <p>{d.participation ?? 'Answer in whatever form you are good at, then send it to us. We check every piece for consent and safety before anything is published.'}</p>
+      <p><a class="text-link" href={`/take-action/share-your-voice/?campaign=${theme.id}`}>Send your contribution →</a></p>
+    </div>
+  </div>
+</section>
+
+{blocks.length > 0 && (
+  <section class="section" aria-labelledby="programmes-month">
+    <div class="container">
+      <h2 id="programmes-month">Across our programmes this month</h2>
+      <div class="grid grid--2">
+        {blocks.map((b) => (
+          <div class="card card--tag" data-programme={b.key}>
+            <h3><a href={b.href}>{b.title}</a></h3>
+            <p>{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{(d.pauseFocus || action) && (
+  <section class="section section--tight">
+    <div class="container grid grid--2">
+      {d.pauseFocus && (
+        <div class="card">
+          <span class="icon-badge"><Icon name="search" /></span>
+          <h2>Pause Before You Share</h2>
+          <p><strong>This month’s focus:</strong> {d.pauseFocus}</p>
+          <a class="text-link" href="/pause-before-you-share/">Learn the habit →</a>
+        </div>
+      )}
+      {action && (
+        <div class="card">
+          <span class="icon-badge"><Icon name="sprout" /></span>
+          <h2>Peace Where We Live</h2>
+          <p><strong>This weekend:</strong> {action.action}</p>
+          {d.weeklyActions.length > 1 && (
+            <details>
+              <summary>All weekend actions this month</summary>
+              <ul>{d.weeklyActions.map((a) => <li><strong>{formatDate(a.weekOf)}:</strong> {a.action}</li>)}</ul>
+            </details>
+          )}
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+<section class="section section--surface" aria-labelledby="contributions">
+  <div class="container">
+    <h2 id="contributions">Contributions</h2>
+    <StoryList stories={stories} emptyText="Contributions to this campaign are being reviewed with care. Be one of the first." />
+  </div>
+</section>
+
+{d.photos.length > 0 && (
+  <section class="section ld-hide" aria-labelledby="photos">
+    <div class="container">
+      <h2 id="photos">Photos</h2>
+      <div class="grid grid--3">
+        {d.photos.map((p) => (
+          <figure class="photo">
+            <Picture src={p.src} alt={p.alt} widths={[400, 800]} sizes="(min-width: 960px) 33vw, 100vw" formats={['avif', 'webp']} loading="lazy" />
+            {p.credit && <figcaption>{p.credit}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<section class="section">
+  <div class="container narrow">
+    <h2>Impact and results</h2>
+    {d.impact ? <p>{d.impact}</p> : (
+      <p class="muted">{ended ? 'Results for this campaign are being counted and checked. We will publish them honestly here.' : 'We will share honest results here after the campaign ends — what was contributed, what changed and what we learned.'}</p>
+    )}
+    <SocialShare title={d.title} url={url} />
+  </div>
+</section>
+
+<style>
+  .narrow { max-width: 860px; }
+  .message { border-top: 6px solid var(--color-green); }
+  .message__text { font-family: var(--font-heading); font-weight: 600; font-size: clamp(1.25rem, 1rem + 1.2vw, 1.75rem); color: var(--heading); line-height: 1.35; max-width: 40ch; }
+  h2 { font-size: 1.35rem; }
+  .video-title { font-size: 1.1rem; }
+  .questions { list-style: none; padding: 0; display: grid; gap: 0.6rem; }
+  .questions li { margin: 0; border-left: 4px solid var(--color-leaf); padding-left: 0.9rem; font-family: var(--font-heading); font-weight: 600; color: var(--heading); }
+  .chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .chips li { margin: 0; background: var(--color-sand); color: var(--color-navy); border-radius: 999px; padding: 0.3rem 0.8rem; font-size: 0.88rem; font-weight: 600; }
+  @media (prefers-color-scheme: dark) { .chips li { background: #0f1d31; color: #e6edf5; } }
+  summary { cursor: pointer; color: var(--link); font-weight: 600; }
+  .photo { margin: 0; }
+  .photo :global(img) { border-radius: var(--radius); width: 100%; height: auto; }
+  figcaption { font-size: 0.85rem; color: var(--text-muted); }
+</style>

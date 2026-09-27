@@ -2,7 +2,7 @@
 # COPY this file, rename it (e.g. my-letter-title.md, with no leading "_"),
 # fill in the fields and set draft: false to publish. See README.md.
 title: "Title of the piece"
-type: letter            # letter | poem | song | art | photo | drama | solidarity | episode | ask-an-elder | younger-self | talk | explainer | action-report
+type: letter            # video | story | reflection | letter | poem | song | art | photo | drama | solidarity | episode | ask-an-elder | younger-self | talk | explainer | action-report
 programme: creative     # creative | clubs | talks | conversations | threads
 theme: unlearn-hate     # file name of the theme, without .md
 date: 2026-10-14
@@ -16,7 +16,10 @@ language: "English"
 # translatedBy: "..."
 # audio: { src: "/audio/ep01.mp3", sizeMB: 8.2, durationMin: 21 }
 # video: { platform: youtube, url: "https://www.youtube.com/watch?v=...", thumbnail: "/images/..." }
-# image: { src: "/images/...", alt: "Describe the image" }
+# image: { src: "./images/my-photo.jpg", alt: "Describe the image" }   # put the photo in src/content/stories/images/
+# quote: "A short line from the piece for Featured voices"
+# contributorCategories: [youth, diaspora]   # youth | elders | women | artists | educators | community-leaders | peacebuilders | diaspora
+# submissionRef: "PAG-XXXX-XXXX"   # reference from the admin moderation queue
 transcript: false
 sources: []             # REQUIRED for explainer and talk: [{ label: "...", url: "https://..." }]
 reflectionQuestion: "One question to reflect on"

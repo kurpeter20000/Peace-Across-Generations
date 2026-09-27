@@ -4,16 +4,26 @@ import Email from './Email.astro';
 import Icon from './Icon.astro';
 import Tbd from './Tbd.astro';
 import DayCounter from './DayCounter.astro';
+import NewsletterForm from './NewsletterForm.astro';
 import { t } from '../i18n';
 
-const links = [
+const explore = [
   ['/about/', 'About'],
-  ['/3000-days/', '3,000 Days'],
+  ['/campaigns/', 'Campaigns'],
+  ['/stories/', 'Stories & Voices'],
   ['/programmes/', 'Programmes'],
+  ['/3000-days/', '3,000 Days for Peace'],
+  ['/resources/', 'Resources'],
   ['/blog/', 'Blog'],
+  ['/events/', 'Events'],
+];
+const act = [
+  ['/take-action/share-your-voice/', 'Share your voice'],
+  ['/take-action/volunteer/', 'Volunteer'],
+  ['/take-action/become-a-contributor/', 'Become a contributor'],
+  ['/take-action/partner/', 'Partner with us'],
   ['/schools-and-communities/', 'Schools & Communities'],
-  ['/partner/', 'Partner'],
-  ['/standards/', 'Standards'],
+  ['/standards/', 'Our standards'],
   ['/report-a-concern/', 'Report a concern'],
   ['/privacy/', 'Privacy'],
   ['/contact/', 'Contact'],
@@ -30,11 +40,19 @@ const missing = socials.filter(([, url]) => !url).map(([k]) => socialLabels[k]);
         <p class="footer-tagline">{site.tagline}</p>
         <p>{site.positioning}</p>
         <p class="footer-day"><DayCounter /></p>
+        <h2 class="footer-h">Newsletter</h2>
+        <NewsletterForm variant="footer" source="footer" id="newsletter-footer" />
       </div>
-      <nav aria-label="Footer">
+      <nav aria-label="Explore">
         <h2 class="footer-h">{t('footer.explore')}</h2>
         <ul class="footer-links">
-          {links.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+          {explore.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+        </ul>
+      </nav>
+      <nav aria-label="Take action">
+        <h2 class="footer-h">Take action</h2>
+        <ul class="footer-links">
+          {act.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
         </ul>
       </nav>
       <div>
@@ -67,7 +85,8 @@ const missing = socials.filter(([, url]) => !url).map(([k]) => socialLabels[k]);
   .site-footer :global(a:hover) { color: #9ccff7; }
   .site-footer :global(:focus-visible) { outline-color: #9ccff7; }
   .footer-grid { display: grid; gap: 2rem; }
-  @media (min-width: 800px) { .footer-grid { grid-template-columns: 1.3fr 1fr 1fr; } }
+  @media (min-width: 700px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
   .footer-tagline { font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; color: #fff; }
   .footer-day { display: inline-block; background: rgb(255 255 255 / 0.08); border-radius: 999px; padding: 0.3rem 0.9rem; }
   .footer-h { color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 0.75rem; }

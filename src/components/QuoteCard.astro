@@ -1,0 +1,29 @@
+---
+// A featured voice: a short line from a published piece, with who said it.
+import type { Story } from '../lib/content';
+import { contributorCategoryLabels, typeLabels } from '../lib/content';
+interface Props { story: Story }
+const { story } = Astro.props;
+const d = story.data;
+const who = d.anonymous ? 'Anonymous' : d.contributorDisplayName;
+const cat = d.contributorCategories[0];
+---
+<figure class="quote-card card card--link" data-programme={d.programme}>
+  <blockquote><p>{d.quote ?? d.englishSummary ?? d.title}</p></blockquote>
+  <figcaption>
+    <strong>{who}</strong>
+    <span>{[cat && contributorCategoryLabels[cat], d.location].filter(Boolean).join(' · ')}</span>
+    <a class="card__link" href={`/stories/${story.id}/`}>{typeLabels[d.type]}: {d.title}</a>
+  </figcaption>
+</figure>
+
+<style>
+  .quote-card { margin: 0; display: flex; flex-direction: column; justify-content: space-between; border-top: 4px solid var(--tag, var(--color-leaf)); }
+  blockquote { margin: 0 0 1rem; }
+  blockquote p { font-family: var(--font-heading); font-weight: 600; font-size: 1.15rem; color: var(--heading); line-height: 1.4; }
+  blockquote p::before { content: '“'; }
+  blockquote p::after { content: '”'; }
+  figcaption { display: grid; gap: 0.15rem; font-size: 0.92rem; }
+  figcaption span { color: var(--text-muted); }
+  figcaption a { font-weight: 600; margin-top: 0.4rem; }
+</style>

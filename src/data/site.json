@@ -1,12 +1,17 @@
 {
   "name": "Peace Across Generations",
-  "tagline": "Every Voice. Every Generation. One Peace.",
-  "supportingLine": "Building peace, one generation at a time.",
+  "tagline": "Building peace, one generation at a time.",
   "positioning": "An independent, youth-led, non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders.",
-  "description": "An independent, youth-led, non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders. Every Voice. Every Generation. One Peace.",
-  "email": { "user": "peaceacrossgenerations", "domain": "gmail.com" },
+  "description": "Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.",
+  "email": {
+    "user": "peaceacrossgenerations",
+    "domain": "gmail.com"
+  },
   "whatsapp": null,
-  "introVideo": { "platform": "youtube", "url": "https://www.youtube.com/watch?v=e3fQjlvb-Tc" },
+  "introVideo": {
+    "platform": "youtube",
+    "url": "https://www.youtube.com/watch?v=e3fQjlvb-Tc"
+  },
   "safeguardingEmail": null,
   "socials": {
     "facebook": null,
@@ -15,6 +20,15 @@
     "youtube": "https://www.youtube.com/@PeaceAcrossGenerations",
     "x": null
   },
-  "commitment": { "start": "2026-09-21", "end": "2034-12-07", "totalDays": 3000, "timezone": "Africa/Juba" },
-  "pilot": { "start": "2026-09-21", "end": "2027-02-28" }
+  "commitment": {
+    "start": "2026-09-21",
+    "end": "2034-12-07",
+    "totalDays": 3000,
+    "timezone": "Africa/Juba"
+  },
+  "pilot": {
+    "start": "2026-09-21",
+    "end": "2027-02-28"
+  },
+  "slogan": "Every Voice. Every Generation. One Peace."
 }

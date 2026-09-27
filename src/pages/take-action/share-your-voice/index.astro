@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import FormGuard from '../../../components/FormGuard.astro';
+import SafetyNote from '../../../components/SafetyNote.astro';
+import WhatsAppButton from '../../../components/WhatsAppButton.astro';
+import Email from '../../../components/Email.astro';
+import Tbd from '../../../components/Tbd.astro';
+import { ageRanges, contributionTypes, upload } from '../../../data/forms';
+import { currentTheme, publishedThemes } from '../../../lib/content';
+
+const current = await currentTheme();
+const campaigns = await publishedThemes();
+const maxMB = Math.round(upload.maxBytes / 1024 / 1024);
+const themeName = current?.data.title ?? 'this month’s campaign';
+const template = `Hello Peace Across Generations,
+Here is my contribution for ${themeName}.
+Name to show (or "Anonymous"):
+Age range:
+Country / state:
+Language:
+Short English summary:
+This is my own work: Yes / Credit to:
+I agree you may review, lightly edit and publish it: Yes
+You may tag me: Yes / No
+Anything we should know for my safety:
+`;
+---
+<BaseLayout title="Share your voice" description="Send a video, letter, poem, song, story, artwork, drama or reflection to Peace Across Generations. Every contribution is reviewed with care before anything is published." hideTakePart>
+  <PageHead title="Share your voice" eyebrow="Take action">
+    <p class="lede">{current?.data.message ?? 'Tell us why peace cannot wait, what peace means to you, or what you believe we can do to build it.'}</p>
+    <p>You don’t need money, a title, professional equipment or perfect English. Nothing is published automatically: our team reviews every contribution for consent, facts and safety first.</p>
+  </PageHead>
+
+  <section class="section section--tight">
+    <div class="container grid grid--2">
+      <SafetyNote title="Before you send">
+        <ul>
+          <li>It must be your own work, or properly credited.</li>
+          <li>If you are under 18, a parent or guardian must agree too. We will contact them before anything is published.</li>
+          <li>No real weapons, graphic images, slurs or calls for revenge.</li>
+          <li>No piece may name a whole community as guilty, or accuse a named person without evidence.</li>
+        </ul>
+        <p><a href="/standards/community-guidelines/">Read our community guidelines</a></p>
+      </SafetyNote>
+      <SafetyNote title="What stays private" variant="info">
+        <p>Your full name, email, phone number and city are seen only by our core team. We never publish contact details, and we show locations at state or country level at most. You choose the name shown with your work — or stay anonymous.</p>
+        <p><a href="/privacy/">Privacy notice</a></p>
+      </SafetyNote>
+    </div>
+  </section>
+
+  <section class="section section--surface" id="form" aria-labelledby="form-title">
+    <div class="container narrow">
+      <h2 id="form-title">Send your contribution</h2>
+      <p class="muted">Fields marked <span class="req">*</span> are required.</p>
+      <form class="form" method="post" action="/api/submit" enctype="multipart/form-data" data-track-form="submission">
+        <FormGuard />
+
+        <fieldset>
+          <legend>About you</legend>
+          <div class="row row--2">
+            <label class="field">Full name <span class="req">*</span>
+              <input type="text" name="full_name" required maxlength="120" autocomplete="name" />
+              <span class="hint">Private. Only our team sees it.</span>
+            </label>
+            <label class="field">Name to show with your work
+              <input type="text" name="display_name" maxlength="120" autocomplete="nickname" />
+              <span class="hint">A first name, a pen name — or leave empty and tick “anonymous”.</span>
+            </label>
+          </div>
+          <label class="check"><input type="checkbox" name="anonymous" /> <span>Publish my contribution anonymously</span></label>
+          <div class="row row--2">
+            <label class="field">Email <span class="req">*</span>
+              <input type="email" name="email" required maxlength="254" autocomplete="email" />
+            </label>
+            <label class="field">Phone or WhatsApp <span class="hint">(optional)</span>
+              <input type="tel" name="phone" maxlength="40" autocomplete="tel" />
+            </label>
+          </div>
+          <div class="row row--3">
+            <label class="field">Country <span class="req">*</span>
+              <input type="text" name="country" required maxlength="80" autocomplete="country-name" />
+            </label>
+            <label class="field">State or region
+              <input type="text" name="region" maxlength="80" autocomplete="address-level1" />
+            </label>
+            <label class="field">City or community
+              <input type="text" name="city" maxlength="80" />
+              <span class="hint">Private. Never published.</span>
+            </label>
+          </div>
+          <label class="field">Age range <span class="req">*</span>
+            <select name="age_range" required data-age>
+              <option value="">Choose…</option>
+              {ageRanges.map((a) => <option value={a.value}>{a.label}</option>)}
+            </select>
+          </label>
+        </fieldset>
+
+        <fieldset data-guardian>
+          <legend>Parent or guardian (only if you are under 18)</legend>
+          <p>A parent or guardian must agree before we can publish anything by someone under 18. We will contact them to confirm. <Tbd>downloadable guardian consent form (PDF)</Tbd></p>
+          <div class="row row--2">
+            <label class="field">Parent or guardian’s name
+              <input type="text" name="guardian_name" maxlength="120" data-guardian-required />
+            </label>
+            <label class="field">Their phone or email
+              <input type="text" name="guardian_contact" maxlength="254" data-guardian-required />
+            </label>
+          </div>
+          <label class="check"><input type="checkbox" name="guardian_consent" data-guardian-required /> <span>My parent or guardian knows about this contribution and agrees that I can send it.</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your contribution</legend>
+          <div class="row row--2">
+            <label class="field">Type <span class="req">*</span>
+              <select name="contribution_type" required>
+                <option value="">Choose…</option>
+                {contributionTypes.map((t) => <option value={t.value}>{t.label}</option>)}
+              </select>
+            </label>
+            <label class="field">Campaign
+              <select name="campaign" data-campaign-select>
+                {campaigns.map((c) => <option value={c.id} selected={c.id === current?.id}>{c.data.title}</option>)}
+                <option value="">Not for a specific campaign</option>
+              </select>
+            </label>
+          </div>
+          <label class="field">Title <span class="req">*</span>
+            <input type="text" name="title" required maxlength="200" />
+          </label>
+          <label class="field">Your message, letter, poem or description <span class="req">*</span>
+            <textarea name="message" required maxlength="8000"></textarea>
+            <span class="hint">Write your piece here, or describe the file you are sending. Any language is welcome — add a short English summary if you can.</span>
+          </label>
+          <div class="row row--2">
+            <label class="field">Language of your work
+              <input type="text" name="language" maxlength="80" placeholder="e.g. English, Arabic, Dinka, Nuer, Bari" />
+            </label>
+            <label class="field">Social media handle <span class="hint">(optional)</span>
+              <input type="text" name="social_handle" maxlength="120" />
+            </label>
+          </div>
+          <label class="field">Upload a file <span class="hint">(optional, up to {maxMB} MB: photo, audio, video, PDF or document)</span>
+            <input type="file" name="file" accept={upload.extensions.map((e) => `.${e}`).join(',')} data-max-bytes={upload.maxBytes} />
+            <span class="hint">Bigger video? Upload it to YouTube or Google Drive and paste the link below, or send it by WhatsApp.</span>
+          </label>
+          <label class="field">Or a link to your work <span class="hint">(optional)</span>
+            <input type="url" name="link_url" maxlength="500" placeholder="https://" />
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Consent</legend>
+          <label class="check"><input type="checkbox" name="own_work" required /> <span>This is my own work, or I have credited everyone who made it. <span class="req">*</span></span></label>
+          <label class="check"><input type="checkbox" name="consent" required /> <span>I agree that Peace Across Generations may review my contribution, lightly edit it and publish it on its website and social media. I understand nothing is published without review, and I can ask for it to be removed at any time. <span class="req">*</span></span></label>
+          <label class="check"><input type="checkbox" name="may_tag" /> <span>You may tag me when you share it.</span></label>
+          <label class="field">Anything we should know to keep you safe? <span class="hint">(optional, private)</span>
+            <textarea name="safety_note" maxlength="1000" class="short"></textarea>
+          </label>
+        </fieldset>
+
+        <div>
+          <button class="btn btn--primary" type="submit">Send my contribution</button>
+          <p class="hint muted">Uploading a large file on a slow connection can take a few minutes. Please keep this page open.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="other-ways">
+    <div class="container">
+      <h2 id="other-ways">Prefer WhatsApp or email?</h2>
+      <div class="grid grid--2">
+        <div class="card send">
+          <h3>WhatsApp</h3>
+          <p>The message below is filled in for you. Attach your work in the chat.</p>
+          <WhatsAppButton text={template} block />
+        </div>
+        <div class="card send">
+          <h3>Email</h3>
+          <p><Email /></p>
+          <Email class="btn btn--secondary btn--block" label="Send by email" icon subject={`Contribution – ${themeName}`} body={template} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container grid grid--2">
+      <div>
+        <h2>What happens next</h2>
+        <ol class="steps">
+          <li><strong>Submitted.</strong> You get a reference number.</li>
+          <li><strong>Pending review.</strong> We check consent, facts and safety. For under-18s, we contact the parent or guardian.</li>
+          <li><strong>Approved or not.</strong> If we need to change its meaning, translate it or change how you are named, we ask you first.</li>
+          <li><strong>Published.</strong> We let you know. You can ask us to remove it at any time. <a href="/standards/corrections-and-withdrawal/">Corrections and withdrawal</a></li>
+        </ol>
+      </div>
+      <div>
+        <h2>Why we may not publish something</h2>
+        <p>We will not publish anything that calls for violence or revenge, uses slurs, blames a whole community, shows graphic images or real weapons, accuses a named person without evidence, or reveals someone’s exact location. We may also hold back work that could put you at risk — your safety matters more than a post.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+  .short { min-height: 90px !important; }
+  .send { display: flex; flex-direction: column; }
+  .send > :last-child { margin-top: auto; }
+</style>

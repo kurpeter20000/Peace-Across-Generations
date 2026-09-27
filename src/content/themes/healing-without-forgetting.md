@@ -13,5 +13,6 @@ weeklyActions: []
 coreMessage: "Moving forward does not require forgetting; it requires truth, justice, healing and a refusal to create new wounds."
 contentWarning: true
 # Draft until the team confirms weekly actions and publishes the month.
+stage: heal
 draft: true
 ---

@@ -13,5 +13,6 @@ weeklyActions: []
 coreMessage: "A gun may silence a disagreement, but it cannot create justice, trust or lasting security."
 contentWarning: false
 # Draft until the team confirms weekly actions and publishes the month.
+stage: choose
 draft: true
 ---

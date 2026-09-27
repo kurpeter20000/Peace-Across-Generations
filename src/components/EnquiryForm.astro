@@ -1,0 +1,58 @@
+---
+// VolunteerForm / ContributorForm / PartnerForm / ContactForm in one.
+import FormGuard from './FormGuard.astro';
+import { volunteerInterests, contributorRoles } from '../data/forms';
+
+interface Props {
+  type: 'volunteer' | 'contributor' | 'partner' | 'contact';
+  submitLabel: string;
+  messageLabel: string;
+}
+const { type, submitLabel, messageLabel } = Astro.props;
+const interests = type === 'volunteer' ? volunteerInterests : type === 'contributor' ? contributorRoles : [];
+const interestLegend = type === 'volunteer' ? 'How would you like to help?' : 'What do you create or do?';
+---
+<form class="form" method="post" action="/api/enquiry" data-track-form={type}>
+  <FormGuard />
+  <input type="hidden" name="type" value={type} />
+  <fieldset>
+    <legend>Your details</legend>
+    <div class="row row--2">
+      <label class="field">Name <span class="req">*</span>
+        <input type="text" name="name" required maxlength="120" autocomplete="name" />
+      </label>
+      <label class="field">Email <span class="req">*</span>
+        <input type="email" name="email" required maxlength="254" autocomplete="email" />
+      </label>
+    </div>
+    <div class="row row--2">
+      <label class="field">Phone or WhatsApp <span class="hint">(optional)</span>
+        <input type="tel" name="phone" maxlength="40" autocomplete="tel" />
+      </label>
+      <label class="field">Country
+        <input type="text" name="country" maxlength="80" autocomplete="country-name" />
+      </label>
+    </div>
+    {type === 'partner' && (
+      <label class="field">Organisation <span class="req">*</span>
+        <input type="text" name="organisation" required maxlength="160" autocomplete="organization" />
+      </label>
+    )}
+  </fieldset>
+  {interests.length > 0 && (
+    <fieldset>
+      <legend>{interestLegend}</legend>
+      <div class="checks checks--2">
+        {interests.map((i) => <label class="check"><input type="checkbox" name="interests" value={i} /> <span>{i}</span></label>)}
+      </div>
+    </fieldset>
+  )}
+  <fieldset>
+    <legend>Message</legend>
+    <label class="field">{messageLabel} <span class="req">*</span>
+      <textarea name="message" required maxlength="5000"></textarea>
+    </label>
+    <label class="check"><input type="checkbox" name="consent" required /> <span>Peace Across Generations may store these details to reply to me. They are seen only by the core team. <a href="/privacy/">Privacy</a> <span class="req">*</span></span></label>
+  </fieldset>
+  <div><button class="btn btn--primary" type="submit">{submitLabel}</button></div>
+</form>

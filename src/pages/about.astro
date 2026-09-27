@@ -1,14 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
+import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 import QuoteRotator from '../components/QuoteRotator.astro';
 import SafetyNote from '../components/SafetyNote.astro';
+import IntroVideo from '../components/IntroVideo.astro';
+import ProgrammeCard from '../components/ProgrammeCard.astro';
 import Tbd from '../components/Tbd.astro';
+import { programmes } from '../data/programmes';
+import { approachStages, allCampaigns, campaignUrl, monthName } from '../lib/content';
 
 const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const campaigns = await allCampaigns();
+const stageCampaign = (key: string) => campaigns.find((c) => c.data.stage === key);
 
-const values = [
+const principles = [
   ['Nonviolence', 'No incitement, retaliation, humiliation or celebration of violence.'],
   ['Youth agency', 'Young people shape the agenda, create the content and lead safe actions.'],
   ['Inclusion', 'Every community, gender, ability, region, generation and location.'],
@@ -31,30 +38,79 @@ const messages = [
   'We should inherit culture and wisdom, not enemies and unfinished revenge.',
 ];
 ---
-<BaseLayout title="About us" description="Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative for South Sudan. Our story, vision, mission, values and independence.">
-  <PageHead title="About Peace Across Generations">
-    <p class="lede">Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative for South Sudan. We use storytelling, letters, art, intergenerational dialogue, responsible digital communication and safe community action to make peaceful choices more visible in everyday life.</p>
-    <p>Young people are at the centre. But elders, parents, teachers, faith and traditional leaders, artists, journalists, public leaders, the diaspora and friends of South Sudan all have a place here.</p>
+<BaseLayout title="About us" description="Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative for South Sudan. Our story, mission, vision, approach and principles.">
+  <PageHead title="About Peace Across Generations" eyebrow="Independent · Youth-led · Non-partisan">
+    <p class="lede">Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.</p>
   </PageHead>
 
-  <section class="section section--surface">
-    <div class="container grid grid--2">
-      <div class="card">
-        <h2>Our vision</h2>
-        <p>A peaceful South Sudan where every generation chooses dialogue, dignity and shared responsibility over violence, hatred and inherited division.</p>
+  <nav class="container jump" aria-label="On this page">
+    <ul>
+      <li><a href="#story">Our story</a></li>
+      <li><a href="#mission">Mission & vision</a></li>
+      <li><a href="#approach">Our approach</a></li>
+      <li><a href="#principles">Our principles</a></li>
+      <li><a href="#programmes">Programmes</a></li>
+      <li><a href="#team">Who we are</a></li>
+    </ul>
+  </nav>
+
+  <section class="section section--surface" id="story" aria-labelledby="story-h">
+    <div class="container story">
+      <div>
+        <h2 id="story-h">Our story</h2>
+        <p>We use storytelling, letters, art, intergenerational dialogue, responsible digital communication and safe community action to make peaceful choices more visible in everyday life.</p>
+        <p>Young people are at the centre. But elders, parents, teachers, faith and traditional leaders, artists, journalists, public leaders, the diaspora and friends of South Sudan all have a place here.</p>
+        <p>Peace Across Generations continues the work of Foster Peace South Sudan, the founder’s earlier youth peace initiative. We carried forward what met today’s standards — school Peace Clubs, the 64 Voices idea and creative campaign materials — and refocused everything on safe, creative, intergenerational peacebuilding.</p>
+        <p>On the International Day of Peace, 21 September 2026, we began <a href="/3000-days/">3,000 Days for Peace</a>: a promise to keep peace visible, practical and passed between generations until 7 December 2034.</p>
       </div>
-      <div class="card">
-        <h2>Our mission</h2>
-        <p>To connect and mobilise South Sudanese inside the country and across the world to speak, listen, create and act for peace through inclusive storytelling, responsible media, intergenerational dialogue and practical local action.</p>
+      <IntroVideo />
+    </div>
+  </section>
+
+  <section class="section" id="mission">
+    <div class="container grid grid--2">
+      <div class="card statement">
+        <p class="eyebrow">Our mission</p>
+        <p>To create spaces for dialogue, storytelling, learning and community action that help people understand conflict, challenge division, promote peaceful relationships and contribute to sustainable peace.</p>
+      </div>
+      <div class="card statement">
+        <p class="eyebrow">Our vision</p>
+        <p>A South Sudan where people across generations and communities can live together with dignity, safety, trust and hope.</p>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="believe">
+  <section class="section section--surface" id="approach" aria-labelledby="approach-h">
     <div class="container">
-      <h2 id="believe">What we believe</h2>
-      <ul class="grid grid--3 values">
-        {values.map(([v, line]) => <li class="card"><h3>{v}</h3><p>{line}</p></li>)}
+      <h2 id="approach-h">Our approach</h2>
+      <p class="lede">Six stages — one for each campaign of our pilot season.</p>
+      <ol class="stages">
+        {approachStages.map((s) => {
+          const c = stageCampaign(s.key);
+          return (
+            <li>
+              <span class="stages__n">{s.n}</span>
+              <strong class="stages__name">{s.name}</strong>
+              {c && (c.data.draft
+                ? <span class="stages__c">{monthName(c.data.month)}: {c.data.title}</span>
+                : <a class="stages__c" href={campaignUrl(c)}>{monthName(c.data.month)}: {c.data.title}</a>)}
+            </li>
+          );
+        })}
+      </ol>
+      <h3>How change happens</h3>
+      <ol class="flow">
+        {['Reach', 'Engage', 'Act', 'Connect', 'Learn', 'Sustain'].map((s) => <li><span>{s}</span></li>)}
+      </ol>
+      <p>We will not claim that social media or public messaging alone can end armed conflict. We measure the contribution we make to participation, dialogue, social cohesion, responsible information-sharing and safe community action.</p>
+    </div>
+  </section>
+
+  <section class="section" id="principles" aria-labelledby="principles-h">
+    <div class="container">
+      <h2 id="principles-h">Our principles</h2>
+      <ul class="grid grid--3 plain">
+        {principles.map(([v, line]) => <li class="card"><h3>{v}</h3><p>{line}</p></li>)}
       </ul>
     </div>
   </section>
@@ -66,13 +122,12 @@ const messages = [
     </div>
   </section>
 
-  <section class="section" aria-labelledby="change">
+  <section class="section" id="programmes" aria-labelledby="programmes-h">
     <div class="container">
-      <h2 id="change">How change happens</h2>
-      <ol class="flow">
-        {['Reach', 'Engage', 'Act', 'Connect', 'Learn', 'Sustain'].map((s) => <li><span>{s}</span></li>)}
-      </ol>
-      <p>We will not claim that social media or public messaging alone can end armed conflict. We measure the contribution we make to participation, dialogue, social cohesion, responsible information-sharing and safe community action.</p>
+      <h2 id="programmes-h">Our programmes</h2>
+      <p>Every month, all four programmes answer the same campaign — so one idea reaches you as a poem, a club session, an expert talk and an elder’s story.</p>
+      <div class="grid grid--4">{programmes.map((p) => <ProgrammeCard {...p} />)}</div>
+      <p class="more"><a class="text-link" href="/programmes/">How the programmes fit together →</a></p>
     </div>
   </section>
 
@@ -89,29 +144,22 @@ const messages = [
     </div>
   </section>
 
-  <section class="section">
-    <div class="container narrow">
-      <h2>Where we come from</h2>
-      <p>Peace Across Generations continues the work of Foster Peace South Sudan, the founder’s earlier youth peace initiative. We carried forward what met today’s standards — school Peace Clubs, the 64 Voices idea and creative campaign materials — and refocused everything on safe, creative, intergenerational peacebuilding.</p>
-    </div>
-  </section>
-
-  <section class="section section--surface" aria-labelledby="team">
+  <section class="section" id="team" aria-labelledby="team-h">
     <div class="container">
-      <h2 id="team">Who we are</h2>
-      <ul class="grid grid--3 team">
+      <h2 id="team-h">Who we are</h2>
+      <ul class="grid grid--3 plain">
         {team.map(({ data: m }) => (
           <li class:list={['card', { 'team--open': m.open }]}>
             <p class="eyebrow">{m.role}</p>
             {m.open ? (
               <>
                 <h3>Role open</h3>
-                <p><a href="/partner/#volunteer">Volunteer with us</a></p>
+                <p><a href="/take-action/volunteer/">Volunteer with us</a></p>
               </>
             ) : (
               <>
                 <h3>{m.name}</h3>
-                {m.photo ? <img class="ld-hide" src={m.photo} alt={`${m.name}`} width="160" height="160" loading="lazy" /> : <p><Tbd>photo</Tbd></p>}
+                {m.photo ? <Picture class="ld-hide team-photo" src={m.photo} alt={m.name ?? ''} widths={[160, 320]} sizes="160px" formats={['avif', 'webp']} width={160} height={160} /> : <p><Tbd>photo</Tbd></p>}
                 {m.bio ? <p>{m.bio}</p> : <p><Tbd>bio, 60–80 words</Tbd></p>}
               </>
             )}
@@ -124,9 +172,25 @@ const messages = [
 
 <style>
   .narrow { max-width: 860px; }
-  .values, .team { list-style: none; padding: 0; }
-  .values li, .team li { margin: 0; }
-  .values h3 { color: var(--accent-text); }
+  .jump ul { list-style: none; padding: 0 0 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; }
+  .jump li { margin: 0; }
+  .jump a { display: inline-block; padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; font-weight: 600; font-size: 0.92rem; }
+  .story { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 960px) { .story { grid-template-columns: 1.1fr 1fr; } }
+  .statement { border-top: 6px solid var(--color-green); }
+  .statement p:last-child { font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 1.2rem; line-height: 1.4; }
+  .stages { list-style: none; padding: 0; display: grid; gap: 0.75rem; margin-bottom: 2rem; }
+  @media (min-width: 640px) { .stages { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .stages { grid-template-columns: repeat(3, 1fr); } }
+  .stages li { margin: 0; max-width: none; background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.25rem; display: grid; gap: 0.2rem; }
+  .stages__n { font-family: var(--font-heading); font-weight: 700; color: var(--color-sky); font-size: 1.6rem; line-height: 1; }
+  .stages__name { font-family: var(--font-heading); font-size: 1.35rem; color: var(--heading); }
+  .stages__c { font-size: 0.92rem; color: var(--text-muted); }
+  a.stages__c { color: var(--link); }
+  .plain { list-style: none; padding: 0; }
+  .plain li { margin: 0; }
+  .plain h3 { color: var(--accent-text); }
+  .more { margin-top: 1.25rem; }
   .team--open { border-style: dashed; box-shadow: none; }
-  .team img { border-radius: 50%; margin-bottom: 0.75rem; }
+  .team-photo, :global(.team-photo) { border-radius: 50%; margin-bottom: 0.75rem; width: 120px; height: 120px; object-fit: cover; }
 </style>

@@ -92,19 +92,54 @@ export const typeLabels: Record<Story['data']['type'], string> = {
   episode: 'Conversation',
   'ask-an-elder': 'Ask an Elder',
   'younger-self': 'What I’d Tell My Younger Self',
+  video: 'Video',
+  story: 'Story',
+  reflection: 'Reflection',
   talk: 'Peace Talk',
   explainer: 'Peace in 90 Seconds',
   'action-report': 'Peace action',
 };
 
-/** Library sections (/stories/[section]) and the story types each one lists. */
+/** Stories & Voices categories (/stories/<slug>) and the story types each one lists. */
 export const storySections = {
-  letters: { title: 'Letters for Peace', types: ['letter'] },
-  creative: { title: 'Poems, songs, art, photos and skits', types: ['poem', 'song', 'art', 'photo', 'drama', 'solidarity'] },
-  conversations: { title: 'Generations in Conversation', types: ['episode', 'ask-an-elder', 'younger-self'] },
-  talks: { title: 'Peace Talks recordings', types: ['talk'] },
-  '90-seconds': { title: 'Peace in 90 Seconds', types: ['explainer'] },
+  videos: { title: 'Videos', types: ['video', 'talk', 'explainer'] },
+  stories: { title: 'Stories', types: ['story', 'reflection', 'action-report', 'solidarity'] },
+  letters: { title: 'Letters', types: ['letter'] },
+  poetry: { title: 'Poetry', types: ['poem'] },
+  music: { title: 'Music', types: ['song'] },
+  art: { title: 'Art', types: ['art', 'photo'] },
+  drama: { title: 'Drama', types: ['drama'] },
+  conversations: { title: 'Conversations', types: ['episode', 'ask-an-elder', 'younger-self'] },
 } as const satisfies Record<string, { title: string; types: readonly Story['data']['type'][] }>;
+
+export const contributorCategoryLabels: Record<Story['data']['contributorCategories'][number], string> = {
+  youth: 'Youth',
+  elders: 'Elders',
+  women: 'Women',
+  artists: 'Artists',
+  educators: 'Educators',
+  'community-leaders': 'Community Leaders',
+  peacebuilders: 'Peacebuilders',
+  diaspora: 'Diaspora',
+};
+
+/** "Our approach": six stages, one per pilot campaign month. */
+export const approachStages = [
+  { key: 'understand', n: '01', name: 'Understand' },
+  { key: 'unlearn', n: '02', name: 'Unlearn' },
+  { key: 'choose', n: '03', name: 'Choose' },
+  { key: 'lead', n: '04', name: 'Lead' },
+  { key: 'heal', n: '05', name: 'Heal' },
+  { key: 'build', n: '06', name: 'Build' },
+] as const;
+
+export const campaignUrl = (t: Theme) => `/campaigns/${t.id}/`;
+
+/** All campaigns, including drafts (shown as "coming" without a link). */
+export async function allCampaigns(): Promise<Theme[]> {
+  const all = await getCollection('themes');
+  return all.sort((a, b) => a.data.startDate.valueOf() - b.data.startDate.valueOf());
+}
 
 export function readingMinutes(body: string | undefined) {
   const words = (body ?? '').trim().split(/\s+/).filter(Boolean).length;

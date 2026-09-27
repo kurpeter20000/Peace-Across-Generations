@@ -1,12 +1,13 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHead from '../components/PageHead.astro';
-import SafetyNote from '../components/SafetyNote.astro';
-import Email from '../components/Email.astro';
-import Icon from '../components/Icon.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import SafetyNote from '../../../components/SafetyNote.astro';
+import Email from '../../../components/Email.astro';
+import Icon from '../../../components/Icon.astro';
+import EnquiryForm from '../../../components/EnquiryForm.astro';
 ---
-<BaseLayout title="Work with us" description="Speak at Peace Talks, volunteer, partner, broadcast our programmes or offer in-kind support.">
-  <PageHead title="Work with us" lede="Partnerships should widen safe participation, reach and quality — without changing who we are: youth-led and non-partisan." />
+<BaseLayout title="Partner with us" description="Speak at Peace Talks, volunteer, partner, broadcast our programmes or offer in-kind support.">
+  <PageHead title="Partner with us" eyebrow="Take action" lede="Partnerships should widen safe participation, reach and quality — without changing who we are: youth-led and non-partisan." />
 
   <nav class="container jump" aria-label="On this page">
     <ul>
@@ -15,6 +16,7 @@ import Icon from '../components/Icon.astro';
       <li><a href="#partner">Partner</a></li>
       <li><a href="#radio">Radio stations</a></li>
       <li><a href="#support">Support</a></li>
+      <li><a href="#form">Get in touch</a></li>
     </ul>
   </nav>
 
@@ -61,6 +63,12 @@ import Icon from '../components/Icon.astro';
       </SafetyNote>
     </div>
   </section>
+  <section class="section" id="form">
+    <div class="container narrow">
+      <h2>Get in touch</h2>
+      <EnquiryForm type="partner" submitLabel="Send" messageLabel="How would you like to work together?" />
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -68,4 +76,5 @@ import Icon from '../components/Icon.astro';
   .jump li { margin: 0; }
   .jump a { display: inline-block; padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; font-weight: 600; font-size: 0.92rem; }
   h2 { font-size: 1.3rem; }
+  .narrow { max-width: 860px; }
 </style>

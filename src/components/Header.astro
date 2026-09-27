@@ -4,18 +4,29 @@ import { t } from '../i18n';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const links = [
-  { href: '/', label: t('nav.home') },
+  { href: '/', label: t('nav.home'), mobileOnly: true },
   { href: '/about/', label: t('nav.about') },
-  { href: '/programmes/', label: t('nav.programmes') },
-  { href: '/this-month/', label: t('nav.thisMonth') },
+  { href: '/campaigns/', label: t('nav.campaigns') },
   { href: '/stories/', label: t('nav.stories') },
+  { href: '/take-action/', label: t('nav.takeAction') },
+  { href: '/resources/', label: t('nav.resources') },
   { href: '/blog/', label: t('nav.blog') },
+  { href: '/contact/', label: t('nav.contact') },
 ];
 const isCurrent = (href: string) => {
   const h = href.replace(/\/$/, '') || '/';
   return h === '/' ? path === '/' : path === h || path.startsWith(`${h}/`);
 };
 ---
+<div class="topbar">
+  <div class="container topbar__inner">
+    <p class="topbar__pos">{t('positioning.short')}</p>
+    <button class="lowdata-toggle" type="button" aria-pressed="false" data-lowdata-toggle title={t('lowData.hint')}>
+      <span class="switch" aria-hidden="true"></span>
+      <span>Low-data<span class="ld-word"> mode</span>: <span data-state>{t('lowData.off')}</span></span>
+    </button>
+  </div>
+</div>
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="brand" href="/" aria-label="Peace Across Generations — home">
@@ -34,15 +45,11 @@ const isCurrent = (href: string) => {
       <nav aria-label="Main">
         <ul>
           {links.map((l) => (
-            <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+            <li class:list={{ 'mobile-only': l.mobileOnly }}><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
           ))}
         </ul>
       </nav>
-      <a class="btn btn--primary nav-cta" href="/take-part/" aria-current={isCurrent('/take-part/') ? 'page' : undefined}>{t('nav.takePart')}</a>
-      <button class="lowdata-toggle" type="button" aria-pressed="false" data-lowdata-toggle title={t('lowData.hint')}>
-        <span class="switch" aria-hidden="true"></span>
-        <span>{t('lowData.label')}: <span data-state>{t('lowData.off')}</span></span>
-      </button>
+      <a class="btn btn--primary nav-cta" href="/campaigns/current/" data-track="cta:join-header">{t('cta.join')}</a>
     </div>
   </div>
 </header>
@@ -50,14 +57,27 @@ const isCurrent = (href: string) => {
 <style>
   /* The logo's navy disappears on dark backgrounds, so the header stays
      white in both colour schemes (brief §4.1). */
+  .topbar { background: #003366; color: #e6edf5; font-size: 0.8rem; }
+  .topbar__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 36px; }
+  .topbar__pos { margin: 0; letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--font-heading); font-weight: 600; font-size: 0.72rem; }
+  .lowdata-toggle {
+    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 36px;
+    background: none; border: 0; color: inherit; font: inherit; cursor: pointer; padding: 0 0.25rem;
+  }
+  .switch { width: 30px; height: 18px; border-radius: 999px; background: rgb(255 255 255 / 0.35); position: relative; flex: none; }
+  .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform 0.15s; }
+  .lowdata-toggle[aria-pressed='true'] .switch { background: #6baf3f; }
+  .lowdata-toggle[aria-pressed='true'] .switch::after { transform: translateX(12px); }
+  .topbar :global(:focus-visible) { outline-color: #9ccff7; }
+
   .site-header {
-    background: #fff; color: #003366; border-bottom: 1px solid #d8e1eb;
+    background: #fff; color: #003366; border-bottom: 1px solid #e3ddd0;
     position: sticky; top: 0; z-index: 50;
   }
+  .site-header .container, .topbar .container { max-width: 1280px; }
   .site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; flex-wrap: wrap; }
   .brand { display: block; padding: 8px 0; line-height: 0; }
-  .brand img { width: 180px; height: auto; }
-  @media (min-width: 1100px) { .brand img { width: 200px; } }
+  .brand img { width: 176px; height: auto; }
 
   .menu-toggle {
     display: none; background: none; border: 2px solid #003366; color: #003366;
@@ -69,27 +89,19 @@ const isCurrent = (href: string) => {
   .menu-toggle[aria-expanded='true'] :global(.i-open) { display: none; }
   .menu-toggle[aria-expanded='true'] :global(.i-close) { display: block; }
 
-  .site-menu { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-  nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem; margin: 0; padding: 0; }
+  .site-menu { display: flex; align-items: center; gap: 0.75rem; }
+  nav ul { list-style: none; display: flex; gap: 0.1rem; margin: 0; padding: 0; }
   nav li { margin: 0; }
   nav a {
-    display: block; padding: 0.6rem 0.7rem; border-radius: 8px;
-    color: #003366; text-decoration: none; font-family: var(--font-heading); font-weight: 600; font-size: 0.98rem;
+    display: block; padding: 0.55rem 0.6rem; border-radius: 8px; white-space: nowrap;
+    color: #003366; text-decoration: none; font-family: var(--font-heading); font-weight: 600; font-size: 0.94rem;
   }
-  nav a:hover { background: #f5f8fb; color: #0b6cb8; }
+  nav a:hover { background: #f7f3e9; color: #0b6cb8; }
   nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: #6baf3f; text-decoration-thickness: 3px; text-underline-offset: 0.4em; }
-  .nav-cta { background: #2e7130; color: #fff; }
+  .nav-cta { background: #2e7130; color: #fff; white-space: nowrap; padding-inline: 1.1rem; }
   .nav-cta:hover { background: #245a26; color: #fff; }
-
-  .lowdata-toggle {
-    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px;
-    background: none; border: 0; color: #003366; font: inherit; font-size: 0.85rem; cursor: pointer; padding: 0.25rem;
-  }
-  .switch { width: 34px; height: 20px; border-radius: 999px; background: #c5d1de; position: relative; flex: none; }
-  .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform 0.15s; }
-  .lowdata-toggle[aria-pressed='true'] .switch { background: #2e7130; }
-  .lowdata-toggle[aria-pressed='true'] .switch::after { transform: translateX(14px); }
   .site-header :global(:focus-visible) { outline-color: #0b6cb8; }
+  @media (min-width: 1200px) { .mobile-only { display: none; } }
 
   /* Small screens: hamburger (only when JavaScript is available;
      without it the menu simply stays open below the logo). */
@@ -98,8 +110,12 @@ const isCurrent = (href: string) => {
     .site-menu { flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem; padding-bottom: 1rem; }
     :global(.js) .site-menu:not([data-open]) { display: none; }
     nav ul { flex-direction: column; }
-    nav a { padding: 0.8rem 0.5rem; font-size: 1.05rem; border-bottom: 1px solid #eef2f6; border-radius: 0; }
+    nav a { padding: 0.8rem 0.5rem; font-size: 1.05rem; border-bottom: 1px solid #f0ebe0; border-radius: 0; }
     .nav-cta { width: 100%; }
-    .lowdata-toggle { justify-content: flex-start; }
+  }
+  @media (max-width: 560px) {
+    .topbar__pos { font-size: 0.62rem; letter-spacing: 0.03em; white-space: nowrap; }
+    .ld-word { display: none; }
+    .lowdata-toggle { white-space: nowrap; font-size: 0.74rem; }
   }
 </style>

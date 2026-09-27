@@ -4,26 +4,41 @@ import PageHead from '../components/PageHead.astro';
 import Email from '../components/Email.astro';
 import Tbd from '../components/Tbd.astro';
 ---
-<BaseLayout title="Privacy notice" description="What Peace Across Generations collects, why, who sees it and how to ask for deletion.">
+<BaseLayout title="Privacy notice" description="What Peace Across Generations collects, why, where it is kept, who sees it and how to ask for deletion.">
   <PageHead title="Privacy notice">
     <p><Tbd>Draft – for team review</Tbd></p>
   </PageHead>
   <section class="section section--surface">
     <div class="container narrow prose">
       <h2>What we collect</h2>
-      <p>Only what you send us with your work. There are no accounts on this website, and no forms.</p>
+      <ul>
+        <li><strong>When you share your voice:</strong> your name, email, optional phone number, country, state and city, age range, the work you send (text, files or links), an optional social media handle, and anything you tell us to keep you safe. If you are under 18, your parent or guardian’s name and contact.</li>
+        <li><strong>When you volunteer, offer to contribute, propose a partnership or contact us:</strong> your name, email, optional phone, country, organisation and your message.</li>
+        <li><strong>When you join the newsletter:</strong> your email address.</li>
+        <li><strong>When you use the site:</strong> anonymous counts of clicks on buttons and videos (for example “Share your voice clicked 12 times today”). No cookies, no IP addresses and nothing that identifies you.</li>
+      </ul>
+      <p>There are no user accounts on this website. It sets no cookies.</p>
+
       <h2>Why</h2>
-      <p>To review your work, publish it with your consent, and contact you about it.</p>
+      <p>To review your contribution, publish it with your consent, contact you (or your parent or guardian) about it, reply to your message, and send the newsletter you asked for. Nothing you send is published automatically: every contribution is reviewed by our team first.</p>
+
+      <h2>Where it is kept</h2>
+      <p>Your details and files are stored with Cloudflare, which hosts this website, in a private database and private file storage. Files are never public unless our team approves and publishes a piece with your consent.</p>
+
       <h2>Who sees it</h2>
-      <p>Only our core team. The name shown with your work is kept separate from your private contact details, such as your phone number or email address. We never publish your contact details.</p>
+      <p>Only our core team, through an admin area that requires a verified sign-in. The name shown with your work is kept separate from your private contact details. We never publish your email, phone number or city, and we show locations at state or country level at most. We never sell or share your details.</p>
+
+      <h2>Videos</h2>
+      <p>Videos are shown as a picture with a play button. Only when you press play does YouTube or Facebook load, and then their own privacy policies apply. In Low-data mode, videos are plain links instead.</p>
+
       <h2>Analytics</h2>
-      <p>We count visits with a cookie-free analytics tool. It does not track you personally, does not follow you to other websites and does not use advertising trackers. This website sets no cookies.</p>
+      <p>We count visits with Cloudflare Web Analytics, which is cookie-free and does not track you personally or follow you to other websites.</p>
+
       <h2>How long we keep it</h2>
-      <p>We keep your contact details only as long as we need them to manage your work and your consent. <Tbd>retention period to be confirmed by the team</Tbd></p>
-      <h2>Asking for deletion</h2>
-      <p>You can ask us to remove your published work, or delete your details, at any time. Email <Email subject="Privacy request" /> with the subject “Privacy request”. We will confirm when it is done.</p>
-      <h2>Contact for privacy requests</h2>
-      <p><Email subject="Privacy request" /></p>
+      <p>We keep your contact details only as long as we need them to manage your contribution, your consent or your enquiry. <Tbd>retention period to be confirmed by the team</Tbd></p>
+
+      <h2>Your choices</h2>
+      <p>You can ask us to remove your published work, correct your details, delete your details or unsubscribe from the newsletter at any time. Email <Email subject="Privacy request" /> with the subject “Privacy request”. We will confirm when it is done.</p>
     </div>
   </section>
 </BaseLayout>

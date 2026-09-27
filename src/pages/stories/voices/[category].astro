@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import StoryList from '../../../components/StoryList.astro';
+import StoryFilters from '../../../components/StoryFilters.astro';
+import { publishedStories, contributorCategoryLabels, type Story } from '../../../lib/content';
+
+type Cat = keyof typeof contributorCategoryLabels;
+
+export async function getStaticPaths() {
+  const stories = await publishedStories();
+  return (Object.keys(contributorCategoryLabels) as Cat[]).map((category) => ({
+    params: { category },
+    props: { category, stories: stories.filter((s) => s.data.contributorCategories.includes(category)) },
+  }));
+}
+
+const { category, stories } = Astro.props as { category: Cat; stories: Story[] };
+const label = contributorCategoryLabels[category];
+---
+<BaseLayout title={`Voices: ${label}`} description={`Stories and contributions from ${label.toLowerCase()} in Peace Across Generations.`}>
+  <PageHead title={`Voices: ${label}`} eyebrow="Stories & Voices" />
+  <StoryFilters current={`/stories/voices/${category}/`} />
+  <section class="section section--surface">
+    <div class="container"><StoryList stories={stories} /></div>
+  </section>
+</BaseLayout>

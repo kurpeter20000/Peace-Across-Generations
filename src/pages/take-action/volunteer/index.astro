@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import EnquiryForm from '../../../components/EnquiryForm.astro';
+import SafetyNote from '../../../components/SafetyNote.astro';
+---
+<BaseLayout title="Volunteer" description="Translate, caption, recruit contributors, document approved actions or help with audio editing." hideTakePart>
+  <PageHead title="Volunteer" eyebrow="Take action" lede="Translate, caption, recruit contributors, document approved actions, help with audio editing — from South Sudan or anywhere in the world." />
+  <section class="section section--tight">
+    <div class="container narrow">
+      <SafetyNote title="Every volunteer signs our code of conduct" variant="info">
+        <p>Volunteers follow our safeguarding rules and community guidelines. We never ask anyone to take unsafe risks. <a href="/standards/safeguarding/">Safeguarding</a></p>
+      </SafetyNote>
+    </div>
+  </section>
+  <section class="section section--surface" id="form">
+    <div class="container narrow">
+      <EnquiryForm type="volunteer" submitLabel="Offer to volunteer" messageLabel="Tell us a little about yourself and the time you can give" />
+    </div>
+  </section>
+</BaseLayout>
+<style>.narrow { max-width: 860px; }</style>

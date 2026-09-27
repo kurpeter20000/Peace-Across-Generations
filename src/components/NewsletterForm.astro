@@ -1,0 +1,30 @@
+---
+import FormGuard from './FormGuard.astro';
+interface Props { variant?: 'card' | 'footer'; source?: string; id?: string }
+const { variant = 'card', source = 'website', id = 'newsletter' } = Astro.props;
+---
+<form class:list={['newsletter', `newsletter--${variant}`]} method="post" action="/api/newsletter" id={id} data-track-form="newsletter">
+  <FormGuard />
+  <input type="hidden" name="source" value={source} />
+  <div class="newsletter__row">
+    <label class="visually-hidden" for={`${id}-email`}>Email address</label>
+    <input id={`${id}-email`} type="email" name="email" required autocomplete="email" placeholder="Your email address" maxlength="254" />
+    <button class="btn btn--primary" type="submit">Subscribe</button>
+  </div>
+  <label class="newsletter__consent">
+    <input type="checkbox" name="consent" required />
+    <span>Send me monthly news from Peace Across Generations. I can unsubscribe at any time. <a href="/privacy/">Privacy</a></span>
+  </label>
+</form>
+
+<style>
+  .newsletter__row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .newsletter input[type='email'] {
+    flex: 1 1 220px; min-height: 48px; padding: 0.6rem 1rem; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--text); font: inherit;
+  }
+  .newsletter__consent { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.88rem; margin-top: 0.75rem; }
+  .newsletter__consent input { margin-top: 0.3rem; width: 18px; height: 18px; flex: none; }
+  .newsletter--footer input[type='email'] { background: #fff; color: #1b1f24; border-color: transparent; }
+  .newsletter--footer .newsletter__consent { color: #e6edf5; }
+</style>

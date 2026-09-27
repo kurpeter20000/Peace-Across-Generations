@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+interface Props { headingLevel?: 'h2' | 'h3' }
+const { headingLevel: H = 'h3' } = Astro.props;
+const actions = [
+  { href: '/take-action/share-your-voice/', icon: 'message', title: 'Share your voice', text: 'Send a video, letter, poem, song, story, artwork or reflection for this month’s campaign.', track: 'cta:share' },
+  { href: '/take-action/volunteer/', icon: 'heart', title: 'Volunteer', text: 'Translate, caption, edit audio, recruit contributors or help document safe peace actions.', track: 'cta:volunteer' },
+  { href: '/take-action/become-a-contributor/', icon: 'pen', title: 'Become a contributor', text: 'Writers, artists, musicians, elders, educators and filmmakers: create with us regularly.', track: 'cta:contributor' },
+  { href: '/take-action/partner/', icon: 'link', title: 'Partner with us', text: 'Schools, media, radio, youth networks and organisations that share our standards.', track: 'cta:partner' },
+] as const;
+---
+<ul class="grid grid--4 actions">
+  {actions.map((a) => (
+    <li class="card card--link">
+      <span class="icon-badge"><Icon name={a.icon} /></span>
+      <H><a class="card__link" href={a.href} data-track={a.track}>{a.title}</a></H>
+      <p>{a.text}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .actions { list-style: none; padding: 0; margin: 0; }
+  .actions li { margin: 0; }
+  h2, h3 { font-size: 1.2rem; }
+  h2 a, h3 a { text-decoration: none; color: inherit; }
+  li:hover h2 a, li:hover h3 a { text-decoration: underline; }
+</style>

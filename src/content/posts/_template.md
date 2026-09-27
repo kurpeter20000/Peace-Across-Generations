@@ -7,7 +7,7 @@ summary: "One or two sentences that say what changed and why it matters."
 category: development   # peace | development | youth | education | community | culture
 author: "Peace Across Generations"
 # location: "Jonglei State"          # state or country level only
-# image: { src: "/images/blog/my-photo.webp", alt: "Describe the image", credit: "Photo: name / organisation" }
+# image: { src: "./images/my-photo.jpg", alt: "Describe the image", credit: "Photo: name / organisation" }   # photo in src/content/posts/images/
 sources:                # REQUIRED — at least one. The post will NOT publish without a source.
   - label: "Name of the report or article, publisher, date"
     url: "https://example.org/report"

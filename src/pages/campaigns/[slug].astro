@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import ThemePage from '../../components/ThemePage.astro';
+import CampaignPage from '../../components/CampaignPage.astro';
 import { publishedThemes, currentTheme, type Theme } from '../../lib/content';
 
 export async function getStaticPaths() {
@@ -11,6 +11,6 @@ export async function getStaticPaths() {
 const { theme } = Astro.props as { theme: Theme };
 const current = await currentTheme();
 ---
-<BaseLayout title={theme.data.title} description={theme.data.intro}>
-  <ThemePage theme={theme} isCurrent={current?.id === theme.id} />
+<BaseLayout title={`${theme.data.title} — campaign`} description={theme.data.message ?? theme.data.intro}>
+  <CampaignPage theme={theme} isCurrent={current?.id === theme.id} />
 </BaseLayout>

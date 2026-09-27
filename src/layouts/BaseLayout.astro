@@ -17,17 +17,25 @@ interface Props {
   lang?: keyof typeof languages;
   ogType?: 'website' | 'article';
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Canonical path when this page duplicates another (e.g. /campaigns/current/). */
+  canonical?: string;
+  /** Keep out of search engines (admin, thank-you pages). */
+  noindex?: boolean;
 }
-const { title, description = site.description, hideTakePart = false, lang = defaultLang, ogType = 'website', jsonLd } = Astro.props;
+const { title, description = site.description, hideTakePart = false, lang = defaultLang, ogType = 'website', jsonLd, canonical: canonicalPath, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.tagline}`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/og-default.png', Astro.site);
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
+// Per-page share image, generated after the build by scripts/og.mjs.
+const ogPath = canonical.pathname.replace(/^\/|\/$/g, '') || 'index';
+const ogImage = new URL(noindex ? '/og-default.png' : `/og/${ogPath}.png`, Astro.site);
 
 const orgLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: site.name,
   slogan: site.tagline,
+  email: `${site.email.user}@${site.email.domain}`,
+  sameAs: Object.values(site.socials).filter(Boolean),
   description: site.positioning,
   url: Astro.site?.toString(),
   logo: new URL('/icon-512.png', Astro.site).toString(),
@@ -42,6 +50,7 @@ const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <script is:inline set:html={lowDataInit} />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#003366" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />

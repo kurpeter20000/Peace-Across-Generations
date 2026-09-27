@@ -1,10 +1,11 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHead from '../components/PageHead.astro';
-import Email from '../components/Email.astro';
-import Tbd from '../components/Tbd.astro';
-import Icon from '../components/Icon.astro';
-import site from '../data/site.json';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import Email from '../../components/Email.astro';
+import Tbd from '../../components/Tbd.astro';
+import Icon from '../../components/Icon.astro';
+import site from '../../data/site.json';
+import EnquiryForm from '../../components/EnquiryForm.astro';
 
 const labels = { facebook: 'Facebook', instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube', x: 'X' } as const;
 const socials = Object.entries(site.socials) as [keyof typeof labels, string | null][];
@@ -26,13 +27,20 @@ const missing = socials.filter(([, url]) => !url).map(([k]) => labels[k]);
       <p class="lede">Based in South Sudan, working with South Sudanese everywhere.</p>
     </div>
   </section>
-  <section class="section">
+  <section class="section" id="form">
+    <div class="container narrow">
+      <h2>Send us a message</h2>
+      <EnquiryForm type="contact" submitLabel="Send message" messageLabel="Your message" />
+    </div>
+  </section>
+  <section class="section section--surface">
     <div class="container narrow">
       <h2>Quick links</h2>
       <ul class="quick">
-        <li><a href="/take-part/submit/">Send your work</a></li>
+        <li><a href="/take-action/share-your-voice/">Share your voice</a></li>
         <li><a href="/schools-and-communities/">Host a club</a></li>
-        <li><a href="/partner/#speak">Speak</a></li>
+        <li><a href="/take-action/partner/#speak">Speak at Peace Talks</a></li>
+        <li><a href="/take-action/volunteer/">Volunteer</a></li>
         <li><Email label="Media enquiries" subject="Media enquiry" /></li>
         <li><a href="/report-a-concern/">Report a concern</a></li>
       </ul>

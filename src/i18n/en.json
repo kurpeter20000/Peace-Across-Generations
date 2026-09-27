@@ -4,11 +4,8 @@
   "closeMenu": "Close menu",
   "nav.home": "Home",
   "nav.about": "About",
-  "nav.programmes": "Programmes",
-  "nav.thisMonth": "This Month",
-  "nav.stories": "Stories",
+  "nav.stories": "Stories & Voices",
   "nav.blog": "Blog",
-  "nav.takePart": "Take Part",
   "lowData.label": "Low-data mode",
   "lowData.on": "On",
   "lowData.off": "Off",
@@ -26,5 +23,13 @@
   "email.send": "Send by email",
   "consentNote": "Published with the contributor's consent. To request a correction or removal,",
   "consentNoteLink": "contact us",
-  "contentWarning": "This piece talks about loss. Take care while reading or listening."
+  "contentWarning": "This piece talks about loss. Take care while reading or listening.",
+  "nav.campaigns": "Campaigns",
+  "nav.takeAction": "Take Action",
+  "nav.resources": "Resources",
+  "nav.contact": "Contact",
+  "cta.join": "Join the conversation",
+  "cta.share": "Share your voice",
+  "positioning.short": "Independent · Youth-led · Non-partisan",
+  "lowData.short": "Low data"
 }

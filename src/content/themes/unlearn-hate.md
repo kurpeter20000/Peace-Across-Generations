@@ -21,5 +21,10 @@ weeklyActions:
   - weekOf: 2026-10-24
     action: "Read a Letter for Peace aloud at dinner, and ask one question about it."
 coreMessage: "No child is born carrying an inherited enemy."
+stage: unlearn
+keyQuestions:
+  - "What were you taught about people from other communities — and was it true?"
+  - "What do you choose to unlearn?"
+contributionTypes: ["Letter", "Photo", "Video", "Poetry", "Story", "Elder interview"]
 draft: false
 ---

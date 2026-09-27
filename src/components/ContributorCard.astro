@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
+import { contributorCategoryLabels } from '../lib/content';
+interface Props { contributor: CollectionEntry<'contributors'> }
+const { contributor } = Astro.props;
+const d = contributor.data;
+---
+<article class="card contributor">
+  {d.photo && (
+    <Picture class="ld-hide" src={d.photo.src} alt={d.photo.alt} widths={[160, 320]} sizes="160px" formats={['avif', 'webp']} width={160} height={160} />
+  )}
+  <h3>{d.name}</h3>
+  <p class="cats">{[...d.categories.map((c) => contributorCategoryLabels[c]), d.location].filter(Boolean).join(' · ')}</p>
+  <p>{d.bio}</p>
+  {d.links.length > 0 && <p>{d.links.map((l) => <a href={l.url} rel="noopener">{l.label}</a>)}</p>}
+</article>
+
+<style>
+  .contributor :global(img) { width: 96px; height: 96px; object-fit: cover; border-radius: 50%; margin-bottom: 0.75rem; }
+  h3 { font-size: 1.15rem; margin-bottom: 0.2rem; }
+  .cats { color: var(--accent-text); font-weight: 600; font-size: 0.88rem; }
+  a + a { margin-left: 1rem; }
+</style>

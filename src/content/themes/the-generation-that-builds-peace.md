@@ -13,5 +13,6 @@ weeklyActions: []
 coreMessage: "Young people do not need to wait for a title before becoming peacebuilders."
 contentWarning: false
 # Draft until the team confirms weekly actions and publishes the month.
+stage: build
 draft: true
 ---

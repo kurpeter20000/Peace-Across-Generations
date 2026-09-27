@@ -1,0 +1,80 @@
+---
+// Moderation and admin dashboard. Protected by Cloudflare Access at the edge;
+// the API under /api/admin also verifies the Access token on every request.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { submissionStatuses } from '../../data/forms';
+---
+<BaseLayout title="Admin" noindex hideTakePart>
+  <section class="section admin">
+    <div class="container">
+      <header class="admin__head">
+        <h1>Admin</h1>
+        <p class="muted" data-admin-who>Checking your sign-in…</p>
+      </header>
+      <p class="note note--warning" hidden data-admin-error></p>
+
+      <div class="tabs" role="tablist" aria-label="Admin sections">
+        <button role="tab" aria-selected="true" data-tab="submissions">Submissions</button>
+        <button role="tab" aria-selected="false" data-tab="enquiries">Enquiries</button>
+        <button role="tab" aria-selected="false" data-tab="subscribers">Newsletter</button>
+        <button role="tab" aria-selected="false" data-tab="stats">Engagement</button>
+      </div>
+
+      <div data-panel="submissions">
+        <div class="filters" data-status-filters>
+          <button data-status="" aria-pressed="true">All</button>
+          {submissionStatuses.map((s) => <button data-status={s} aria-pressed="false">{s.replace('_', ' ')}</button>)}
+        </div>
+        <div class="split">
+          <div class="table-wrap"><table><thead><tr><th>Received</th><th>Title</th><th>Type</th><th>Status</th></tr></thead><tbody data-sub-list></tbody></table></div>
+          <article class="card detail" data-sub-detail hidden></article>
+        </div>
+      </div>
+
+      <div data-panel="enquiries" hidden>
+        <div class="table-wrap"><table><thead><tr><th>Received</th><th>Type</th><th>Name</th><th>Email</th><th>Message</th><th>Status</th></tr></thead><tbody data-enq-list></tbody></table></div>
+      </div>
+
+      <div data-panel="subscribers" hidden>
+        <p><strong data-sub-count>0</strong> active subscribers. <a href="/api/admin/subscribers?format=csv">Download CSV</a> (for Buttondown, Brevo, Mailchimp or any mail tool).</p>
+        <div class="table-wrap"><table><thead><tr><th>Joined</th><th>Email</th><th>Source</th><th>Status</th></tr></thead><tbody data-subs-list></tbody></table></div>
+      </div>
+
+      <div data-panel="stats" hidden>
+        <p class="muted" data-stats-since></p>
+        <div class="grid grid--2">
+          <div class="table-wrap"><table><thead><tr><th>Action (last 30 days)</th><th class="num">Count</th></tr></thead><tbody data-stats-events></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>Totals</th><th class="num">Count</th></tr></thead><tbody data-stats-totals></tbody></table></div>
+        </div>
+        <p class="muted">Page views and visitors are in Cloudflare Web Analytics (Cloudflare dashboard → your Pages project → Metrics).</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>import '../../scripts/admin.ts';</script>
+
+<style>
+  .admin__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .tabs, .filters { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+  .tabs button, .filters button, :global(.admin .mini) {
+    border: 1px solid var(--line); background: var(--surface); color: var(--heading); border-radius: 999px;
+    padding: 0.45rem 0.9rem; font: inherit; font-weight: 600; cursor: pointer; text-transform: capitalize;
+  }
+  .tabs button[aria-selected='true'], .filters button[aria-pressed='true'] { background: var(--color-navy); color: #fff; border-color: var(--color-navy); }
+  .split { display: grid; gap: 1rem; align-items: start; }
+  @media (min-width: 1100px) { .split { grid-template-columns: 1fr 1fr; } }
+  :global(.admin tbody tr[data-id]) { cursor: pointer; }
+  :global(.admin tbody tr[data-id]:hover) { background: var(--surface-alt); }
+  :global(.admin tbody tr[aria-current='true']) { outline: 2px solid var(--color-green); }
+  .detail { position: sticky; top: 90px; max-height: calc(100vh - 110px); overflow: auto; }
+  :global(.admin dl.kv) { display: grid; grid-template-columns: minmax(120px, 34%) 1fr; gap: 0.35rem 0.75rem; font-size: 0.95rem; }
+  :global(.admin dl.kv dt) { font-weight: 600; color: var(--text-muted); }
+  :global(.admin dl.kv dd) { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  :global(.admin .status) { display: inline-block; padding: 0.1rem 0.55rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; background: var(--surface-alt); border: 1px solid var(--line); }
+  :global(.admin .status--approved), :global(.admin .status--published) { background: #e3f1e3; color: #1d4d1f; }
+  :global(.admin .status--rejected) { background: #fdecea; color: #7a1d12; }
+  :global(.admin .actions) { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0; }
+  :global(.admin textarea), :global(.admin input[type='text']) { width: 100%; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.5rem; font: inherit; background: var(--surface); color: var(--text); }
+  :global(.admin .warn) { background: var(--tbd-bg); color: var(--tbd-text); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; font-weight: 600; }
+</style>

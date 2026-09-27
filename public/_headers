@@ -5,7 +5,7 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: frame-ancestors 'none'
 
@@ -14,3 +14,10 @@
 
 /brand/*
   Cache-Control: public, max-age=604800
+
+/admin/*
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
+
+/og/*
+  Cache-Control: public, max-age=86400

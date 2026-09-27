@@ -1,5 +1,5 @@
 ---
-// The "Take part" call to action that closes every page (brief §2).
+// Closing call to action on every page (CTASection).
 import { currentTheme } from '../lib/content';
 import LeafDivider from './LeafDivider.astro';
 const theme = await currentTheme();
@@ -7,14 +7,14 @@ const theme = await currentTheme();
 <section class="take-part-band" aria-labelledby="tpb-title">
   <div class="container">
     <LeafDivider />
-    <h2 id="tpb-title">Take part this month</h2>
+    <h2 id="tpb-title">Your voice belongs here</h2>
     <p>
-      {theme ? <>This month’s theme is <strong>{theme.data.title}</strong>. </> : null}
+      {theme ? <>This month’s campaign is <strong>{theme.data.title}</strong>. </> : null}
       If you have a phone, a pen or a voice, you can take part.
     </p>
     <div class="btn-row">
-      <a class="btn btn--primary" href="/take-part/">Take part</a>
-      <a class="btn btn--secondary" href="/take-part/submit/">How to send your work</a>
+      <a class="btn btn--primary" href="/campaigns/current/" data-track="cta:join-band">Join the conversation</a>
+      <a class="btn btn--secondary" href="/take-action/share-your-voice/" data-track="cta:share-band">Share your voice</a>
     </div>
   </div>
 </section>

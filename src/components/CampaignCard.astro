@@ -1,0 +1,26 @@
+---
+import type { Theme } from '../lib/content';
+import { monthName, campaignUrl, approachStages } from '../lib/content';
+
+interface Props { campaign: Theme; current?: boolean; headingLevel?: 'h2' | 'h3' }
+const { campaign, current = false, headingLevel: H = 'h3' } = Astro.props;
+const d = campaign.data;
+const stage = approachStages.find((s) => s.key === d.stage);
+const live = !d.draft;
+---
+<article class:list={['card campaign-card', { 'card--link': live, current, upcoming: !live }]}>
+  <p class="eyebrow">
+    {monthName(d.month)}{stage && <> · {stage.n} {stage.name}</>}{current && <span class="now"> · Now</span>}{!live && <span> · Coming soon</span>}
+  </p>
+  <H>{live ? <a class="card__link" href={campaignUrl(campaign)}>{d.title}</a> : d.title}</H>
+  {live && <p>{d.message ?? d.intro}</p>}
+</article>
+
+<style>
+  h2, h3 { font-size: 1.2rem; }
+  h2 a, h3 a { text-decoration: none; color: inherit; }
+  .campaign-card:hover a { text-decoration: underline; }
+  .current { border: 2px solid var(--color-green); }
+  .now { color: var(--accent-text); }
+  .upcoming { box-shadow: none; border-style: dashed; background: transparent; }
+</style>

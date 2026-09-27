@@ -1,0 +1,38 @@
+---
+// Browse links for Stories & Voices (static pages; no JavaScript needed).
+import { storySections, contributorCategoryLabels, publishedStories } from '../lib/content';
+interface Props { current?: string }
+const { current = '/stories/' } = Astro.props;
+const stories = await publishedStories();
+const usedVoices = new Set(stories.flatMap((s) => s.data.contributorCategories));
+const is = (href: string) => (href === current ? 'page' : undefined);
+---
+<nav class="container filters" aria-label="Browse stories and voices">
+  <p class="filters__label">Browse by category</p>
+  <ul>
+    <li><a href="/stories/" aria-current={is('/stories/')}>All</a></li>
+    {Object.entries(storySections).map(([slug, s]) => <li><a href={`/stories/${slug}/`} aria-current={is(`/stories/${slug}/`)}>{s.title}</a></li>)}
+  </ul>
+  {usedVoices.size > 0 && (
+    <>
+      <p class="filters__label">Browse by voice</p>
+      <ul>
+        {Object.entries(contributorCategoryLabels).filter(([k]) => usedVoices.has(k as never)).map(([k, label]) => (
+          <li><a href={`/stories/voices/${k}/`} aria-current={is(`/stories/voices/${k}/`)}>{label}</a></li>
+        ))}
+      </ul>
+    </>
+  )}
+</nav>
+
+<style>
+  .filters { padding-bottom: 1.5rem; }
+  .filters__label { font-weight: 600; margin: 0.75rem 0 0.4rem; font-size: 0.9rem; color: var(--text-muted); }
+  .filters ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; }
+  .filters li { margin: 0; }
+  .filters a {
+    display: inline-block; padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--surface); text-decoration: none; font-size: 0.92rem; font-weight: 600;
+  }
+  .filters a[aria-current='page'] { background: var(--color-navy); color: #fff; border-color: var(--color-navy); }
+</style>

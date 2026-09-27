@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/content';
+interface Props { event: CollectionEntry<'events'> }
+const { event } = Astro.props;
+const d = event.data;
+---
+<article class="card event">
+  <p class="eyebrow"><time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time>{d.time && ` · ${d.time} (Juba time)`}</p>
+  <h3>{d.title}</h3>
+  <p>{d.summary}</p>
+  <p class="meta">{d.online ? 'Online' : d.location}</p>
+  {d.registrationUrl && <a class="btn btn--secondary" href={d.registrationUrl} rel="noopener" data-track="cta:event-register">Register</a>}
+</article>
+
+<style>
+  .event { border-left: 5px solid var(--color-green); }
+  h3 { font-size: 1.2rem; }
+  .meta { color: var(--text-muted); font-size: 0.92rem; }
+</style>
