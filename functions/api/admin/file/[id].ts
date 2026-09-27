@@ -9,7 +9,7 @@ export const onRequestGet = async ({ params, env, data }: Ctx) => {
   const row = await env.DB.prepare('SELECT file_key, file_name FROM submissions WHERE id = ?').bind(params.id)
     .first<{ file_key: string | null; file_name: string | null }>();
   if (!row?.file_key) return json({ error: 'No file' }, 404);
-  const obj = await env.UPLOADS.get(row.file_key);
+  const obj = env.UPLOADS ? await env.UPLOADS.get(row.file_key) : null;
   if (!obj) return json({ error: 'File missing from storage' }, 404);
   await audit(env, String(data.admin), 'file:download', String(params.id));
   const name = (row.file_name ?? 'file').replace(/"/g, '');

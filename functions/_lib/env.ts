@@ -8,7 +8,7 @@ export interface Env {
   /** D1 database: submissions, enquiries, subscribers, counts. */
   DB: D1Database;
   /** Private R2 bucket for uploaded files. Never public. */
-  UPLOADS: R2Bucket;
+  UPLOADS?: R2Bucket;
   /** Cloudflare Access team domain, e.g. "peace-agen" for peace-agen.cloudflareaccess.com. */
   ACCESS_TEAM_DOMAIN?: string;
   /** Cloudflare Access application audience (AUD) tag for /admin. */

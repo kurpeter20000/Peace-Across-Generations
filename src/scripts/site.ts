@@ -108,6 +108,7 @@ const errors: Record<string, string> = {
   empty: 'Please add your message, a file or a link.',
   'too-many': 'Too many attempts from this connection. Please try again in an hour.',
   invalid: 'Something went wrong. Please try again.',
+  'no-uploads': 'File uploads aren’t switched on yet. Please paste a link to your work (YouTube, Google Drive) or send the file by WhatsApp or email.',
   unavailable: 'Our online form isn’t switched on yet. Please send your work or message by WhatsApp or email for now — sorry!',
 };
 const params = new URLSearchParams(location.search);

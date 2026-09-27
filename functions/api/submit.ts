@@ -10,7 +10,7 @@ const FORM_PATH = '/take-action/share-your-voice/';
 
 export const onRequestPost = async ({ request, env }: Ctx) => {
   if (!sameOrigin(request)) return new Response('Forbidden', { status: 403 });
-  if (!env.DB || !env.UPLOADS) return backWithError(request, FORM_PATH, 'unavailable');
+  if (!env.DB) return backWithError(request, FORM_PATH, 'unavailable');
   const len = Number(request.headers.get('content-length') ?? 0);
   if (len > upload.maxBytes + 1024 * 1024) return backWithError(request, FORM_PATH, 'file-too-large');
 
@@ -69,6 +69,7 @@ export const onRequestPost = async ({ request, env }: Ctx) => {
   let file: { key: string; name: string; type: string; size: number } | null = null;
   const f = form.get('file');
   if (f && typeof f !== 'string' && f.size > 0) {
+    if (!env.UPLOADS) return backWithError(request, FORM_PATH, 'no-uploads');
     if (f.size > upload.maxBytes) return backWithError(request, FORM_PATH, 'file-too-large');
     const ext = (f.name.split('.').pop() ?? '').toLowerCase();
     if (!(upload.extensions as readonly string[]).includes(ext)) return backWithError(request, FORM_PATH, 'file-type');

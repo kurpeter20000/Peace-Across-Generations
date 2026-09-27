@@ -1,0 +1,24 @@
+# Cloudflare Pages configuration (source of truth for bindings).
+# Deploys: Git pushes to main, or `npx wrangler pages deploy` after `npm run build`.
+name = "peace-across-generations"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-09-01"
+
+# Private database: submissions, enquiries, newsletter, counters.
+[[d1_databases]]
+binding = "DB"
+database_name = "pag"
+database_id = "d5265b69-c8e6-4aaa-b2f6-1cdba8962a92"
+
+# Private file storage for uploads. Uncomment once R2 is enabled on the
+# account (Cloudflare dashboard → R2) and the bucket exists:
+#   npx wrangler r2 bucket create pag-uploads
+# [[r2_buckets]]
+# binding = "UPLOADS"
+# bucket_name = "pag-uploads"
+
+# Cloudflare Access for /admin (see README). Not secrets: the AUD tag and
+# team name are public identifiers.
+# [vars]
+# ACCESS_TEAM_DOMAIN = "your-team-name"
+# ACCESS_AUD = "your-access-application-aud-tag"
