@@ -115,23 +115,29 @@ The blog reports real progress in peace and development with facts and sources. 
 
 ## Setting up Cloudflare (one time)
 
-The site is already connected to Cloudflare Pages. The forms and admin need four more things, all in the Cloudflare dashboard.
+Pages project: **peace-across-generations** (https://peace-across-generations.pages.dev). Bindings live in **`wrangler.toml`**. That file is the source of truth, so change bindings and variables there, not in the dashboard.
 
-1. **Database (D1):** Storage & Databases → **D1** → Create → name it `pag`. The tables create themselves on first use.
-2. **File storage (R2):** Storage & Databases → **R2** → Create bucket → name it `pag-uploads`. Leave **public access off**.
-3. **Bindings:** Workers & Pages → your Pages project → **Settings → Bindings** → add:
-   - **D1 database**, variable name `DB` → `pag`
-   - **R2 bucket**, variable name `UPLOADS` → `pag-uploads`
+Done:
 
-   Then under **Settings → Variables and Secrets** add a secret `HASH_SALT` set to any long random text (used to rate-limit without storing IP addresses). Do this for **Production** (and Preview if you use previews).
-4. **Protect the admin (Cloudflare Access):** Zero Trust → **Access → Applications → Add → Self-hosted**:
-   - Application domain: your site domain, paths `admin` **and** `api/admin` (add both).
-   - Policy: **Allow**, *Emails* → list each team member’s email address.
-   - After saving, copy the application’s **AUD tag**. Your **team domain** is shown under Zero Trust → Settings (e.g. `peace-agen` in `peace-agen.cloudflareaccess.com`).
-   - In the Pages project → **Variables and Secrets** add `ACCESS_AUD` (the AUD tag) and `ACCESS_TEAM_DOMAIN` (just the name, e.g. `peace-agen`).
-5. **Redeploy** (Deployments → … → Retry deployment) so the bindings take effect.
+- ✅ D1 database `pag`, bound as `DB` (tables create themselves). Forms and the newsletter work.
+- ✅ Secret `HASH_SALT` set on the production project.
 
-Until steps 1–5 are done, the forms show an error and `/admin` refuses everyone. The admin API checks the Access sign-in itself as well, so it stays locked even if the Access application is misconfigured.
+Still to do:
+
+1. **File uploads (R2):** in the Cloudflare dashboard, open **R2** and enable it (Cloudflare asks for a payment method, even on the free tier). Then run `npx wrangler r2 bucket create pag-uploads`, uncomment the `[[r2_buckets]]` block in `wrangler.toml`, and deploy. Until then, the form accepts text and links, and asks people to send files by link, WhatsApp or email.
+2. **Protect the admin (Cloudflare Access):** Zero Trust → **Access → Applications → Add → Self-hosted**:
+   - Domain `peace-across-generations.pages.dev` (and later `peace-agen.org`), with paths `admin` **and** `api/admin`.
+   - Policy: **Allow** → *Emails* → each team member’s email.
+   - Copy the application’s **AUD tag** and your **team name** (Zero Trust → Settings, e.g. `peace-agen` in `peace-agen.cloudflareaccess.com`). Put both in the `[vars]` block of `wrangler.toml`, then deploy.
+
+   Until then, `/admin` shows the page but refuses to load any data.
+
+**Deploying:** pushes to `main` deploy automatically when the GitHub connection is healthy. You can also deploy directly from this computer:
+
+```sh
+npm run build
+npx wrangler pages deploy dist --project-name peace-across-generations --branch main
+```
 
 **Also:**
 
