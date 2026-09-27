@@ -28,7 +28,12 @@ export async function adminEmail(request: Request, env: Env): Promise<string | n
   if (env.DEV_ADMIN === '1' && (url.hostname === 'localhost' || url.hostname === '127.0.0.1')) return 'dev@localhost';
   if (!env.ACCESS_TEAM_DOMAIN || !env.ACCESS_AUD) return null;
 
-  const token = request.headers.get('cf-access-jwt-assertion');
+  // Access adds this header on paths its application covers. For requests it
+  // doesn't cover (e.g. /api/admin when only /admin is protected), fall back
+  // to the CF_Authorization cookie Access set at sign-in: the same signed
+  // token, verified the same way below.
+  const cookie = request.headers.get('cookie')?.match(/(?:^|;\s*)CF_Authorization=([^;]+)/)?.[1];
+  const token = request.headers.get('cf-access-jwt-assertion') ?? cookie;
   if (!token) return null;
   const [h, p, s] = token.split('.');
   if (!h || !p || !s) return null;
