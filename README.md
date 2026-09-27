@@ -99,7 +99,7 @@ npm run brand     # regenerate logo WebP, favicons and OG image from public/bran
 3. Every push to `main` deploys automatically. Pull requests get preview links.
 4. **Daily rebuild** (keeps the current theme and weekly action correct): in the Pages project go to **Settings → Builds → Deploy hooks**, create a hook for `main`, then add its URL in GitHub under **Settings → Secrets and variables → Actions** as `CLOUDFLARE_DEPLOY_HOOK`. The workflow in `.github/workflows/daily-rebuild.yml` calls it at 00:05 Juba time.
 5. **Analytics:** Pages project → **Metrics → Web Analytics** → enable (cookie-free). The CSP already allows Cloudflare's beacon.
-6. **Custom domain:** Pages project → **Custom domains** → add the domain, then set the same domain as `SITE` in `astro.config.mjs` and in `public/robots.txt`.
+6. **Custom domain (`peace-agen.org`):** once registered, add it under the project's **Custom domains** in Cloudflare. It is already set as `SITE` in `astro.config.mjs` and in `public/robots.txt`.
 
 Security headers and caching rules are in `public/_headers`, which Cloudflare Pages reads automatically.
 

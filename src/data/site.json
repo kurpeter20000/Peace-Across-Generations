@@ -6,13 +6,13 @@
   "description": "An independent, youth-led, non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders. Every Voice. Every Generation. One Peace.",
   "email": { "user": "peaceacrossgenerations", "domain": "gmail.com" },
   "whatsapp": null,
-  "introVideo": null,
+  "introVideo": { "platform": "youtube", "url": "https://www.youtube.com/watch?v=e3fQjlvb-Tc" },
   "safeguardingEmail": null,
   "socials": {
     "facebook": null,
     "instagram": null,
     "tiktok": null,
-    "youtube": null,
+    "youtube": "https://www.youtube.com/@PeaceAcrossGenerations",
     "x": null
   },
   "commitment": { "start": "2026-09-21", "end": "2034-12-07", "totalDays": 3000, "timezone": "Africa/Juba" },

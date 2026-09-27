@@ -6,8 +6,8 @@ import { lowDataInit } from './src/lib/inline-scripts.mjs';
 
 const sha256 = (s) => `sha256-${createHash('sha256').update(s).digest('base64')}`;
 
-// [TBD] Replace with the final domain once registered.
-const SITE = 'https://peaceacrossgenerations.org';
+// Final domain. Register it and add it under the Cloudflare project's Custom domains.
+const SITE = 'https://peace-agen.org';
 
 export default defineConfig({
   site: SITE,

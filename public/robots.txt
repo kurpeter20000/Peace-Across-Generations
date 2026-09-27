@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://peaceacrossgenerations.org/sitemap-index.xml
+Sitemap: https://peace-agen.org/sitemap-index.xml

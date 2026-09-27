@@ -5,6 +5,11 @@ import Email from '../components/Email.astro';
 import Tbd from '../components/Tbd.astro';
 import Icon from '../components/Icon.astro';
 import site from '../data/site.json';
+
+const labels = { facebook: 'Facebook', instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube', x: 'X' } as const;
+const socials = Object.entries(site.socials) as [keyof typeof labels, string | null][];
+const live = socials.filter(([, url]) => url);
+const missing = socials.filter(([, url]) => !url).map(([k]) => labels[k]);
 ---
 <BaseLayout title="Contact us" description="Email Peace Across Generations. Based in South Sudan, working with South Sudanese everywhere.">
   <PageHead title="Contact us" />
@@ -13,7 +18,10 @@ import site from '../data/site.json';
       <dl class="contact">
         <div><dt><Icon name="mail" /> Email</dt><dd><Email /></dd></div>
         <div><dt><Icon name="whatsapp" /> WhatsApp (submissions)</dt><dd>{site.whatsapp ?? <Tbd>number</Tbd>}</dd></div>
-        <div><dt><Icon name="globe" /> Follow us</dt><dd><Tbd>social handles</Tbd></dd></div>
+        <div><dt><Icon name="globe" /> Follow us</dt><dd>
+          {live.map(([k, url]) => <a class="social" href={url!} rel="noopener">{labels[k]}</a>)}
+          {missing.length > 0 && <Tbd>{missing.join(', ')} handles</Tbd>}
+        </dd></div>
       </dl>
       <p class="lede">Based in South Sudan, working with South Sudanese everywhere.</p>
     </div>
@@ -38,6 +46,7 @@ import site from '../data/site.json';
   dt { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading); font-weight: 600; color: var(--heading); }
   dt :global(svg) { width: 22px; height: 22px; }
   dd { margin: 0.25rem 0 0; font-size: 1.15rem; }
+  .social { margin-right: 1rem; }
   .quick { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .quick li { margin: 0; }
   .quick a { display: inline-block; padding: 0.5rem 1rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-weight: 600; text-decoration: none; }

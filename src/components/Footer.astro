@@ -21,6 +21,7 @@ const links = [
 const socials = Object.entries(site.socials) as [keyof typeof site.socials, string | null][];
 const socialLabels = { facebook: 'Facebook', instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube', x: 'X' };
 const anySocial = socials.some(([, url]) => url);
+const missing = socials.filter(([, url]) => !url).map(([k]) => socialLabels[k]);
 ---
 <footer class="site-footer">
   <div class="container">
@@ -51,7 +52,8 @@ const anySocial = socials.some(([, url]) => url);
               <li><a href={url!} rel="noopener"><Icon name={k} label={socialLabels[k]} /></a></li>
             ))}
           </ul>
-        ) : <p><Tbd>social handles</Tbd></p>}
+        ) : null}
+        {missing.length > 0 && <p><Tbd>{missing.join(', ')} handles</Tbd></p>}
       </div>
     </div>
     <p class="independence">{t('independence')}</p>
