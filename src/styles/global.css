@@ -68,30 +68,6 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b1726;
-    --surface: #13233a;
-    --surface-alt: #0f1d31;
-    --text: #e6edf5;
-    --text-muted: #b3c1d1;
-    --heading: #5fb0f0;
-    --link: #5fb0f0;
-    --link-hover: #9ccff7;
-    --accent-text: #7cc47f;
-    --line: #25384f;
-    --btn-primary-bg: #2e7130;
-    --btn-primary-bg-hover: #378a3a;
-    --btn-secondary-text: #e6edf5;
-    --btn-secondary-border: #5fb0f0;
-    --footer-bg: #07111d;
-    --tbd-bg: #3a2e0a;
-    --tbd-text: #ffe29a;
-    --focus: #5fb0f0;
-    --tag-talks: #5fb0f0;
-    color-scheme: dark;
-  }
-}
 
 /* ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; }
@@ -145,10 +121,8 @@ a:hover { color: var(--link-hover); text-decoration-thickness: 2px; }
 @media (min-width: 768px) { :root { --gutter: 24px; } }
 .section { padding-block: clamp(3rem, 2rem + 4vw, 6rem); }
 .section--surface { background: var(--color-sky-light); }
-@media (prefers-color-scheme: dark) { .section--surface { background: var(--surface-alt); } }
 .section--tight { padding-block: 2rem; }
 .page-head { padding-block: clamp(2rem, 1.5rem + 3vw, 3.5rem) clamp(1.5rem, 1rem + 2vw, 2.5rem); background: linear-gradient(180deg, var(--color-sky-light) 0%, var(--bg) 100%); }
-@media (prefers-color-scheme: dark) { .page-head { background: var(--bg); } }
 .page-head .lede { font-size: 1.15em; max-width: 60ch; }
 .lede { font-size: 1.1em; color: var(--text); }
 .muted { color: var(--text-muted); }
@@ -297,7 +271,6 @@ td.num, th.num { text-align: right; white-space: nowrap; }
   background: var(--color-navy); color: #fff; display: grid; place-items: center;
   font-family: var(--font-heading); font-weight: 700;
 }
-@media (prefers-color-scheme: dark) { .steps li::before { background: #5fb0f0; color: #0b1726; } }
 
 .flow { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
 .flow li { margin: 0; display: flex; align-items: center; gap: 0.5rem; }
@@ -306,7 +279,6 @@ td.num, th.num { text-align: right; white-space: nowrap; }
   font-family: var(--font-heading); font-weight: 600; color: var(--heading);
 }
 .flow li + li::before { content: '→'; color: var(--color-green); font-weight: 700; }
-@media (prefers-color-scheme: dark) { .flow li + li::before { color: #7cc47f; } }
 
 /* ---------- Low-data mode ---------- */
 .ld-only { display: none; }
@@ -315,19 +287,17 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 
 /* ---------- Hero ---------- */
 .hero { background: linear-gradient(160deg, var(--color-sky-light) 0%, #ffffff 70%); padding-block: clamp(2.5rem, 1.5rem + 5vw, 5.5rem); }
-@media (prefers-color-scheme: dark) { .hero { background: var(--bg); } }
 .hero h1 { font-size: clamp(2.1rem, 1.3rem + 4vw, 3.6rem); }
 .hero .lede { font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem); max-width: 54ch; }
 .hero-art { width: 100%; max-width: 300px; margin-inline: auto; display: block; }
 @media (min-width: 900px) { .hero-art { max-width: 460px; } }
 
 /* ---------- Band ---------- */
-.band { background: var(--color-navy); color: #e6edf5; }
+.band { background: linear-gradient(120deg, #245a26 0%, var(--color-green) 60%, #3a8a3d 100%); color: #fff; }
 .band h2, .band .eyebrow { color: #fff; }
 .band a:not(.btn) { color: #fff; }
 .band .btn--secondary { background: transparent; color: #fff; border-color: #fff; }
 .band .btn--secondary:hover { background: rgb(255 255 255 / 0.1); color: #fff; }
-@media (prefers-color-scheme: dark) { .band { background: #13233a; } }
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -358,7 +328,6 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .form .checks { display: grid; gap: 0.5rem; }
 @media (min-width: 700px) { .form .checks--2 { grid-template-columns: 1fr 1fr; } }
 .form .req { color: #b3261e; }
-@media (prefers-color-scheme: dark) { .form .req { color: #ff8a80; } .form input, .form select, .form textarea { border-color: #3a506b; } }
 .form [data-guardian][hidden] { display: none; }
 
 /* ---------- Smoothness ---------- */
@@ -383,18 +352,13 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .rule { width: 64px; height: 4px; background: var(--color-green); border: 0; border-radius: 2px; margin: 0 0 1.25rem; }
 .section-title--center .rule { margin-inline: auto; }
 
-.band-navy { background: linear-gradient(120deg, var(--color-navy-deep) 0%, var(--color-navy) 60%, var(--color-navy-soft) 100%); color: #e6edf5; }
+/* Kept for old markup: now a light band. Blue is for text, icons and small shapes only. */
+.band-navy { background: var(--color-offwhite); }
 .band-green { background: linear-gradient(120deg, #245a26 0%, var(--color-green) 60%, #3a8a3d 100%); color: #fff; }
 .band-green h2, .band-green h3, .band-green p, .band-green strong { color: #fff; }
 .band-green .eyebrow { color: #fff; opacity: 0.85; }
 .band-off { background: var(--color-offwhite); }
-@media (prefers-color-scheme: dark) { .band-off { background: var(--surface-alt); } }
-.band-navy h2, .band-navy h3 { color: #fff; }
-.band-navy .eyebrow { color: #9fd67a; }
-.band-navy a:not(.btn) { color: #fff; }
-.band-navy .text-link { color: #9fd67a; }
 .band-sky { background: var(--color-sky-light); }
-@media (prefers-color-scheme: dark) { .band-sky { background: var(--surface-alt); } }
 
 /* ---------- Programme pages ---------- */
 .two-col { display: grid; gap: 2.5rem; }
@@ -419,7 +383,7 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .note-small { font-size: 0.92rem; color: var(--text-muted); margin-top: 1.25rem; }
 .glance-wrap { display: grid; gap: 2rem; align-items: start; }
 @media (min-width: 1000px) { .glance-wrap { grid-template-columns: 1.7fr 1fr; } }
-.glance-side { background: var(--color-navy); color: #e6edf5; border-radius: var(--radius); padding: 1.75rem; }
+.glance-side { background: linear-gradient(135deg, #245a26, var(--color-green)); color: #fff; border-radius: var(--radius); padding: 1.75rem; }
 .glance-side h2, .glance-side h3 { color: #fff; font-size: 1.35rem; }
 .glance-side p { color: #e6edf5; }
 .glance-side .btn--secondary { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.85); }

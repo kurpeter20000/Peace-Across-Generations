@@ -320,11 +320,12 @@ const circleGuides = [
   }
   .rhythm { display: grid; gap: 1rem; margin-top: 1.5rem; }
   @media (min-width: 760px) { .rhythm { grid-template-columns: repeat(3, 1fr); } }
-  .rhythm > div { background: var(--color-navy); color: #e6edf5; border-radius: var(--radius); padding: 1.25rem 1.4rem; }
+  .rhythm > div { background: var(--color-green-tint); color: var(--text); border-top: 4px solid var(--color-green); border-radius: var(--radius); padding: 1.25rem 1.4rem; }
   .rhythm > div:last-child { background: var(--color-green); color: #fff; }
-  .rhythm span { font-family: var(--font-heading); font-weight: 700; color: var(--color-green-light); }
+  .rhythm span { font-family: var(--font-heading); font-weight: 700; color: var(--accent-text); }
   .rhythm > div:last-child span { color: #fff; opacity: 0.8; }
-  .rhythm strong { display: block; font-family: var(--font-heading); color: #fff; font-size: 1.1rem; margin: 0.25rem 0; }
+  .rhythm strong { display: block; font-family: var(--font-heading); color: var(--heading); font-size: 1.1rem; margin: 0.25rem 0; }
+  .rhythm > div:last-child strong { color: #fff; }
   .rhythm p { margin: 0; color: inherit; }
   .status { margin-top: 1.5rem; background: var(--color-green-tint); border-radius: var(--radius-sm); padding: 0.9rem 1.1rem; max-width: none; }
   .pillars { margin: 0 0 1rem; display: grid; gap: 0.6rem; }

@@ -1,7 +1,8 @@
 ---
 // Home. Colour rhythm uses only the three brand colours:
-// navy (slideshow) → white → GREEN band → white → NAVY band → white →
-// off-white → white → off-white → navy/green split → navy footer.
+// White backgrounds and green bands; blue is for text, icons and small shapes.
+// slideshow → white → GREEN band → white → off-white → white → off-white →
+// white → white/green split → footer.
 import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StoryList from '../components/StoryList.astro';
@@ -93,8 +94,8 @@ const actions = [
     </div>
   </section>
 
-  <!-- 5. Why peace cannot wait + live countdown (NAVY band) -->
-  <section class="section band-navy" aria-labelledby="why">
+  <!-- 5. Why peace cannot wait + live countdown (off-white) -->
+  <section class="section band-off" aria-labelledby="why">
     <div class="container why reveal">
       <div>
         <p class="eyebrow">Why we exist</p>
@@ -103,7 +104,7 @@ const actions = [
         <p>From 21 September 2026 to 7 December 2034 we keep peace visible, practical and passed between generations — <strong>3,000 days, one promise.</strong></p>
         <a class="text-link" href="/3000-days/">Read the commitment →</a>
       </div>
-      <LiveCountdown />
+      <LiveCountdown variant="light" />
     </div>
   </section>
 
@@ -202,7 +203,6 @@ const actions = [
   .campaign-card__img :global(img) { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
   .campaign-card__body { padding: 1.5rem; }
   .campaign-card h3 { font-size: 1.5rem; }
-  @media (prefers-color-scheme: dark) { .campaign-card { background: var(--surface); } }
 
   /* Mission (green band) */
   .mission__inner { display: grid; gap: 1rem 3rem; align-items: center; padding-block: clamp(2.25rem, 1.5rem + 2.5vw, 3.5rem); }
@@ -211,7 +211,7 @@ const actions = [
   .mission__title strong { font-weight: 700; }
   .mission__text { margin: 0; font-family: var(--font-heading); font-weight: 600; font-size: 1.05rem; max-width: none; }
 
-  /* Why + countdown (navy band) */
+  /* Why + countdown */
   .why { display: grid; gap: 3rem; align-items: center; }
   @media (min-width: 960px) { .why { grid-template-columns: 1fr 1.05fr; gap: 4.5rem; } }
   .why h2 { font-size: clamp(1.9rem, 1.3rem + 2vw, 2.8rem); }
@@ -241,19 +241,19 @@ const actions = [
   .act__list strong { font-family: var(--font-heading); color: var(--color-navy); font-size: 1.05rem; }
   .act__list span { grid-column: 1; font-size: 0.93rem; color: var(--text-muted); }
   .act__list :global(svg) { grid-column: 2; grid-row: 1 / span 2; width: 22px; height: 22px; color: var(--color-green); }
-  @media (prefers-color-scheme: dark) { .act__list a { background: var(--surface); } }
 
-  /* Split band: navy / green */
+  /* Split band: white / green */
   .split-band { display: grid; }
   @media (min-width: 960px) { .split-band { grid-template-columns: 1.15fr 1fr; } }
-  .split-band__video { background: var(--color-navy-deep); color: #e6edf5; }
+  .split-band__video { background: #fff; color: var(--text); border-top: 1px solid var(--line); }
   .split-band__ask { background: linear-gradient(135deg, #245a26, var(--color-green)); color: #fff; display: flex; align-items: center; }
   .split-band__inner { padding: clamp(2.5rem, 2rem + 3vw, 5rem) clamp(1rem, 4vw, 4.5rem); max-width: 720px; }
-  .split-band h2 { color: #fff; font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem); }
-  .split-band__video .eyebrow { color: var(--color-green-light); }
+  .split-band__ask h2 { color: #fff; }
+  .split-band h2 { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem); }
+  .split-band__video .eyebrow { color: var(--accent-text); }
   .split-band__video :global(.intro-video .eyebrow) { display: none; }
-  .split-band :global(a:not(.btn)) { color: #fff; }
-  .split-band__video .text-link { color: var(--color-green-light); }
+  .split-band__ask :global(a:not(.btn)) { color: #fff; }
+  
   .split-band__ask p { color: #fff; }
 
   .head-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 0.5rem 1rem; }
