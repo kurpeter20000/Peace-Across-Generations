@@ -1,14 +1,29 @@
 ---
 import Icon from './Icon.astro';
+import DayCounter from './DayCounter.astro';
 import { t } from '../i18n';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const links = [
-  { href: '/', label: t('nav.home'), mobileOnly: true },
-  { href: '/about/', label: t('nav.about') },
+type Item = { href: string; label: string; children?: { href: string; label: string }[] };
+const links: Item[] = [
+  { href: '/', label: t('nav.home') },
+  {
+    href: '/about/', label: t('nav.about'),
+    children: [
+      { href: '/about/', label: 'About us' },
+      { href: '/about/team/', label: 'Our team' },
+      { href: '/3000-days/', label: '3,000 Days for Peace' },
+    ],
+  },
   { href: '/programmes/', label: t('nav.programmes') },
-  { href: '/campaigns/', label: t('nav.campaigns') },
-  { href: '/stories/', label: t('nav.stories') },
+  {
+    href: '/campaigns/', label: 'Campaigns & Stories',
+    children: [
+      { href: '/campaigns/current/', label: 'This month\u2019s campaign' },
+      { href: '/campaigns/', label: 'All campaigns' },
+      { href: '/stories/', label: 'Stories & Voices' },
+    ],
+  },
   { href: '/take-action/', label: t('nav.takeAction') },
   { href: '/resources/', label: t('nav.resources') },
   { href: '/blog/', label: t('nav.blog') },
@@ -18,10 +33,15 @@ const isCurrent = (href: string) => {
   const h = href.replace(/\/$/, '') || '/';
   return h === '/' ? path === '/' : path === h || path.startsWith(`${h}/`);
 };
+const clean = (href: string) => href.replace(/\/$/, '') || '/';
+// A parent menu is "current" when you are on any of its pages.
+const isSection = (item: Item) =>
+  item.children ? item.children.some((c) => isCurrent(c.href)) : isCurrent(item.href);
 ---
 <div class="topbar">
   <div class="container topbar__inner">
     <p class="topbar__pos">{t('positioning.short')}</p>
+    <a class="topbar__days" href="/3000-days/" aria-label="3,000 Days for Peace: see the commitment"><DayCounter /></a>
     <button class="lowdata-toggle" type="button" aria-pressed="false" data-lowdata-toggle title={t('lowData.hint')}>
       <span class="switch" aria-hidden="true"></span>
       <span>Low-data<span class="ld-word"> mode</span>: <span data-state>{t('lowData.off')}</span></span>
@@ -45,8 +65,17 @@ const isCurrent = (href: string) => {
     <div class="site-menu" id="site-menu">
       <nav aria-label="Main">
         <ul>
-          {links.map((l) => (
-            <li class:list={{ 'mobile-only': l.mobileOnly }}><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+          {links.map((l, i) => l.children ? (
+            <li class="has-sub" data-sub>
+              <button type="button" class:list={['sub-toggle', { current: isSection(l) }]} aria-expanded="false" aria-controls={`sub-${i}`} data-sub-toggle>
+                {l.label}<svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <ul class="submenu" id={`sub-${i}`}>
+                {l.children.map((c) => <li><a href={c.href} aria-current={path === clean(c.href) ? 'page' : undefined}>{c.label}</a></li>)}
+              </ul>
+            </li>
+          ) : (
+            <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
           ))}
         </ul>
       </nav>
@@ -70,9 +99,13 @@ const isCurrent = (href: string) => {
   .lowdata-toggle[aria-pressed='true'] .switch { background: #6baf3f; }
   .lowdata-toggle[aria-pressed='true'] .switch::after { transform: translateX(12px); }
   .topbar :global(:focus-visible) { outline-color: #9ccff7; }
+  .topbar__days { color: #fff; text-decoration: none; font-size: 0.78rem; }
+  .topbar__days:hover { text-decoration: underline; color: #fff; }
+  .topbar__days :global(.day-inline) { font-size: 0.78rem; }
+  @media (max-width: 759px) { .topbar__days { display: none; } }
 
   .site-header {
-    background: #fff; color: #003366; border-bottom: 1px solid #e3ddd0;
+    background: #fff; color: #003366; border-bottom: 1px solid #d3e5f6;
     position: sticky; top: 0; z-index: 50;
   }
   .site-header .container, .topbar .container { max-width: 1280px; }
@@ -94,15 +127,36 @@ const isCurrent = (href: string) => {
   nav ul { list-style: none; display: flex; gap: 0.1rem; margin: 0; padding: 0; }
   nav li { margin: 0; }
   nav a {
-    display: block; padding: 0.55rem 0.5rem; border-radius: 8px; white-space: nowrap;
+    display: block; padding: 0.55rem 0.45rem; border-radius: 8px; white-space: nowrap;
     color: #003366; text-decoration: none; font-family: var(--font-heading); font-weight: 600; font-size: 0.94rem;
   }
-  nav a:hover { background: #f7f3e9; color: #0b6cb8; }
-  nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: #6baf3f; text-decoration-thickness: 3px; text-underline-offset: 0.4em; }
+  nav a:hover { background: #eaf4fd; color: #0b6cb8; }
+  nav a[aria-current='page'], .sub-toggle.current { text-decoration: underline; text-decoration-color: #6baf3f; text-decoration-thickness: 3px; text-underline-offset: 0.4em; }
+
+  /* Dropdowns */
+  .has-sub { position: relative; }
+  .sub-toggle {
+    display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.55rem 0.45rem; border-radius: 8px;
+    background: none; border: 0; cursor: pointer; white-space: nowrap;
+    color: #003366; font-family: var(--font-heading); font-weight: 600; font-size: 0.94rem;
+  }
+  .sub-toggle:hover { background: #eaf4fd; color: #0b6cb8; }
+  .caret { width: 12px; height: 12px; transition: transform 0.2s ease; }
+  .sub-toggle[aria-expanded='true'] .caret { transform: rotate(180deg); }
+  nav .submenu {
+    display: none; position: absolute; top: calc(100% + 6px); left: 0; min-width: 230px; z-index: 60;
+    flex-direction: column; gap: 0; padding: 0.4rem; background: #fff;
+    border: 1px solid #d3e5f6; border-radius: 12px; box-shadow: 0 14px 34px rgb(0 51 102 / 0.14);
+  }
+  .submenu a { padding: 0.6rem 0.8rem; }
+  /* Desktop: open on hover or keyboard focus (works without JavaScript), or when clicked. */
+  @media (min-width: 1280px) {
+    .has-sub:hover .submenu, .has-sub:focus-within .submenu, .sub-toggle[aria-expanded='true'] + .submenu { display: flex; }
+    .has-sub::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 8px; }
+  }
   .nav-cta { background: #2e7130; color: #fff; white-space: nowrap; padding-inline: 1.1rem; }
   .nav-cta:hover { background: #245a26; color: #fff; }
   .site-header :global(:focus-visible) { outline-color: #0b6cb8; }
-  @media (min-width: 1280px) { .mobile-only { display: none; } }
 
   /* Small screens: hamburger (only when JavaScript is available;
      without it the menu simply stays open below the logo). */
@@ -111,7 +165,11 @@ const isCurrent = (href: string) => {
     .site-menu { flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem; padding-bottom: 1rem; }
     :global(.js) .site-menu:not([data-open]) { display: none; }
     nav ul { flex-direction: column; }
-    nav a { padding: 0.8rem 0.5rem; font-size: 1.05rem; border-bottom: 1px solid #f0ebe0; border-radius: 0; }
+    nav a { padding: 0.8rem 0.5rem; font-size: 1.05rem; border-bottom: 1px solid #e3eef9; border-radius: 0; }
+    .sub-toggle { width: 100%; justify-content: space-between; padding: 0.8rem 0.5rem; font-size: 1.05rem; border-bottom: 1px solid #e3eef9; border-radius: 0; }
+    .submenu { position: static; box-shadow: none; border: 0; border-radius: 0; padding: 0 0 0 1rem; min-width: 0; background: #f5faff; }
+    .sub-toggle[aria-expanded='true'] + .submenu { display: flex; }
+    :global(html:not(.js)) .submenu { display: flex; }
     .nav-cta { width: 100%; }
   }
   @media (max-width: 560px) {

@@ -6,7 +6,7 @@ The website of Peace Across Generations, an independent, youth-led, non-partisan
 
 It is a fast, mostly static website built with [Astro](https://astro.build) and hosted on Cloudflare Pages, designed to work on a cheap Android phone on a slow, expensive connection. Forms, the moderation queue and the newsletter run on Cloudflare Pages Functions with a D1 database and a private R2 bucket.
 
-**Site map:** Home · About · Campaigns (`/campaigns/`, current one at `/campaigns/current/`) · Stories & Voices (`/stories/`) · Take Action (`/take-action/`: share your voice, volunteer, become a contributor, partner) · Resources · Blog · Events · Newsletter · Contact · Programmes · 3,000 Days · Standards · Admin (`/admin/`, team only).
+**Site map:** Home · About · Campaigns (`/campaigns/`, current one at `/campaigns/current/`) · Stories & Voices (`/stories/`) · Take Action (`/take-action/`: share your voice, volunteer, become a Peace Ambassador, partner) · Resources · Blog · Events · Newsletter · Contact · Programmes · 3,000 Days · Standards · Admin (`/admin/`, team only).
 
 ---
 
@@ -23,7 +23,7 @@ Go to **`/admin/`** and sign in with your team email (Cloudflare sends you a one
 5. To publish, add the piece as a story (see below, and put the submission reference in `submissionRef`). Then type its address (e.g. `/stories/letter-to-my-country/`) and press **Mark as published**.
 6. If a contributor asks to withdraw their work, remove the story file and press **Unpublish (withdrawn)**.
 
-Every action is logged with who did it and when. The other tabs show **Enquiries** (volunteers, contributors, partners, contact messages), **Newsletter** sign-ups (with a CSV export for any mail tool) and **Engagement** counts (button and video clicks, with no personal data).
+Every action is logged with who did it and when. The other tabs show **Enquiries** (volunteers, Peace Ambassadors, partners, contact messages), **Newsletter** sign-ups (with a CSV export for any mail tool) and **Engagement** counts (button and video clicks, with no personal data).
 
 ---
 

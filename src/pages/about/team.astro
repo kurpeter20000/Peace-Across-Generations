@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import { Picture } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import Tbd from '../../components/Tbd.astro';
+import { photos } from '../../data/photos';
+
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="Our team" description="The people behind Peace Across Generations, and the roles still open for volunteers.">
+  <PageHead photo={photos.founderSpeaking} title="Our team" eyebrow="About us" lede="The people behind Peace Across Generations, and the roles we are still looking to fill." />
+
+  <section class="section section--surface" aria-labelledby="team-h">
+    <div class="container">
+      <h2 id="team-h" class="visually-hidden">Team members</h2>
+      <ul class="grid grid--3 plain">
+        {team.map(({ data: m }) => (
+          <li class:list={['card', { 'team--open': m.open }]}>
+            <p class="eyebrow">{m.role}</p>
+            {m.open ? (
+              <>
+                <h3>Role open</h3>
+                <p><a href="/take-action/volunteer/">Volunteer with us</a></p>
+              </>
+            ) : (
+              <>
+                <h3>{m.name}</h3>
+                {m.photo ? <Picture class="ld-hide team-photo" src={m.photo} alt={m.name ?? ''} widths={[160, 320]} sizes="160px" formats={['avif', 'webp']} width={160} height={160} /> : <p><Tbd>photo</Tbd></p>}
+                {m.bio ? <p>{m.bio}</p> : <p><Tbd>bio, 60–80 words</Tbd></p>}
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container narrow">
+      <div class="note">
+        <p><strong>Want to help?</strong> Several roles are open to volunteers. Every volunteer signs our code of conduct.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="/take-action/volunteer/">Volunteer with us</a>
+          <a class="btn btn--secondary" href="/about/">About Peace Across Generations</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+  .plain { list-style: none; padding: 0; }
+  .plain li { margin: 0; }
+  .team--open { border-style: dashed; box-shadow: none; }
+  :global(.team-photo) { border-radius: 50%; margin-bottom: 0.75rem; width: 140px; height: 140px; object-fit: cover; }
+</style>

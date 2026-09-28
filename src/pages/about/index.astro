@@ -1,18 +1,14 @@
 ---
-import { photos } from '../data/photos';
-import { getCollection } from 'astro:content';
-import { Picture } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHead from '../components/PageHead.astro';
-import QuoteRotator from '../components/QuoteRotator.astro';
-import SafetyNote from '../components/SafetyNote.astro';
-import IntroVideo from '../components/IntroVideo.astro';
-import ProgrammeCard from '../components/ProgrammeCard.astro';
-import Tbd from '../components/Tbd.astro';
-import { programmes } from '../data/programmes';
-import { approachStages, allCampaigns, campaignUrl, monthName } from '../lib/content';
+import { photos } from '../../data/photos';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHead from '../../components/PageHead.astro';
+import QuoteRotator from '../../components/QuoteRotator.astro';
+import SafetyNote from '../../components/SafetyNote.astro';
+import IntroVideo from '../../components/IntroVideo.astro';
+import ProgrammeCard from '../../components/ProgrammeCard.astro';
+import { programmes } from '../../data/programmes';
+import { approachStages, allCampaigns, campaignUrl, monthName } from '../../lib/content';
 
-const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 const campaigns = await allCampaigns();
 const stageCampaign = (key: string) => campaigns.find((c) => c.data.stage === key);
 
@@ -51,7 +47,7 @@ const messages = [
       <li><a href="#approach">Our approach</a></li>
       <li><a href="#principles">What we believe</a></li>
       <li><a href="#programmes">Programmes</a></li>
-      <li><a href="#team">Who we are</a></li>
+      <li><a href="/about/team/">Our team</a></li>
     </ul>
   </nav>
 
@@ -145,28 +141,13 @@ const messages = [
     </div>
   </section>
 
-  <section class="section" id="team" aria-labelledby="team-h">
-    <div class="container">
-      <h2 id="team-h">Who we are</h2>
-      <ul class="grid grid--3 plain">
-        {team.map(({ data: m }) => (
-          <li class:list={['card', { 'team--open': m.open }]}>
-            <p class="eyebrow">{m.role}</p>
-            {m.open ? (
-              <>
-                <h3>Role open</h3>
-                <p><a href="/take-action/volunteer/">Volunteer with us</a></p>
-              </>
-            ) : (
-              <>
-                <h3>{m.name}</h3>
-                {m.photo ? <Picture class="ld-hide team-photo" src={m.photo} alt={m.name ?? ''} widths={[160, 320]} sizes="160px" formats={['avif', 'webp']} width={160} height={160} /> : <p><Tbd>photo</Tbd></p>}
-                {m.bio ? <p>{m.bio}</p> : <p><Tbd>bio, 60–80 words</Tbd></p>}
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+  <section class="section" id="team">
+    <div class="container narrow">
+      <div class="card card--link team-teaser">
+        <p class="eyebrow">Who we are</p>
+        <h2><a class="card__link" href="/about/team/">Meet our team</a></h2>
+        <p>The founder, and the roles that make Peace Across Generations work.</p>
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -192,6 +173,6 @@ const messages = [
   .plain li { margin: 0; }
   .plain h3 { color: var(--accent-text); }
   .more { margin-top: 1.25rem; }
-  .team--open { border-style: dashed; box-shadow: none; }
-  .team-photo, :global(.team-photo) { border-radius: 50%; margin-bottom: 0.75rem; width: 120px; height: 120px; object-fit: cover; }
+  .team-teaser { border-top: 6px solid var(--color-green); }
+  .team-teaser h2 a { text-decoration: none; color: inherit; }
 </style>

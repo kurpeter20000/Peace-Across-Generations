@@ -20,7 +20,7 @@ const explore = [
 const act = [
   ['/take-action/share-your-voice/', 'Share your voice'],
   ['/take-action/volunteer/', 'Volunteer'],
-  ['/take-action/become-a-contributor/', 'Become a contributor'],
+  ['/take-action/become-a-peace-ambassador/', 'Become a Peace Ambassador'],
   ['/take-action/partner/', 'Partner with us'],
   ['/schools-and-communities/', 'Schools & Communities'],
   ['/standards/', 'Our standards'],
@@ -29,9 +29,8 @@ const act = [
   ['/contact/', 'Contact'],
 ];
 const socials = Object.entries(site.socials) as [keyof typeof site.socials, string | null][];
-const socialLabels = { facebook: 'Facebook', instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube', x: 'X' };
+const socialLabels = { facebook: 'Facebook', instagram: 'Instagram', youtube: 'YouTube', linkedin: 'LinkedIn', tiktok: 'TikTok', x: 'X' };
 const anySocial = socials.some(([, url]) => url);
-const missing = socials.filter(([, url]) => !url).map(([k]) => socialLabels[k]);
 ---
 <footer class="site-footer">
   <div class="container">
@@ -71,7 +70,7 @@ const missing = socials.filter(([, url]) => !url).map(([k]) => socialLabels[k]);
             ))}
           </ul>
         ) : null}
-        {missing.length > 0 && <p><Tbd>{missing.join(', ')} handles</Tbd></p>}
+
       </div>
     </div>
     <p class="independence">{t('independence')}</p>
@@ -99,6 +98,6 @@ const missing = socials.filter(([, url]) => !url).map(([k]) => socialLabels[k]);
   .footer-social { display: flex; gap: 0.75rem; list-style: none; padding: 0; }
   .footer-social li { margin: 0; }
   .footer-social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgb(255 255 255 / 0.1); }
-  .independence { border-top: 1px solid rgb(255 255 255 / 0.18); padding-top: 1.5rem; margin-top: 1rem; font-size: 0.95rem; max-width: 80ch; }
-  .copyright { font-size: 0.85rem; opacity: 0.85; margin: 0; }
+  .independence { border-top: 1px solid rgb(255 255 255 / 0.18); padding-top: 1.5rem; padding-inline: max(0px, calc((100% - 75ch) / 2)); margin: 1rem 0 0.75rem; font-size: 0.95rem; max-width: none; text-align: center; }
+  .copyright { font-size: 0.85rem; opacity: 0.85; margin: 0; max-width: none; text-align: center; }
 </style>

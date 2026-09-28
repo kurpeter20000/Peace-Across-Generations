@@ -1,4 +1,4 @@
-// GET  /api/admin/enquiries — volunteer / contributor / partner / contact messages.
+// GET  /api/admin/enquiries — volunteer / Peace Ambassador / partner / contact messages.
 // POST /api/admin/enquiries — { id, status: new|in_progress|closed, notes? }
 import type { Ctx } from '../../_lib/env';
 import { audit } from '../../_lib/db';

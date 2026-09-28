@@ -22,7 +22,7 @@ export const contributionTypes = [
   { value: 'peace-action', label: 'Report of a peace action' },
 ] as const;
 
-export const enquiryTypes = ['volunteer', 'contributor', 'partner', 'contact'] as const;
+export const enquiryTypes = ['volunteer', 'ambassador', 'partner', 'contact'] as const;
 
 export const volunteerInterests = [
   'Translation', 'Captions and subtitles', 'Recruiting contributors', 'Documenting approved actions',

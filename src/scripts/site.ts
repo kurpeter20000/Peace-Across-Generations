@@ -163,3 +163,37 @@ if (ref && refBox && /^PAG-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(ref)) {
   refBox.querySelector('[data-ref]')!.textContent = ref;
   refBox.hidden = false;
 }
+
+// ---- Dropdown menus (About, Campaigns & Stories) ----
+const subToggles = [...document.querySelectorAll<HTMLButtonElement>('[data-sub-toggle]')];
+const closeSubs = (except?: HTMLButtonElement) =>
+  subToggles.forEach((b) => b !== except && b.setAttribute('aria-expanded', 'false'));
+subToggles.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    closeSubs(btn);
+    btn.setAttribute('aria-expanded', String(open));
+  });
+});
+document.addEventListener('click', (e) => {
+  if (!(e.target as Element | null)?.closest('[data-sub]')) closeSubs();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const open = subToggles.find((b) => b.getAttribute('aria-expanded') === 'true');
+  if (open) { closeSubs(); open.focus(); }
+});
+
+// ---- Gentle fade-in of sections as they scroll into view ----
+const reveals = document.querySelectorAll<HTMLElement>('.reveal');
+if (reveals.length && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  reveals.forEach((el) => io.observe(el));
+} else {
+  reveals.forEach((el) => el.classList.add('is-visible'));
+}

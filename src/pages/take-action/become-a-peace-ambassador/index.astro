@@ -1,0 +1,18 @@
+---
+import { photos } from '../../../data/photos';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import EnquiryForm from '../../../components/EnquiryForm.astro';
+---
+<BaseLayout title="Become a Peace Ambassador" description="Peace Ambassadors carry peace into their schools, communities and online spaces — creating with Peace Across Generations every month." hideTakePart>
+  <PageHead photo={photos.studentsWriting} title="Become a Peace Ambassador" eyebrow="Take action">
+    <p class="lede">Writers, poets, musicians, artists, filmmakers, elders, educators and community leaders: be a Peace Ambassador and carry peace into your school, community and online spaces — every month, not just once.</p>
+    <p>Peace Ambassadors receive each month’s campaign brief early, help shape the questions we ask, share our campaigns with their networks, and are credited for their work — or stay anonymous if they prefer. Every Peace Ambassador follows our community guidelines and code of conduct. Want to send one piece? <a href="/take-action/share-your-voice/">Share your voice</a> instead.</p>
+  </PageHead>
+  <section class="section section--surface" id="form">
+    <div class="container narrow">
+      <EnquiryForm type="ambassador" submitLabel="Apply to be a Peace Ambassador" messageLabel="Tell us about yourself, your work (links welcome) and how you would like to carry peace forward" />
+    </div>
+  </section>
+</BaseLayout>
+<style>.narrow { max-width: 860px; }</style>

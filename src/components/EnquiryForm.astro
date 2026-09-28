@@ -4,12 +4,12 @@ import FormGuard from './FormGuard.astro';
 import { volunteerInterests, contributorRoles } from '../data/forms';
 
 interface Props {
-  type: 'volunteer' | 'contributor' | 'partner' | 'contact';
+  type: 'volunteer' | 'ambassador' | 'partner' | 'contact';
   submitLabel: string;
   messageLabel: string;
 }
 const { type, submitLabel, messageLabel } = Astro.props;
-const interests = type === 'volunteer' ? volunteerInterests : type === 'contributor' ? contributorRoles : [];
+const interests = type === 'volunteer' ? volunteerInterests : type === 'ambassador' ? contributorRoles : [];
 const interestLegend = type === 'volunteer' ? 'How would you like to help?' : 'What do you create or do?';
 ---
 <form class="form" method="post" action="/api/enquiry" data-track-form={type}>

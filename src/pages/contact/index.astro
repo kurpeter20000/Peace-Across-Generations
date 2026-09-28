@@ -8,10 +8,9 @@ import Icon from '../../components/Icon.astro';
 import site from '../../data/site.json';
 import EnquiryForm from '../../components/EnquiryForm.astro';
 
-const labels = { facebook: 'Facebook', instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube', x: 'X' } as const;
+const labels = { facebook: 'Facebook', instagram: 'Instagram', youtube: 'YouTube', linkedin: 'LinkedIn', tiktok: 'TikTok', x: 'X' } as const;
 const socials = Object.entries(site.socials) as [keyof typeof labels, string | null][];
 const live = socials.filter(([, url]) => url);
-const missing = socials.filter(([, url]) => !url).map(([k]) => labels[k]);
 ---
 <BaseLayout title="Contact us" description="Email Peace Across Generations. Based in South Sudan, working with South Sudanese everywhere.">
   <PageHead photo={photos.founderListening} title="Contact us" />
@@ -22,7 +21,7 @@ const missing = socials.filter(([, url]) => !url).map(([k]) => labels[k]);
         <div><dt><Icon name="whatsapp" /> WhatsApp (submissions)</dt><dd>{site.whatsapp ?? <Tbd>number</Tbd>}</dd></div>
         <div><dt><Icon name="globe" /> Follow us</dt><dd>
           {live.map(([k, url]) => <a class="social" href={url!} rel="noopener">{labels[k]}</a>)}
-          {missing.length > 0 && <Tbd>{missing.join(', ')} handles</Tbd>}
+
         </dd></div>
       </dl>
       <p class="lede">Based in South Sudan, working with South Sudanese everywhere.</p>

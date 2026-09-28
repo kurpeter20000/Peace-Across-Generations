@@ -1,4 +1,4 @@
-// POST /api/enquiry — volunteer, contributor, partner and contact forms.
+// POST /api/enquiry — volunteer, Peace Ambassador, partner and contact forms.
 import type { Ctx } from '../_lib/env';
 import { ensureSchema, newId, now } from '../_lib/db';
 import { backWithError, checked, field, isEmail, looksLikeBot, rateLimit, sameOrigin, seeOther } from '../_lib/http';
@@ -6,7 +6,7 @@ import { enquiryTypes } from '../../src/data/forms';
 
 const pages: Record<(typeof enquiryTypes)[number], string> = {
   volunteer: '/take-action/volunteer/',
-  contributor: '/take-action/become-a-contributor/',
+  ambassador: '/take-action/become-a-peace-ambassador/',
   partner: '/take-action/partner/',
   contact: '/contact/',
 };
