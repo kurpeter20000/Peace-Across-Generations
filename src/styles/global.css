@@ -71,9 +71,13 @@
 
 /* ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: 5rem; }
+/* overflow-x here is a safety net: one non-shrinking flex/nowrap element
+   anywhere on a page would otherwise widen the whole document and silently
+   clip content off the right edge on phones (see .topbar__pos above). */
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 5rem; overflow-x: hidden; }
 body {
   margin: 0;
+  overflow-x: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);

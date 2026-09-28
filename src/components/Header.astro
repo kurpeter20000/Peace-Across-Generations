@@ -108,9 +108,15 @@ const isSection = (item: Item) =>
      white in both colour schemes (brief §4.1). */
   .topbar { background: #2e7130; color: #fff; font-size: 0.8rem; }
   .topbar__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 36px; }
-  .topbar__pos { margin: 0; letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--font-heading); font-weight: 600; font-size: 0.72rem; }
+  /* min-width: 0 lets this shrink below its text's natural width — without it,
+     a flex item with nowrap text refuses to shrink and overflows the viewport
+     on narrow phones, widening the whole page and clipping content site-wide. */
+  .topbar__pos {
+    margin: 0; letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--font-heading); font-weight: 600; font-size: 0.72rem;
+    min-width: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
   .lowdata-toggle {
-    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 36px;
+    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 36px; flex: none;
     background: none; border: 0; color: inherit; font: inherit; cursor: pointer; padding: 0 0.25rem;
   }
   .switch { width: 30px; height: 18px; border-radius: 999px; background: rgb(255 255 255 / 0.35); position: relative; flex: none; }
