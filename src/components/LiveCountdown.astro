@@ -1,0 +1,57 @@
+---
+// Live countdown to the end of the 3,000-day commitment (7 December 2034,
+// end of the day in Juba), ticking every second in the browser. Without
+// JavaScript it shows the values at build time.
+import site from '../data/site.json';
+import { commitmentDay, fmt } from '../lib/day';
+
+interface Props { variant?: 'dark' | 'light' }
+const { variant = 'dark' } = Astro.props;
+// Juba is UTC+2 all year: end of 7 Dec 2034 in Juba = 2034-12-07T22:00:00Z.
+const endIso = `${site.commitment.end}T22:00:00Z`;
+const startIso = `${site.commitment.start}T00:00:00+02:00`;
+const left = Math.max(0, Date.parse(endIso) - Date.now());
+const parts = {
+  days: Math.floor(left / 86_400_000),
+  hours: Math.floor(left / 3_600_000) % 24,
+  minutes: Math.floor(left / 60_000) % 60,
+  seconds: Math.floor(left / 1000) % 60,
+};
+const s = commitmentDay();
+const units = [['days', 'Days'], ['hours', 'Hours'], ['minutes', 'Minutes'], ['seconds', 'Seconds']] as const;
+---
+<div class:list={['countdown', `countdown--${variant}`]} data-countdown data-end={endIso} data-start={startIso}>
+  <p class="countdown__label">Countdown to 7 December 2034</p>
+  <div class="countdown__tiles" role="timer" aria-live="off" aria-label="Time left in the 3,000 Days for Peace commitment">
+    {units.map(([key, label]) => (
+      <div class="countdown__tile">
+        <span class="countdown__num" data-cd={key}>{key === 'days' ? fmt(parts[key]) : String(parts[key]).padStart(2, '0')}</span>
+        <span class="countdown__unit">{label}</span>
+      </div>
+    ))}
+  </div>
+  {s.kind === 'during' && (
+    <div class="countdown__progress">
+      <div class="countdown__bar"><span data-cd-bar data-pct={s.percent.toFixed(3)}></span></div>
+      <p><strong>Day <span data-dc-day>{fmt(s.day)}</span> of 3,000</strong> · started 21 September 2026</p>
+    </div>
+  )}
+</div>
+
+<style>
+  .countdown { border-radius: var(--radius); padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); }
+  .countdown--dark { background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.18); color: #e6edf5; }
+  .countdown--light { background: var(--surface); border: 1px solid var(--line); box-shadow: 0 18px 44px rgb(0 51 102 / 0.1); color: var(--text); }
+  .countdown__label { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.78rem; font-weight: 600; margin: 0 0 1rem; color: #9fd67a; }
+  .countdown--light .countdown__label { color: var(--accent-text); }
+  .countdown__tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(0.4rem, 0.2rem + 1vw, 0.9rem); }
+  .countdown__tile { background: #2e7130; border-radius: var(--radius-sm); padding: 0.9rem 0.25rem 0.7rem; text-align: center; box-shadow: inset 0 -4px 0 rgb(0 0 0 / 0.12); }
+  .countdown--light .countdown__tile { background: #003366; }
+  .countdown__num { display: block; font-family: var(--font-heading); font-weight: 700; color: #fff; font-size: clamp(1.6rem, 1rem + 2.6vw, 2.8rem); line-height: 1; font-variant-numeric: tabular-nums; }
+  .countdown__unit { display: block; margin-top: 0.4rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgb(255 255 255 / 0.85); }
+  .countdown__progress { margin-top: 1.25rem; }
+  .countdown__bar { height: 8px; border-radius: 999px; background: rgb(255 255 255 / 0.18); overflow: hidden; }
+  .countdown--light .countdown__bar { background: var(--line); }
+  .countdown__bar span { display: block; height: 100%; width: 0.6%; background: linear-gradient(90deg, #2e7130, #9fd67a); border-radius: inherit; }
+  .countdown__progress p { margin: 0.6rem 0 0; font-size: 0.9rem; }
+</style>

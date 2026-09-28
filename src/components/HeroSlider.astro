@@ -1,0 +1,153 @@
+---
+// Home page slideshow: full-width photos that cross-fade with a slow zoom,
+// each with its own message. Auto-advances every 7 s; pauses on hover,
+// keyboard focus, or the pause button; arrows, dots, keyboard and swipe.
+// Without JavaScript only the first slide shows. Reduced motion: no autoplay.
+import { Picture } from 'astro:assets';
+import { photos, type Photo } from '../data/photos';
+import { currentTheme, campaignUrl } from '../lib/content';
+
+const theme = await currentTheme();
+
+type Slide = { photo: Photo; eyebrow: string; title: string; text: string; cta: { href: string; label: string }; cta2?: { href: string; label: string } };
+const slides: Slide[] = [
+  {
+    photo: photos.footballMatch2,
+    eyebrow: 'Independent · Youth-led · Non-partisan',
+    title: 'Every generation inherits something. We can decide what we pass on.',
+    text: 'Connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.',
+    cta: { href: '/campaigns/current/', label: 'Join the conversation' },
+    cta2: { href: '/take-action/share-your-voice/', label: 'Share your voice' },
+  },
+  ...(theme ? [{
+    photo: photos.workshopDiscussion,
+    eyebrow: 'This month’s campaign',
+    title: theme.data.title,
+    text: theme.data.message ?? theme.data.intro,
+    cta: { href: campaignUrl(theme), label: 'Join the campaign' },
+    cta2: { href: '/take-action/share-your-voice/', label: 'Share your voice' },
+  }] : []),
+  {
+    photo: photos.handsGenerations,
+    eyebrow: 'Generations in Conversation',
+    title: 'Young people ask. Elders answer.',
+    text: 'Together they decide what should be passed forward — and what should end with them.',
+    cta: { href: '/programmes/generations-in-conversation/', label: 'Listen and take part' },
+  },
+  {
+    photo: photos.certificatesGroup2,
+    eyebrow: 'Become a Peace Ambassador',
+    title: 'You don’t need a title to build peace.',
+    text: 'If you have a phone, a pen or a voice, you can carry peace into your school, your community and your online world.',
+    cta: { href: '/take-action/become-a-peace-ambassador/', label: 'Become a Peace Ambassador' },
+    cta2: { href: '/take-action/', label: 'All ways to take part' },
+  },
+  {
+    photo: photos.peaceSignSunset,
+    eyebrow: '3,000 Days for Peace',
+    title: '3,000 days. One promise.',
+    text: 'From 21 September 2026 to 7 December 2034, we keep peace visible, practical and passed between generations.',
+    cta: { href: '/3000-days/', label: 'See the countdown' },
+  },
+];
+const widths = (p: Photo) => [640, 1024, 1440, 1600].filter((w) => w <= p.src.width);
+---
+<section class="slider" data-slider aria-roledescription="carousel" aria-label="Peace Across Generations highlights">
+  <div class="slider__track">
+    {slides.map((s, i) => {
+      const H = i === 0 ? 'h1' : 'h2';
+      return (
+        <article class:list={['slide', { 'is-active': i === 0 }]} data-slide aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}`} aria-hidden={i === 0 ? 'false' : 'true'}>
+          <div class="slide__bg ld-hide" aria-hidden="true">
+            {i === 0 ? (
+              <Picture src={s.photo.src} alt="" widths={widths(s.photo)} sizes="100vw" formats={['avif', 'webp']} quality={55} loading="eager" fetchpriority="high" decoding="async" />
+            ) : (
+              /* Later slides' photos load only just before they appear (saves data). */
+              <template data-slide-img><Picture src={s.photo.src} alt="" widths={widths(s.photo)} sizes="100vw" formats={['avif', 'webp']} quality={55} decoding="async" /></template>
+            )}
+          </div>
+          <div class="container slide__content">
+            <p class="eyebrow">{s.eyebrow}</p>
+            <H class="slide__title">{s.title}</H>
+            <p class="slide__text">{s.text}</p>
+            <div class="btn-row">
+              <a class="btn btn--primary btn--arrow" href={s.cta.href} tabindex={i === 0 ? undefined : '-1'} data-track={`cta:slide-${i + 1}`}>{s.cta.label}</a>
+              {s.cta2 && <a class="btn btn--ghost" href={s.cta2.href} tabindex={i === 0 ? undefined : '-1'}>{s.cta2.label}</a>}
+            </div>
+          </div>
+          {s.photo.credit && <p class="slide__credit">{s.photo.credit}</p>}
+        </article>
+      );
+    })}
+  </div>
+
+  <div class="slider__controls container">
+    <div class="slider__dots" role="group" aria-label="Choose a slide">
+      {slides.map((_, i) => <button type="button" class="dot" data-slide-dot aria-current={i === 0 ? 'true' : 'false'} aria-label={`Show slide ${i + 1}`}></button>)}
+    </div>
+    <div class="slider__buttons">
+      <button type="button" class="ctl" data-slide-pause aria-pressed="false" aria-label="Pause slideshow">
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+      </button>
+      <button type="button" class="ctl" data-slide-prev aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="ctl" data-slide-next aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .slider { position: relative; overflow: hidden; background: linear-gradient(120deg, #002447, #003366 55%, #0a4a85); color: #fff; }
+  .slider__track { display: grid; }
+  .slide {
+    grid-area: 1 / 1; position: relative; isolation: isolate;
+    min-height: clamp(540px, 40vw + 280px, 740px); display: flex; align-items: center;
+    opacity: 0; visibility: hidden; transition: opacity 1.2s ease, visibility 0s linear 1.2s;
+  }
+  .slide.is-active { opacity: 1; visibility: visible; transition: opacity 1.2s ease, visibility 0s; z-index: 1; }
+  .slide__bg { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+  .slide__bg :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; transform: scale(1.04); }
+  .slide::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgb(0 36 71 / 0.9) 0%, rgb(0 51 102 / 0.66) 50%, rgb(0 51 102 / 0.18) 100%); }
+  @media (max-width: 760px) { .slide::before { background: rgb(0 36 71 / 0.76); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .slide.is-active .slide__bg :global(img) { animation: kenburns 9s ease-out forwards; }
+    .slide.is-active .slide__content > :global(*) { animation: rise 0.9s ease both; }
+    .slide.is-active .slide__content > :global(*:nth-child(2)) { animation-delay: 0.1s; }
+    .slide.is-active .slide__content > :global(*:nth-child(3)) { animation-delay: 0.2s; }
+    .slide.is-active .slide__content > :global(*:nth-child(4)) { animation-delay: 0.3s; }
+  }
+  @keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1.02); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  .slide__content { padding-block: 5rem 7rem; }
+  .slide .eyebrow { color: #9fd67a; }
+  .slide__title { color: #fff; max-width: 17ch; font-size: clamp(2.2rem, 1.3rem + 3.4vw, 3.9rem); line-height: 1.08; margin-bottom: 0.4em; }
+  .slide__text { color: #e6edf5; max-width: 50ch; font-size: clamp(1.05rem, 1rem + 0.5vw, 1.3rem); }
+  .slide__credit { position: absolute; right: 0.75rem; bottom: 0.4rem; margin: 0; font-size: 0.72rem; color: rgb(255 255 255 / 0.7); }
+
+  .slider__controls { position: absolute; left: 0; right: 0; bottom: 1.5rem; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  :global(html:not(.js)) .slider__controls { display: none; }
+  .slider__dots { display: flex; gap: 0.5rem; }
+  /* 24px-tall touch target, drawn as a thin bar */
+  .dot { width: 34px; height: 24px; border: 0; background: none; cursor: pointer; padding: 0; display: grid; align-items: center; transition: width 0.3s; }
+  .dot::before { content: ''; display: block; height: 5px; border-radius: 999px; background: rgb(255 255 255 / 0.4); transition: background 0.3s; }
+  .dot[aria-current='true'] { width: 54px; }
+  .dot[aria-current='true']::before { background: #9fd67a; }
+  .dot:hover::before { background: rgb(255 255 255 / 0.8); }
+  .slider__buttons { display: flex; gap: 0.5rem; }
+  .ctl { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgb(255 255 255 / 0.6); background: rgb(0 36 71 / 0.35); color: #fff; cursor: pointer; transition: background 0.2s; }
+  .ctl:hover { background: rgb(255 255 255 / 0.18); }
+  .ctl svg { width: 20px; height: 20px; }
+  .i-play { display: none; }
+  .slider[data-paused] .i-play { display: block; }
+  .slider[data-paused] .i-pause { display: none; }
+  .slider :global(:focus-visible) { outline-color: #9fd67a; }
+  @media (max-width: 560px) {
+    .slider__controls { bottom: 1rem; gap: 0.5rem; }
+    .slider__dots { gap: 0.35rem; }
+    .dot { width: 24px; }
+    .dot[aria-current='true'] { width: 34px; }
+    .ctl { width: 38px; height: 38px; }
+    .slider__buttons { gap: 0.35rem; }
+    .slide__content { padding-block: 3.5rem 6rem; }
+  }
+</style>

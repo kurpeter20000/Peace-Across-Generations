@@ -6,6 +6,7 @@ import QuoteRotator from '../../components/QuoteRotator.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
 import IntroVideo from '../../components/IntroVideo.astro';
 import ProgrammeCard from '../../components/ProgrammeCard.astro';
+import NetworksMarquee from '../../components/NetworksMarquee.astro';
 import { programmes } from '../../data/programmes';
 import { approachStages, allCampaigns, campaignUrl, monthName } from '../../lib/content';
 
@@ -139,6 +140,10 @@ const messages = [
         </ul>
       </SafetyNote>
     </div>
+  </section>
+
+  <section class="section band-off" aria-label="Networks we aspire to work with">
+    <div class="container"><NetworksMarquee /></div>
   </section>
 
   <section class="section" id="team">

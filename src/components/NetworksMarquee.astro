@@ -1,0 +1,66 @@
+---
+// "Networks we aspire to work with": a gently moving strip of organisation
+// name tiles. These are NOT partners — the heading and note say so. Names
+// only (no official logos), so nothing suggests endorsement.
+import networks from '../data/networks.json';
+
+interface Props { heading?: boolean }
+const { heading = true } = Astro.props;
+type N = { name: string; mark: string };
+const list = networks as N[];
+---
+<div class="networks">
+  {heading && (
+    <div class="section-title section-title--center">
+      <p class="eyebrow">Networks we aspire to work with</p>
+      <h2>Building peace takes many hands</h2>
+      <p>Organisations and foundations working for peace, youth and development that we hope to learn from and work alongside.</p>
+    </div>
+  )}
+  <div class="marquee" aria-label="Organisations we aspire to work with" data-marquee>
+    <ul class="marquee__track">
+      {[0, 1].map((copy) => list.map((n, i) => (
+        <li class="tile" aria-hidden={copy === 1 ? 'true' : undefined}>
+          <span class="tile__mark" data-c={i % 2} aria-hidden="true">{n.mark}</span>
+          <span class="tile__name">{n.name}</span>
+        </li>
+      )))}
+    </ul>
+  </div>
+  <p class="networks__controls"><button type="button" class="pause-btn" aria-pressed="false" data-marquee-toggle>Pause</button></p>
+  <p class="networks__note">We are not yet partners with these organisations, and listing them does not imply partnership or endorsement. <a href="/take-action/partner/">Interested in working with us?</a></p>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden; position: relative;
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee__track { list-style: none; margin: 0; padding: 0.5rem 0; display: flex; gap: 1rem; width: max-content; animation: marquee 70s linear infinite; }
+  .marquee:hover .marquee__track, .marquee:focus-within .marquee__track, .marquee[data-paused] .marquee__track { animation-play-state: paused; }
+  .networks__controls { text-align: center; margin: 0.75rem auto 0; max-width: none; }
+  .pause-btn { background: none; border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.9rem; font: inherit; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; }
+  .pause-btn:hover { color: var(--heading); border-color: var(--heading); }
+  :global(html:not(.js)) .networks__controls { display: none; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 0.5rem)); } }
+  .tile {
+    margin: 0; max-width: none; flex: none; display: flex; align-items: center; gap: 0.75rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1.2rem 0.8rem 0.8rem; min-width: 230px; box-shadow: 0 2px 8px rgb(0 51 102 / 0.05);
+  }
+  .tile__mark {
+    display: grid; place-items: center; flex: none; min-width: 52px; height: 52px; padding: 0 0.4rem; border-radius: 10px;
+    color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.02em; text-align: center; line-height: 1.1;
+  }
+  .tile__mark[data-c='0'] { background: #003366; }
+  .tile__mark[data-c='1'] { background: #2e7130; }
+  .tile__name { font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 0.92rem; line-height: 1.25; max-width: 22ch; }
+  .networks__note { text-align: center; font-size: 0.88rem; color: var(--text-muted); margin: 1.25rem auto 0; max-width: 70ch; }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { mask-image: none; -webkit-mask-image: none; }
+    .marquee__track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
+    .tile[aria-hidden='true'] { display: none; }
+    .networks__controls { display: none; }
+  }
+</style>

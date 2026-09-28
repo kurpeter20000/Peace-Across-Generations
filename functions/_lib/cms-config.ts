@@ -352,6 +352,17 @@ export function cmsConfig(origin: string) {
         }],
       },
       {
+        name: 'networks', label: 'Networks we aspire to work with', icon: 'handshake', file: 'src/data/networks.json', format: 'json',
+        fields: [{
+          name: 'items', label: 'Organisations (not partners — aspirational only)', label_singular: 'organisation', widget: 'list', root: true,
+          summary: '{{mark}} · {{name}}',
+          fields: [
+            { name: 'name', label: 'Organisation name', widget: 'string' },
+            { name: 'mark', label: 'Short mark shown in the badge (2–6 characters)', widget: 'string' },
+          ],
+        }],
+      },
+      {
         name: 'founders', label: 'Founding Creators wall', icon: 'military_tech', file: 'src/data/founding-creators.json', format: 'json',
         fields: [{ name: 'names', label: 'Names (opt-in only)', label_singular: 'name', widget: 'list', root: true, required: false }],
       },

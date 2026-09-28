@@ -96,16 +96,16 @@ const isSection = (item: Item) =>
   }
   .switch { width: 30px; height: 18px; border-radius: 999px; background: rgb(255 255 255 / 0.35); position: relative; flex: none; }
   .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform 0.15s; }
-  .lowdata-toggle[aria-pressed='true'] .switch { background: #6baf3f; }
+  .lowdata-toggle[aria-pressed='true'] .switch { background: #2e7130; }
   .lowdata-toggle[aria-pressed='true'] .switch::after { transform: translateX(12px); }
-  .topbar :global(:focus-visible) { outline-color: #9ccff7; }
+  .topbar :global(:focus-visible) { outline-color: #9fd67a; }
   .topbar__days { color: #fff; text-decoration: none; font-size: 0.78rem; }
   .topbar__days:hover { text-decoration: underline; color: #fff; }
   .topbar__days :global(.day-inline) { font-size: 0.78rem; }
   @media (max-width: 759px) { .topbar__days { display: none; } }
 
   .site-header {
-    background: #fff; color: #003366; border-bottom: 1px solid #d3e5f6;
+    background: #fff; color: #003366; border-bottom: 1px solid #e3e7eb;
     position: sticky; top: 0; z-index: 50;
   }
   .site-header .container, .topbar .container { max-width: 1280px; }
@@ -131,8 +131,8 @@ const isSection = (item: Item) =>
     display: block; padding: 0.55rem 0.45rem; border-radius: 8px; white-space: nowrap;
     color: #003366; text-decoration: none; font-family: var(--font-heading); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em;
   }
-  nav a:hover { background: #eaf4fd; color: #0b6cb8; }
-  nav a[aria-current='page'], .sub-toggle.current { text-decoration: underline; text-decoration-color: #6baf3f; text-decoration-thickness: 3px; text-underline-offset: 0.4em; }
+  nav a:hover { background: #f5f7f8; color: #2e7130; }
+  nav a[aria-current='page'], .sub-toggle.current { text-decoration: underline; text-decoration-color: #2e7130; text-decoration-thickness: 3px; text-underline-offset: 0.4em; }
 
   /* Dropdowns */
   .has-sub { position: relative; }
@@ -141,13 +141,13 @@ const isSection = (item: Item) =>
     background: none; border: 0; cursor: pointer; white-space: nowrap;
     color: #003366; font-family: var(--font-heading); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em;
   }
-  .sub-toggle:hover { background: #eaf4fd; color: #0b6cb8; }
+  .sub-toggle:hover { background: #f5f7f8; color: #2e7130; }
   .caret { width: 12px; height: 12px; transition: transform 0.2s ease; }
   .sub-toggle[aria-expanded='true'] .caret { transform: rotate(180deg); }
   nav .submenu {
     display: none; position: absolute; top: calc(100% + 6px); left: 0; min-width: 230px; z-index: 60;
     flex-direction: column; gap: 0; padding: 0.4rem; background: #fff;
-    border: 1px solid #d3e5f6; border-radius: 12px; box-shadow: 0 14px 34px rgb(0 51 102 / 0.14);
+    border: 1px solid #e3e7eb; border-radius: 12px; box-shadow: 0 14px 34px rgb(0 51 102 / 0.14);
   }
   .submenu a { padding: 0.7rem 0.9rem; text-transform: none; letter-spacing: 0; font-size: 0.92rem; }
   /* Desktop: open on hover or keyboard focus (works without JavaScript), or when clicked. */
@@ -157,7 +157,7 @@ const isSection = (item: Item) =>
   }
   .nav-cta { background: #2e7130; color: #fff; white-space: nowrap; padding-inline: 1.2rem; border-radius: 4px; font-size: 0.8rem; }
   .nav-cta:hover { background: #245a26; color: #fff; }
-  .site-header :global(:focus-visible) { outline-color: #0b6cb8; }
+  .site-header :global(:focus-visible) { outline-color: #2e7130; }
 
   /* Small screens: hamburger (only when JavaScript is available;
      without it the menu simply stays open below the logo). */
@@ -166,9 +166,9 @@ const isSection = (item: Item) =>
     .site-menu { flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 0.5rem; padding-bottom: 1rem; }
     :global(.js) .site-menu:not([data-open]) { display: none; }
     nav ul { flex-direction: column; }
-    nav a { padding: 0.85rem 0.5rem; font-size: 0.92rem; border-bottom: 1px solid #e3eef9; border-radius: 0; }
-    .sub-toggle { width: 100%; justify-content: space-between; padding: 0.85rem 0.5rem; font-size: 0.92rem; border-bottom: 1px solid #e3eef9; border-radius: 0; }
-    .submenu { position: static; box-shadow: none; border: 0; border-radius: 0; padding: 0 0 0 1rem; min-width: 0; background: #f5faff; }
+    nav a { padding: 0.85rem 0.5rem; font-size: 0.92rem; border-bottom: 1px solid #eceff2; border-radius: 0; }
+    .sub-toggle { width: 100%; justify-content: space-between; padding: 0.85rem 0.5rem; font-size: 0.92rem; border-bottom: 1px solid #eceff2; border-radius: 0; }
+    .submenu { position: static; box-shadow: none; border: 0; border-radius: 0; padding: 0 0 0 1rem; min-width: 0; background: #f5f7f8; }
     .sub-toggle[aria-expanded='true'] + .submenu { display: flex; }
     :global(html:not(.js)) .submenu { display: flex; }
     .nav-cta { width: 100%; }

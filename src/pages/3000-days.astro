@@ -2,7 +2,7 @@
 import { photos } from '../data/photos';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
-import DayCounter from '../components/DayCounter.astro';
+import LiveCountdown from '../components/LiveCountdown.astro';
 import ProgressTable from '../components/ProgressTable.astro';
 import { jubaToday } from '../lib/day';
 
@@ -32,7 +32,7 @@ const moments = [
 
   <section class="section section--tight">
     <div class="container narrow">
-      <DayCounter variant="large" />
+      <LiveCountdown variant="light" />
     </div>
   </section>
 

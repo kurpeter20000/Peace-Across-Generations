@@ -2,16 +2,29 @@
    Peace Across Generations — brand tokens (brief §4). All colour lives here.
    ========================================================================== */
 :root {
-  --color-navy: #003366;
-  --color-sky: #1086e1;       /* graphics and large text only (3.8:1) */
-  --color-sky-text: #0b6cb8;  /* sky-blue text on light backgrounds (5.5:1) */
-  --color-green: #2e7130;     /* primary buttons, white text (6.0:1) */
-  --color-leaf: #6baf3f;      /* decoration only, never text */
+  /* Three brand colours from the logo — used consistently everywhere:
+     WHITE (backgrounds), NAVY (text, dark bands, footer), GREEN (action).
+     Everything else is a tint of these three. */
   --color-white: #ffffff;
-  --color-mist: #f5f8fb;
-  --color-sky-light: #eaf4fd; /* light blue: alternating sections, hero */
-  --color-sky-pale: #f5faff;  /* palest blue: cards on light blue */
-  --color-ink: #1b1f24;
+  --color-navy: #003366;
+  --color-green: #2e7130;
+
+  /* Tints of the three */
+  --color-offwhite: #f5f7f8;        /* faint grey-white for alternating sections */
+  --color-navy-deep: #002447;       /* darker navy for gradients */
+  --color-navy-soft: #0a4a85;       /* lighter navy for gradients */
+  --color-green-dark: #245a26;      /* button hover */
+  --color-green-light: #9fd67a;     /* green text on navy only */
+  --color-green-tint: #edf5ee;      /* chips, highlights on white */
+  --color-ink: #1b1f24;             /* body text (near-black navy) */
+
+  /* Legacy names mapped onto the three colours */
+  --color-sky: var(--color-navy);
+  --color-sky-text: var(--color-navy);
+  --color-leaf: var(--color-green);
+  --color-mist: var(--color-offwhite);
+  --color-sky-light: var(--color-offwhite);
+  --color-sky-pale: #fafbfc;
 
   /* Semantic roles */
   --bg: var(--color-white);
@@ -21,11 +34,11 @@
   --text-muted: #4a5563;
   --heading: var(--color-navy);
   --link: var(--color-navy);
-  --link-hover: var(--color-sky-text);
+  --link-hover: var(--color-green);
   --accent-text: var(--color-green);
-  --line: #d3e5f6;
+  --line: #e3e7eb;
   --btn-primary-bg: var(--color-green);
-  --btn-primary-bg-hover: #245a26;
+  --btn-primary-bg-hover: var(--color-green-dark);
   --btn-primary-text: #ffffff;
   --btn-secondary-text: var(--color-navy);
   --btn-secondary-border: var(--color-navy);
@@ -34,13 +47,13 @@
   --tbd-bg: #fff4d6;
   --tbd-text: #5c4300;
   --tbd-border: #d9a441;
-  --focus: #0b6cb8;
+  --focus: #2e7130;
 
   /* Programme colour tags (brief §4.4) */
-  --tag-creative: var(--color-sky);
-  --tag-clubs: var(--color-green);
-  --tag-talks: var(--color-navy);
-  --tag-conversations: var(--color-leaf);
+  --tag-creative: var(--color-green);
+  --tag-clubs: var(--color-navy);
+  --tag-talks: var(--color-green);
+  --tag-conversations: var(--color-navy);
   --tag-threads: #8a99ab;
 
   --font-heading: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -370,7 +383,12 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .rule { width: 64px; height: 4px; background: var(--color-green); border: 0; border-radius: 2px; margin: 0 0 1.25rem; }
 .section-title--center .rule { margin-inline: auto; }
 
-.band-navy { background: linear-gradient(120deg, #002447 0%, #003366 55%, #0b5aa1 100%); color: #e6edf5; }
+.band-navy { background: linear-gradient(120deg, var(--color-navy-deep) 0%, var(--color-navy) 60%, var(--color-navy-soft) 100%); color: #e6edf5; }
+.band-green { background: linear-gradient(120deg, #245a26 0%, var(--color-green) 60%, #3a8a3d 100%); color: #fff; }
+.band-green h2, .band-green h3, .band-green p, .band-green strong { color: #fff; }
+.band-green .eyebrow { color: #fff; opacity: 0.85; }
+.band-off { background: var(--color-offwhite); }
+@media (prefers-color-scheme: dark) { .band-off { background: var(--surface-alt); } }
 .band-navy h2, .band-navy h3 { color: #fff; }
 .band-navy .eyebrow { color: #9fd67a; }
 .band-navy a:not(.btn) { color: #fff; }

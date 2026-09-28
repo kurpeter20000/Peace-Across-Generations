@@ -6,6 +6,7 @@ import SafetyNote from '../../../components/SafetyNote.astro';
 import Email from '../../../components/Email.astro';
 import Icon from '../../../components/Icon.astro';
 import EnquiryForm from '../../../components/EnquiryForm.astro';
+import NetworksMarquee from '../../../components/NetworksMarquee.astro';
 ---
 <BaseLayout title="Partner with us" description="Speak at Peace Talks, volunteer, partner, broadcast our programmes or offer in-kind support.">
   <PageHead photo={photos.founderAtEvent} title="Partner with us" eyebrow="Take action" lede="Partnerships should widen safe participation, reach and quality — without changing who we are: youth-led and non-partisan." />
@@ -69,6 +70,9 @@ import EnquiryForm from '../../../components/EnquiryForm.astro';
       <h2>Get in touch</h2>
       <EnquiryForm type="partner" submitLabel="Send" messageLabel="How would you like to work together?" />
     </div>
+  </section>
+  <section class="section band-off" aria-label="Networks we aspire to work with">
+    <div class="container"><NetworksMarquee /></div>
   </section>
 </BaseLayout>
 
