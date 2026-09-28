@@ -1,0 +1,26 @@
+---
+// The 3,000-day countdown as a large circle (updated in the browser by site.ts).
+import { commitmentDay, fmt } from '../lib/day';
+const s = commitmentDay();
+---
+<a class="circle" href="/3000-days/" aria-label={s.kind === 'during' ? `Day ${fmt(s.day)} of 3,000 Days for Peace. ${fmt(s.daysToGo)} days to go.` : '3,000 Days for Peace'}>
+  <span class="circle__label">Day</span>
+  <span class="circle__num" data-dc-day>{s.kind === 'during' ? fmt(s.day) : s.kind === 'before' ? '0' : '3,000'}</span>
+  <span class="circle__of">of 3,000 Days for Peace</span>
+  {s.kind === 'during' && <span class="circle__togo"><span data-dc-togo>{fmt(s.daysToGo)}</span> days to go</span>}
+</a>
+
+<style>
+  .circle {
+    display: grid; place-content: center; justify-items: center; text-align: center; gap: 0.15rem;
+    width: min(100%, 320px); aspect-ratio: 1; border-radius: 50%; margin-inline: auto;
+    background: radial-gradient(circle at 30% 25%, #3a8a3d, #2e7130 60%, #245a26);
+    color: #fff; text-decoration: none; box-shadow: 0 0 0 14px rgb(46 113 48 / 0.12), 0 24px 60px rgb(0 51 102 / 0.18);
+    transition: transform 0.3s ease;
+  }
+  .circle:hover { transform: scale(1.02); color: #fff; }
+  .circle__label { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.8rem; font-weight: 600; opacity: 0.9; }
+  .circle__num { font-family: var(--font-heading); font-weight: 700; font-size: clamp(4rem, 3rem + 4vw, 5.6rem); line-height: 1; }
+  .circle__of { font-size: 0.95rem; max-width: 14ch; line-height: 1.3; }
+  .circle__togo { margin-top: 0.4rem; font-size: 0.82rem; background: rgb(255 255 255 / 0.16); border-radius: 999px; padding: 0.2rem 0.75rem; }
+</style>

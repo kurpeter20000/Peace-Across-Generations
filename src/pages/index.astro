@@ -1,18 +1,16 @@
 ---
+import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import DayCounter from '../components/DayCounter.astro';
 import StoryList from '../components/StoryList.astro';
 import Icon from '../components/Icon.astro';
 import IntroVideo from '../components/IntroVideo.astro';
 import PostCard from '../components/PostCard.astro';
 import QuoteCard from '../components/QuoteCard.astro';
-import TakeActionCards from '../components/TakeActionCards.astro';
-import NewsletterForm from '../components/NewsletterForm.astro';
-import ProgrammeCard from '../components/ProgrammeCard.astro';
-import PhotoFig from '../components/Photo.astro';
 import PhotoMosaic from '../components/PhotoMosaic.astro';
-import { programmes } from '../data/programmes';
-import { photos } from '../data/photos';
+import ProgrammesPanel from '../components/ProgrammesPanel.astro';
+import CountdownCircle from '../components/CountdownCircle.astro';
+import { photos, type Photo } from '../data/photos';
+import site from '../data/site.json';
 import { currentTheme, weeklyAction, publishedStories, publishedPosts, monthName, campaignUrl, approachStages } from '../lib/content';
 
 const theme = await currentTheme();
@@ -22,203 +20,257 @@ const featured = stories.filter((s) => s.data.featured).slice(0, 3);
 const latest = stories.slice(0, 3);
 const posts = (await publishedPosts()).slice(0, 3);
 const stage = approachStages.find((s) => s.key === theme?.data.stage);
-// Sections alternate white / light blue; the stories band only appears once there is content.
 const hasStories = featured.length > 0 || latest.length > 0 || posts.length > 0;
+// The campaign card uses the campaign's first library photo when it has one.
+const campaignPhoto: Photo = (theme?.data.gallery?.[0] && (photos as Record<string, Photo>)[theme.data.gallery[0]]) || photos.peaceSignNight;
+const hero = photos.footballMatch2;
+const heroWidths = [640, 1024, 1440, 1600].filter((w) => w <= hero.src.width);
 
 const beliefs = [
-  { icon: 'leaf', text: 'Peace is more than the absence of violence.' },
-  { icon: 'generations', text: 'Every generation matters.' },
-  { icon: 'message', text: 'Dialogue matters.' },
-  { icon: 'book', text: 'Stories can change perspectives.' },
-  { icon: 'hand', text: 'Peace is everyone’s responsibility.' },
-  { icon: 'sprout', text: 'We choose what we pass on.' },
-] as const;
+  'Peace is more than the absence of violence.',
+  'Every generation matters.',
+  'Dialogue matters.',
+  'Stories can change perspectives.',
+  'Peace is everyone’s responsibility.',
+  'We choose what we pass on.',
+];
+const actions = [
+  { href: '/take-action/share-your-voice/', title: 'Share your voice', text: 'A video, letter, poem, song or artwork for this month’s campaign.' },
+  { href: '/take-action/become-a-peace-ambassador/', title: 'Become a Peace Ambassador', text: 'Carry peace into your school, community and online spaces.' },
+  { href: '/take-action/volunteer/', title: 'Volunteer', text: 'Translate, caption, edit audio or help document safe peace actions.' },
+  { href: '/take-action/partner/', title: 'Partner with us', text: 'Schools, media, radio, youth networks and organisations.' },
+];
 ---
 <BaseLayout hideTakePart>
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container hero__grid">
-      <div class="hero__text">
-        <p class="eyebrow">Independent · Youth-led · Non-partisan</p>
-        <h1>Every generation inherits something. We can decide what we pass on.</h1>
-        <p class="lede">Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.</p>
-        <div class="btn-row">
-          <a class="btn btn--primary" href="/campaigns/current/" data-track="cta:join-hero">Join the conversation</a>
-          <a class="btn btn--secondary" href="/take-action/share-your-voice/" data-track="cta:share-hero">Share your voice</a>
-        </div>
-        <p class="hero-day"><Icon name="sun" /><a href="/3000-days/"><DayCounter /></a></p>
+  <!-- 1. Hero: full-width photo -->
+  <section class="hero-x">
+    <div class="hero-x__bg ld-hide" aria-hidden="true">
+      <Picture src={hero.src} alt="" widths={heroWidths} sizes="100vw" formats={['avif', 'webp']} quality={55} loading="eager" fetchpriority="high" />
+    </div>
+    <div class="container hero-x__inner">
+      <p class="eyebrow">Independent · Youth-led · Non-partisan</p>
+      <h1>Every generation inherits something. We can decide what we pass on.</h1>
+      <p class="lede">Connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--arrow" href="/campaigns/current/" data-track="cta:join-hero">Join the conversation</a>
+        <a class="btn btn--ghost" href="/take-action/share-your-voice/" data-track="cta:share-hero">Share your voice</a>
       </div>
-      <div class="hero__media"><IntroVideo /></div>
     </div>
   </section>
 
-  <!-- Why we exist -->
-  <section class="section">
+  <!-- 2. Introduction band + this month's campaign -->
+  <section class="section band-navy intro">
+    <div class="container intro__grid reveal">
+      <div>
+        <p class="eyebrow">Who we are</p>
+        <p class="intro__text">Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative for South Sudan. We use storytelling, letters, art, intergenerational dialogue, responsible digital communication and safe community action to make peaceful choices more visible in everyday life. Young people are at the centre — and elders, parents, teachers, artists, leaders and the diaspora all have a place here.</p>
+        <a class="text-link" href="/about/">About us →</a>
+      </div>
+      {theme && (
+        <article class="campaign-card">
+          <div class="campaign-card__img ld-hide">
+            <Picture src={campaignPhoto.src} alt={campaignPhoto.alt} widths={[400, 700]} sizes="(min-width: 900px) 30vw, 100vw" formats={['avif', 'webp']} quality={60} loading="lazy" />
+          </div>
+          <div class="campaign-card__body">
+            <p class="eyebrow">This month · {monthName(theme.data.month)}{stage && ` · ${stage.n} ${stage.name}`}</p>
+            <h2>{theme.data.title}</h2>
+            <p>{theme.data.message ?? theme.data.creativePrompt}</p>
+            <a class="btn btn--primary btn--block btn--arrow" href={campaignUrl(theme)} data-track="cta:join-campaign">Join the campaign</a>
+          </div>
+        </article>
+      )}
+    </div>
+  </section>
+
+  <!-- 3. Mission strip -->
+  <section class="mission band-sky">
+    <div class="container mission__inner reveal">
+      <h2 class="mission__title">Our <strong>Mission</strong></h2>
+      <p class="mission__text">To connect and mobilise South Sudanese inside the country and across the world to speak, listen, create and act for peace through inclusive storytelling, responsible media, intergenerational dialogue and practical local action.</p>
+      <a class="btn btn--secondary" href="/about/">About our mission</a>
+    </div>
+  </section>
+
+  <!-- 4. Programmes -->
+  <section class="section" aria-labelledby="programmes">
+    <div class="container reveal">
+      <div class="section-title">
+        <p class="eyebrow">What we do</p>
+        <h2 id="programmes">Four ways in</h2>
+        <p>Every month, all four programmes answer the same campaign — so one idea reaches you as a poem, a club session, an expert talk and an elder’s story.</p>
+      </div>
+      <ProgrammesPanel />
+    </div>
+  </section>
+
+  <!-- 5. Why peace cannot wait + the 3,000-day countdown -->
+  <section class="section band-sky" aria-labelledby="why">
     <div class="container why reveal">
       <div>
         <p class="eyebrow">Why we exist</p>
-        <h2>Why Peace Cannot Wait</h2>
+        <h2 id="why">Why Peace Cannot Wait</h2>
         <p class="lede">South Sudan’s young people are too often recruited, displaced or left out of decisions. They are also students, creators, entrepreneurs and organisers — the builders of everyday peace.</p>
         <p>Social media is our entry point, not our destination. We succeed when a post becomes a conversation, a conversation becomes an action, and an action becomes a peaceful habit.</p>
-        <a class="text-link" href="/about/">Our story →</a>
+        <p>From 21 September 2026 to 7 December 2034, we keep peace visible, practical and passed between generations — <strong>3,000 days, one promise.</strong></p>
+        <a class="text-link" href="/3000-days/">Read the commitment →</a>
       </div>
-      <PhotoFig photo={photos.footballTeamKneeling1} ratio="portrait" sizes="(min-width: 900px) 38vw, 100vw" widths={[400, 640, 900]} />
+      <CountdownCircle />
     </div>
   </section>
 
-  <!-- What we believe -->
-  <section class="section section--surface" aria-labelledby="believe">
+  <!-- 6. What we believe -->
+  <section class="section" aria-labelledby="believe">
     <div class="container reveal">
-      <h2 id="believe" class="center">What we believe</h2>
-      <ul class="beliefs">
-        {beliefs.map((b) => <li><span class="icon-badge"><Icon name={b.icon} /></span><p>{b.text}</p></li>)}
-      </ul>
+      <div class="section-title section-title--center">
+        <p class="eyebrow">Our values</p>
+        <h2 id="believe">What we believe</h2>
+      </div>
+      <ol class="beliefs">
+        {beliefs.map((b, i) => <li><span class="beliefs__n">{String(i + 1).padStart(2, '0')}</span><p>{b}</p></li>)}
+      </ol>
     </div>
   </section>
 
-  <!-- Featured campaign -->
-  {theme && (
-    <section class="section" aria-labelledby="campaign">
-      <div class="container reveal">
-        <div class="campaign">
-          <div>
-            <p class="eyebrow">This month’s campaign · {monthName(theme.data.month)}{stage && ` · ${stage.n} ${stage.name}`}</p>
-            <h2 id="campaign">{theme.data.title}</h2>
-            <p class="campaign__msg">{theme.data.message ?? theme.data.creativePrompt}</p>
-            <div class="btn-row">
-              <a class="btn btn--primary" href={campaignUrl(theme)} data-track="cta:join-campaign">Join the conversation</a>
-              <a class="btn btn--secondary" href="/take-action/share-your-voice/" data-track="cta:share-campaign">Share your voice</a>
-            </div>
-          </div>
-          {action && (
-            <aside class="weekly">
-              <p class="eyebrow">Peace Where We Live</p>
-              <p><strong>This weekend:</strong> {action.action}</p>
-            </aside>
-          )}
-        </div>
+  <!-- 7. Take action band -->
+  <section class="section band-navy act" aria-labelledby="act">
+    <div class="container act__grid reveal">
+      <div class="act__photo ld-hide">
+        <Picture src={photos.certificatesGroup1.src} alt={photos.certificatesGroup1.alt} widths={[400, 700, 1000]} sizes="(min-width: 900px) 45vw, 100vw" formats={['avif', 'webp']} quality={60} loading="lazy" />
       </div>
-    </section>
-  )}
-
-  <!-- Programmes -->
-  <section class="section section--surface" aria-labelledby="ways-in">
-    <div class="container reveal">
-      <div class="head-row">
-        <div>
-          <p class="eyebrow">Our programmes</p>
-          <h2 id="ways-in">Four ways in</h2>
-        </div>
-        <a class="text-link" href="/programmes/">All programmes →</a>
+      <div>
+        <p class="eyebrow">Take action</p>
+        <h2 id="act">You don’t need money, a title or perfect English.</h2>
+        <p>If you have a phone, a pen or a voice, there is a place for you here.</p>
+        <ul class="act__list">
+          {actions.map((a) => (
+            <li><a href={a.href}><strong>{a.title}</strong><span>{a.text}</span><Icon name="arrow" /></a></li>
+          ))}
+        </ul>
       </div>
-      <div class="grid grid--4">{programmes.map((p) => <ProgrammeCard {...p} />)}</div>
     </div>
   </section>
 
-  <!-- Moments -->
+  <!-- 8. Moments, and stories once published -->
   <section class="section" aria-labelledby="moments">
     <div class="container reveal">
-      <p class="eyebrow">Moments</p>
-      <h2 id="moments">Peace, practised together</h2>
-      <PhotoMosaic photos={[photos.footballDuel, photos.workshopDiscussion, photos.certificatesGroup1, photos.groupWithBooklets, photos.workshop2]} />
+      <div class="section-title">
+        <p class="eyebrow">Moments</p>
+        <h2 id="moments">Peace, practised together</h2>
+      </div>
+      <PhotoMosaic photos={[photos.footballDuel, photos.workshopDiscussion, photos.groupWithBooklets, photos.footballTeamKneeling1, photos.workshop2]} />
     </div>
   </section>
 
-  <!-- Stories, voices and blog: only once there is published content -->
   {hasStories && (
-    <section class="section section--surface" aria-labelledby="latest">
+    <section class="section band-sky" aria-labelledby="latest">
       <div class="container reveal">
         <div class="head-row">
-          <h2 id="latest">Stories & voices</h2>
+          <div class="section-title"><p class="eyebrow">Stories & voices</p><h2 id="latest">Latest from our community</h2></div>
           <a class="text-link" href="/stories/">All stories →</a>
         </div>
         {featured.length > 0 && <div class="grid grid--3 block">{featured.map((s) => <QuoteCard story={s} />)}</div>}
         {latest.length > 0 && <div class="block"><StoryList stories={latest} /></div>}
-        {posts.length > 0 && (
-          <div class="block">
-            <h3>From the blog</h3>
-            <div class="grid grid--3">{posts.map((p) => <PostCard post={p} />)}</div>
-          </div>
-        )}
+        {posts.length > 0 && <div class="block grid grid--3">{posts.map((p) => <PostCard post={p} />)}</div>}
       </div>
     </section>
   )}
 
-  <!-- Take action -->
-  <section class:list={['section', { 'section--surface': !hasStories }]} aria-labelledby="act">
-    <div class="container reveal">
-      <p class="eyebrow">Take action</p>
-      <h2 id="act">You don’t need money, a title or perfect English.</h2>
-      <p class="lede">If you have a phone, a pen or a voice, there is a place for you here.</p>
-      <TakeActionCards />
-    </div>
-  </section>
-
-  <!-- Closing: 3,000-day countdown + newsletter -->
-  <section class:list={['section', { 'section--surface': hasStories }]} aria-labelledby="days">
-    <div class="container closing reveal">
-      <div>
-        <p class="eyebrow">3,000 Days for Peace</p>
-        <h2 id="days">3,000 days. One promise.</h2>
-        <p>From 21 September 2026 to 7 December 2034, we keep peace visible, practical and passed between generations.</p>
-        <DayCounter variant="large" />
-        <p class="more"><a class="text-link" href="/3000-days/">Read the commitment →</a></p>
+  <!-- 9. Split: video / questions -->
+  <section class="split-band">
+    <div class="split-band__video">
+      <div class="split-band__inner">
+        <p class="eyebrow">Our story</p>
+        <h2>Watch: What’s P.A.G?</h2>
+        <IntroVideo />
+        {site.socials.youtube && <p><a class="text-link" href={site.socials.youtube} rel="noopener">Subscribe on YouTube →</a></p>}
       </div>
-      <div class="closing__news">
-        <h2>Stay in the conversation</h2>
-        <p>One short email a month: the new campaign, voices worth hearing and ways to take part.</p>
-        <NewsletterForm source="home" id="newsletter-home" />
+    </div>
+    <div class="split-band__ask">
+      <div class="split-band__inner">
+        <h2>Questions about Peace Across Generations?</h2>
+        <p>Write to us — we read every message. Or join the newsletter for one short email a month.</p>
+        <div class="btn-row">
+          <a class="btn btn--light btn--arrow" href="/contact/">Contact us</a>
+          <a class="btn btn--ghost" href="/newsletter/">Join the newsletter</a>
+        </div>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .center { text-align: center; }
-  .hero__grid { display: grid; gap: 2.5rem; align-items: center; }
-  @media (min-width: 960px) { .hero__grid { grid-template-columns: 1.05fr 0.95fr; gap: 3.5rem; } }
-  .hero h1 { font-size: clamp(2rem, 1.3rem + 3vw, 3.2rem); }
-  .hero__media :global(.eyebrow) { display: none; }
-  .hero__media :global(.video__facade) { box-shadow: 0 20px 50px rgb(0 51 102 / 0.18); }
-  .hero-day { display: flex; align-items: center; gap: 0.5rem; margin-top: 1.5rem; color: var(--heading); }
-  .hero-day a { color: inherit; text-decoration: none; }
-  .hero-day a:hover { text-decoration: underline; }
-  .hero-day :global(svg) { width: 22px; height: 22px; color: var(--color-green); }
+  /* Hero */
+  .hero-x { position: relative; isolation: isolate; overflow: hidden; color: #fff; background: linear-gradient(120deg, #002447, #003366 55%, #0b5aa1); }
+  .hero-x__bg { position: absolute; inset: 0; z-index: -2; }
+  .hero-x__bg :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+  .hero-x::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgb(0 36 71 / 0.9) 0%, rgb(0 51 102 / 0.7) 50%, rgb(0 51 102 / 0.2) 100%); }
+  @media (max-width: 760px) { .hero-x::before { background: rgb(0 36 71 / 0.78); } }
+  .hero-x__inner { min-height: clamp(520px, 40vw + 260px, 720px); display: flex; flex-direction: column; justify-content: center; padding-block: 4rem; }
+  .hero-x h1 { color: #fff; max-width: 16ch; font-size: clamp(2.3rem, 1.3rem + 3.6vw, 4rem); line-height: 1.08; }
+  .hero-x .eyebrow { color: #9fd67a; }
+  .hero-x .lede { color: #e6edf5; max-width: 48ch; font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem); }
 
-  .why { display: grid; gap: 2rem; align-items: center; }
-  @media (min-width: 900px) { .why { grid-template-columns: 1.25fr 0.75fr; gap: 4rem; } }
+  /* Intro band */
+  .intro__grid { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 900px) { .intro__grid { grid-template-columns: 1.4fr 1fr; gap: 4rem; } }
+  .intro__text { font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem); line-height: 1.7; color: #e6edf5; max-width: 60ch; }
+  .intro__text::first-letter { float: left; font-family: var(--font-heading); font-weight: 700; font-size: 4.6em; line-height: 0.8; margin: 0.08em 0.12em 0 0; color: #9fd67a; }
+  .campaign-card { background: #fff; color: var(--color-ink); border-radius: var(--radius); overflow: hidden; box-shadow: 0 24px 60px rgb(0 0 0 / 0.25); }
+  .campaign-card__img :global(img) { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .campaign-card__body { padding: 1.5rem; }
+  .campaign-card h2 { color: var(--color-navy); font-size: 1.5rem; }
+  .campaign-card .eyebrow { color: var(--color-green); }
+  .campaign-card p { color: var(--color-ink); }
+  @media (prefers-color-scheme: dark) { .campaign-card { background: var(--surface); } .campaign-card p { color: var(--text); } .campaign-card h2 { color: var(--heading); } }
 
-  .beliefs { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1rem; }
-  @media (min-width: 640px) { .beliefs { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 960px) { .beliefs { grid-template-columns: repeat(3, 1fr); } }
-  .beliefs li {
-    margin: 0; max-width: none; display: flex; gap: 1rem; align-items: center;
-    background: var(--surface); border-radius: var(--radius); padding: 1.1rem 1.25rem;
-    box-shadow: 0 1px 2px rgb(0 51 102 / 0.05);
+  /* Mission strip */
+  .mission__inner { display: grid; gap: 1rem 3rem; align-items: center; padding-block: clamp(2rem, 1.5rem + 2vw, 3rem); }
+  @media (min-width: 900px) { .mission__inner { grid-template-columns: auto 1fr auto; } }
+  .mission__title { margin: 0; font-weight: 400; font-size: clamp(2rem, 1.5rem + 1.5vw, 2.8rem); white-space: nowrap; }
+  .mission__title strong { font-weight: 700; }
+  .mission__text { margin: 0; font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 1.05rem; max-width: none; }
+
+  /* Why + countdown */
+  .why { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 900px) { .why { grid-template-columns: 1.3fr 1fr; gap: 5rem; } }
+
+  /* Beliefs */
+  .beliefs { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  @media (min-width: 700px) { .beliefs { grid-template-columns: repeat(2, 1fr); column-gap: 3rem; } }
+  @media (min-width: 1000px) { .beliefs { grid-template-columns: repeat(3, 1fr); } }
+  .beliefs li { margin: 0; max-width: none; display: flex; gap: 1rem; align-items: baseline; padding: 1.25rem 0; border-bottom: 1px solid var(--line); }
+  .beliefs__n { font-family: var(--font-heading); font-weight: 700; color: var(--accent-text); font-size: 0.95rem; }
+  .beliefs p { margin: 0; font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 1.15rem; line-height: 1.35; }
+
+  /* Take action band */
+  .act__grid { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 900px) { .act__grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .act__photo :global(img) { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); box-shadow: 0 24px 60px rgb(0 0 0 / 0.3); }
+  .act h2 { font-size: clamp(1.7rem, 1.2rem + 1.8vw, 2.5rem); }
+  .act__list { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.75rem; }
+  .act__list li { margin: 0; max-width: none; }
+  .act__list a {
+    display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 1rem; align-items: center;
+    background: #fff; color: var(--color-ink) !important; text-decoration: none; border-radius: var(--radius-sm); padding: 1rem 1.2rem;
+    border-left: 5px solid var(--color-green); transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .beliefs .icon-badge { margin: 0; flex: none; color: var(--accent-text); }
-  .beliefs p { margin: 0; font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 1.05rem; line-height: 1.35; }
+  .act__list a:hover { transform: translateX(4px); box-shadow: 0 10px 24px rgb(0 0 0 / 0.2); }
+  .act__list strong { font-family: var(--font-heading); color: var(--color-navy); font-size: 1.05rem; }
+  .act__list span { grid-column: 1; font-size: 0.93rem; color: #4a5563; }
+  .act__list :global(svg) { grid-column: 2; grid-row: 1 / span 2; width: 22px; height: 22px; color: var(--color-green); }
 
-  .campaign {
-    display: grid; gap: 1.5rem; background: var(--surface); border: 1px solid var(--line);
-    border-radius: calc(var(--radius) + 6px); padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
-    box-shadow: 0 18px 44px rgb(0 51 102 / 0.1); border-top: 6px solid var(--color-green);
-  }
-  @media (min-width: 900px) { .campaign { grid-template-columns: 1.6fr 1fr; align-items: center; } }
-  .campaign h2 { font-size: clamp(1.7rem, 1.2rem + 2vw, 2.6rem); }
-  .campaign__msg { font-size: 1.2rem; max-width: 52ch; }
-  .weekly { background: var(--color-sky-light); border-radius: var(--radius); padding: 1.25rem 1.4rem; }
-  @media (prefers-color-scheme: dark) { .weekly { background: var(--surface-alt); } }
-  .weekly .eyebrow { margin-bottom: 0.4rem; color: var(--accent-text); }
-  .weekly p:last-child { margin: 0; font-size: 1.08rem; }
+  /* Split band */
+  .split-band { display: grid; }
+  @media (min-width: 960px) { .split-band { grid-template-columns: 1.15fr 1fr; } }
+  .split-band__video { background: #0b1726; color: #e6edf5; }
+  .split-band__ask { background: linear-gradient(135deg, #003366, #0b5aa1); color: #e6edf5; display: flex; align-items: center; }
+  .split-band__inner { padding: clamp(2.5rem, 2rem + 3vw, 5rem) clamp(1rem, 4vw, 4.5rem); max-width: 720px; }
+  .split-band h2 { color: #fff; font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem); }
+  .split-band .eyebrow { color: #9fd67a; }
+  .split-band__video :global(.intro-video .eyebrow) { display: none; }
+  .split-band__video :global(.video a), .split-band a:not(.btn) { color: #fff; }
+  .split-band .text-link { color: #9fd67a; }
 
-  .head-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 0.5rem 1rem; margin-bottom: 1.25rem; }
-  .head-row h2 { margin: 0; }
+  .head-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 0.5rem 1rem; }
   .block + .block { margin-top: 2rem; }
-
-  .closing { display: grid; gap: 2.5rem; align-items: start; }
-  @media (min-width: 900px) { .closing { grid-template-columns: 1fr 1fr; gap: 4rem; } }
-  .closing h2 { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 1.9rem); }
-  .closing .more { margin-top: 1rem; }
-  .closing__news { background: var(--surface); border-radius: var(--radius); padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); box-shadow: var(--shadow); }
 </style>

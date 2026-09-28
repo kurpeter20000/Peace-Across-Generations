@@ -1,0 +1,69 @@
+---
+// Programmes as one panel: a photo tile, then a column per programme with
+// its main activities (all from the programme pages) and a clear button.
+import { Picture } from 'astro:assets';
+import { photos } from '../data/photos';
+
+const columns = [
+  {
+    key: 'creative', title: 'Youth Creative Peace', href: '/programmes/youth-creative-peace/',
+    line: 'Turn your poem, song, drawing, photo or letter into a public message for peace.',
+    items: ['Letters for Peace', 'Poetry and spoken word', 'Music and the Peace Song Challenge', 'Visual art and photography', 'Drama and comedy'],
+  },
+  {
+    key: 'clubs', title: 'Peace Clubs & Community Circles', href: '/programmes/peace-clubs-and-circles/',
+    line: 'A regular, supervised place for young people to practise peace face to face.',
+    items: ['School Peace Clubs, twice a month', 'Community Peace Circles, ages 18–35', 'One supervised action each month', 'Safeguarding first'],
+  },
+  {
+    key: 'talks', title: 'Peace Talks', href: '/programmes/peace-talks/',
+    line: 'One expert, one live conversation, every month — free.',
+    items: ['Live on Facebook', 'Audio on WhatsApp within 48 hours', 'Watch parties for clubs and circles', 'Free for community radio'],
+  },
+  {
+    key: 'conversations', title: 'Generations in Conversation', href: '/programmes/generations-in-conversation/',
+    line: 'Young people ask. Elders answer. Together they decide what to pass on.',
+    items: ['Main episodes, twice a month', 'Ask an Elder', 'What I’d Tell My Younger Self', '64 Voices, One Future'],
+  },
+];
+const photo = photos.workshopGroup;
+---
+<div class="panel">
+  <a class="panel__photo" href="/programmes/">
+    <span class="ld-hide panel__img" aria-hidden="true">
+      <Picture src={photo.src} alt="" widths={[400, 700]} sizes="(min-width: 1100px) 20vw, 100vw" formats={['avif', 'webp']} quality={60} loading="lazy" />
+    </span>
+    <span class="panel__label">Our<br />Programmes <span aria-hidden="true">→</span></span>
+  </a>
+  {columns.map((c) => (
+    <article class="panel__col" data-programme={c.key}>
+      <h3>{c.title}</h3>
+      <p>{c.line}</p>
+      <ul>{c.items.map((i) => <li>{i}</li>)}</ul>
+      <a class="btn btn--primary btn--block btn--arrow" href={c.href}>Learn more <span class="visually-hidden">about {c.title}</span></a>
+    </article>
+  ))}
+</div>
+
+<style>
+  .panel { display: grid; background: var(--surface); box-shadow: 0 24px 60px rgb(0 51 102 / 0.12); border-radius: var(--radius); overflow: hidden; }
+  @media (min-width: 700px) { .panel { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .panel { grid-template-columns: 1.05fr repeat(4, 1fr); } }
+  .panel__photo {
+    position: relative; min-height: 260px; display: flex; align-items: flex-end; padding: 1.5rem;
+    background: linear-gradient(160deg, #0b5aa1, #003366); text-decoration: none; isolation: isolate;
+  }
+  .panel__img { position: absolute; inset: 0; z-index: -2; }
+  .panel__img :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .panel__photo::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(0 51 102 / 0.1) 30%, rgb(0 36 71 / 0.85) 100%); }
+  .panel__label { color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.1rem); line-height: 1.1; }
+  .panel__label span { color: #9fd67a; }
+  .panel__photo:hover .panel__label span { margin-left: 0.25rem; }
+  .panel__col { display: flex; flex-direction: column; padding: 1.75rem 1.5rem; border-top: 1px solid var(--line); }
+  @media (min-width: 1100px) { .panel__col { border-top: 0; border-left: 1px solid var(--line); } }
+  .panel__col h3 { font-size: 1.2rem; min-height: 2.5em; }
+  .panel__col p { font-size: 0.97rem; color: var(--text-muted); }
+  .panel__col ul { list-style: none; padding: 0; margin: 0.25rem 0 1.5rem; }
+  .panel__col li { margin: 0; padding: 0.55rem 0; border-bottom: 1px solid var(--tag, var(--color-green)); font-size: 0.9rem; max-width: none; }
+  .panel__col .btn { margin-top: auto; font-size: 0.76rem; padding-inline: 0.75rem; white-space: nowrap; }
+</style>

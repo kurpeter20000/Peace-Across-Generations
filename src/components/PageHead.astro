@@ -1,24 +1,50 @@
 ---
-import LeafDivider from './LeafDivider.astro';
-import PhotoFig from './Photo.astro';
+// Page banner: full-width photo with a navy overlay and white title (or a
+// navy gradient when the page has no photo). In Low-data mode the photo is
+// hidden and the gradient remains.
+import { Picture } from 'astro:assets';
 import type { Photo } from '../data/photos';
+
 interface Props { title: string; eyebrow?: string; lede?: string; photo?: Photo }
 const { title, eyebrow, lede, photo } = Astro.props;
 ---
-<header class:list={['page-head', { 'page-head--photo': photo }]}>
-  <div class="container page-head__grid">
-    <div>
-      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-      <h1>{title}</h1>
-      <LeafDivider align="left" />
-      {lede && <p class="lede">{lede}</p>}
-      <slot />
+<header class:list={['banner', { 'banner--photo': photo }]}>
+  {photo && (
+    <div class="banner__bg ld-hide" aria-hidden="true">
+      <Picture src={photo.src} alt="" widths={[640, 1024, 1440, 1600].filter((w) => w <= photo.src.width)} sizes="100vw" formats={['avif', 'webp']} quality={55} loading="eager" fetchpriority="high" />
     </div>
-    {photo && <PhotoFig photo={photo} eager ratio="photo" sizes="(min-width: 960px) 45vw, 100vw" widths={[400, 720, 1000]} />}
+  )}
+  <div class="container banner__inner">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+    <div class="banner__extra"><slot /></div>
   </div>
+  {photo?.credit && <p class="banner__credit">{photo.credit}</p>}
 </header>
 
 <style>
-  .page-head__grid { display: grid; gap: 1.5rem; align-items: center; }
-  @media (min-width: 960px) { .page-head--photo .page-head__grid { grid-template-columns: 1.1fr 0.9fr; gap: 3rem; } }
+  .banner {
+    position: relative; isolation: isolate; overflow: hidden;
+    background: linear-gradient(120deg, #002447 0%, #003366 55%, #0b5aa1 100%);
+    color: #e6edf5;
+  }
+  .banner__bg { position: absolute; inset: 0; z-index: -2; }
+  .banner__bg :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
+  .banner--photo::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg, rgb(0 36 71 / 0.92) 0%, rgb(0 51 102 / 0.78) 45%, rgb(0 51 102 / 0.35) 100%);
+  }
+  @media (max-width: 760px) { .banner--photo::before { background: rgb(0 36 71 / 0.8); } }
+  .banner__inner { padding-block: clamp(3rem, 2rem + 5vw, 6.5rem); max-width: var(--max); }
+  .banner--photo .banner__inner { min-height: clamp(300px, 22vw + 200px, 460px); display: flex; flex-direction: column; justify-content: center; }
+  .banner h1 { color: #fff; max-width: 18ch; font-size: clamp(2.1rem, 1.3rem + 3.2vw, 3.6rem); margin-bottom: 0.4em; }
+  .banner .eyebrow { color: #9fd67a; }
+  .banner .lede { color: #e6edf5; max-width: 60ch; font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); }
+  .banner__extra :global(p) { color: #e6edf5; max-width: 62ch; }
+  .banner__extra :global(a:not(.btn)) { color: #fff; }
+  .banner__extra :global(.btn--secondary) { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.85); }
+  .banner__extra :global(.btn--secondary:hover) { background: rgb(255 255 255 / 0.12); }
+  .banner__extra :global(.tbd) { color: var(--tbd-text); }
+  .banner__credit { position: absolute; right: 0.75rem; bottom: 0.4rem; margin: 0; font-size: 0.72rem; color: rgb(255 255 255 / 0.75); }
 </style>
