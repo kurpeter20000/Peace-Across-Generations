@@ -27,16 +27,49 @@ Every action is logged with who did it and when. The other tabs show **Enquiries
 
 ---
 
+## For the team: the content editor (posting articles, campaigns, newsletters…)
+
+Go to **`/admin/cms/`** (or open `/admin/` and choose **Open the content editor**).
+
+1. Sign in with your team email through the Cloudflare login (the same one as `/admin`).
+2. Click **Sign In with GitHub**. You do **not** need a GitHub account: the site signs you in with your team login.
+3. Choose what to edit on the left: **Blog posts, Newsletters, Campaigns, Stories & Voices, Resources, Events, Peace Talks, Our team, Contributor profiles**, and the settings pages (**Site settings, Pilot progress, Clubs & circles status, Corrections log, Founding Creators wall**).
+4. Click **New** (or open an existing item), fill in the fields and press **Save**.
+
+- New items start as **Draft**. Turn **Draft** off to publish.
+- The website updates **2–4 minutes** after you save, while Cloudflare rebuilds it.
+- Photos you upload are resized automatically, with location data removed.
+- The site's safety checks still apply. A story won't publish without **Consent recorded** (and guardian consent for under-18s), and a blog post won't publish without a source.
+- **Newsletters** you publish appear at `/newsletter/`. To email an issue, export subscribers from the admin dashboard (**Newsletter → Download CSV**) and send it with your mail tool.
+- Every save is recorded in the repository history, so any change can be undone.
+
+### One-time setup: connect the editor to GitHub
+
+The editor saves through a GitHub access key that only the website holds.
+
+1. On GitHub, go to **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**.
+   - Token name: `PAG content editor`. Expiration: up to 1 year (put a reminder in your calendar to renew it).
+   - Repository access: **Only select repositories** → `Peace-Across-Generations`.
+   - Repository permissions: **Contents: Read and write** (Metadata: Read is added automatically).
+   - Generate, then copy the token.
+2. In a terminal in the project folder, run the command below and paste the token when asked:
+   ```sh
+   npx wrangler pages secret put GITHUB_CMS_TOKEN --project-name peace-across-generations
+   ```
+3. Redeploy (push any change, or **Deployments → Retry deployment**) so the site picks it up.
+
+Only people on the Cloudflare Access list can reach `/admin/cms/`. To add or remove editors, edit that list (Zero Trust → Access → Applications). The GitHub key never leaves the website except to a signed-in team member's editor window.
+
 ## For the content team: how to update the site
 
-You don't need to code. Every change is a small text file edit. You can make edits directly on GitHub: open the file, click the pencil icon, make the change, then click **Commit changes**. The site rebuilds itself a minute or two later.
+The easiest way is the **content editor** above. Everything below is the same content as plain text files, for anyone who prefers to edit on GitHub: open the file, click the pencil icon, make the change, then click **Commit changes**.
 
 Placeholders that still need real information look like **`[TBD: …]`** on the site. Never replace one with a guess. Only use confirmed facts, names, numbers and links.
 
 ### 1. Add a new story (letter, poem, video, conversation…)
 
 1. Go to `src/content/stories/`.
-2. Open `_template.md` and copy all of its text.
+2. Open `src/content/_templates/stories.md` and copy all of its text.
 3. Create a new file in the same folder, named after the story in lower case with hyphens, e.g. `a-letter-to-my-grandchildren.md`. The file name becomes the web address: `/stories/a-letter-to-my-grandchildren/`. Don't start the name with `_`, and don't reuse a category name (`videos`, `stories`, `letters`, `poetry`, `music`, `art`, `drama`, `conversations`, `voices`).
 4. Paste the template and fill in each line. Lines starting with `#` are optional; remove the `#` to use them.
 5. Write the piece itself (or its summary) below the second `---` line.
@@ -88,7 +121,7 @@ Once a month, after the learning review:
 
 ### 4. Blog posts
 
-1. Go to `src/content/posts/`, copy `_template.md` into a new file named after the post (e.g. `new-school-opens-in-bor.md`).
+1. Go to `src/content/posts/`, copy `src/content/_templates/posts.md` into a new file named after the post (e.g. `new-school-opens-in-bor.md`).
 2. Fill in the title, date, summary and category, and write the post under the second `---`.
 3. List **at least one source**. A post without sources will not publish.
 4. Change `draft: true` to `draft: false`.
@@ -99,9 +132,9 @@ The blog reports real progress in peace and development with facts and sources. 
 
 | What | File |
 |---|---|
-| Resources (guides, toolkits, videos, research) | `src/content/resources/` (copy `_template.md`; only list checked resources) |
-| Events | `src/content/events/` (copy `_template.md`) |
-| Contributor profiles (only with written consent) | `src/content/contributors/` (copy `_template.md`) |
+| Resources (guides, toolkits, videos, research) | `src/content/resources/` (copy `src/content/_templates/resources.md`; only list checked resources) |
+| Events | `src/content/events/` (copy `src/content/_templates/events.md`) |
+| Contributor profiles (only with written consent) | `src/content/contributors/` (copy `src/content/_templates/contributors.md`) |
 | WhatsApp number, social links, safeguarding email, intro video | `src/data/site.json` (replace `null` with the value in quotes) |
 | Peace Talks dates, speakers, recordings | `src/content/talks/<month>.md` |
 | Team names, bios, photos | `src/content/team/*.md` (set `open: false` when a role is filled; photos in `src/content/team/images/`) |

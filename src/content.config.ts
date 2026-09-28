@@ -5,6 +5,40 @@ import { z } from 'astro/zod';
 // Files starting with "_" (templates, examples) are never loaded.
 const md = (base: string) => glob({ pattern: '**/[^_]*.{md,mdx}', base: `./src/content/${base}` });
 
+/**
+ * The content editor (/admin/cms) saves empty optional fields as "" or as
+ * objects/lists with only empty values. Drop those so optional fields are
+ * simply absent, instead of failing validation (e.g. an image with no file).
+ */
+function stripBlank(v: unknown): unknown {
+  if (v === '' || v === null) return undefined;
+  if (Array.isArray(v)) {
+    const out = v.map(stripBlank).filter((x) => x !== undefined);
+    return out;
+  }
+  if (v && typeof v === 'object' && !(v instanceof Date)) {
+    const entries = Object.entries(v as Record<string, unknown>)
+      .map(([k, x]) => [k, stripBlank(x)] as const)
+      .filter(([, x]) => x !== undefined);
+    return entries.length ? Object.fromEntries(entries) : undefined;
+  }
+  return v;
+}
+const clean = <T extends z.ZodTypeAny>(schema: T) =>
+  z.preprocess((v) => {
+    if (!v || typeof v !== 'object') return v;
+    // Keep top-level nulls that the schema expects (e.g. team name: null).
+    const out: Record<string, unknown> = {};
+    for (const [k, x] of Object.entries(v as Record<string, unknown>)) {
+      const c = x === null ? null : stripBlank(x);
+      if (c !== undefined) out[k] = c;
+    }
+    return out;
+  }, schema);
+
+/** The editor stores select values as text: "true" / "false" / "n/a". */
+const boolish = z.preprocess((v) => (v === 'true' ? true : v === 'false' ? false : v), z.boolean());
+
 const video = z.object({
   platform: z.enum(['youtube', 'facebook']),
   url: z.string().url(),
@@ -18,7 +52,7 @@ const video = z.object({
 const themes = defineCollection({
   loader: md('themes'),
   schema: ({ image }) =>
-    z.object({
+    clean(z.object({
       title: z.string(),
       month: z.string().regex(/^\d{4}-\d{2}$/),
       startDate: z.coerce.date(),
@@ -48,7 +82,7 @@ const themes = defineCollection({
       coreMessage: z.string().optional(),
       contentWarning: z.boolean().default(false),
       draft: z.boolean().default(false),
-    }),
+    })),
 });
 
 export const storyTypes = [
@@ -65,7 +99,7 @@ export const contributorCategories = [
 const stories = defineCollection({
   loader: md('stories'),
   schema: ({ image }) =>
-    z.object({
+    clean(z.object({
       title: z.string(),
       type: z.enum(storyTypes),
       programme: z.enum(programmes),
@@ -97,17 +131,17 @@ const stories = defineCollection({
       submissionRef: z.string().optional(),
       // Internal check only. Never rendered. Consent records live offline / in the moderation queue.
       consent: z.object({
-        recorded: z.boolean(),
-        guardianConsent: z.union([z.boolean(), z.literal('n/a')]),
-        reviewedBy2: z.boolean().default(false),
+        recorded: boolish,
+        guardianConsent: z.preprocess((v) => (v === 'true' ? true : v === 'false' ? false : v), z.union([z.boolean(), z.literal('n/a')])),
+        reviewedBy2: boolish.default(false),
       }),
       draft: z.boolean().default(false),
-    }),
+    })),
 });
 
 const talks = defineCollection({
   loader: md('talks'),
-  schema: z.object({
+  schema: clean(z.object({
     title: z.string(),
     month: z.string().regex(/^\d{4}-\d{2}$/),
     date: z.coerce.date().optional(),
@@ -120,20 +154,20 @@ const talks = defineCollection({
     facebookLiveUrl: z.string().url().optional(),
     status: z.enum(['upcoming', 'live', 'recorded']).default('upcoming'),
     recording: z.string().optional(),
-  }),
+  })),
 });
 
 const team = defineCollection({
   loader: md('team'),
   schema: ({ image }) =>
-    z.object({
+    clean(z.object({
       order: z.number(),
       role: z.string(),
       name: z.string().nullable().default(null),
       bio: z.string().nullable().default(null),
       photo: image().nullable().default(null),
       open: z.boolean().default(true),
-    }),
+    })),
 });
 
 export const postCategories = ['peace', 'development', 'youth', 'education', 'community', 'culture'] as const;
@@ -142,7 +176,7 @@ export const postCategories = ['peace', 'development', 'youth', 'education', 'co
 const posts = defineCollection({
   loader: md('posts'),
   schema: ({ image }) =>
-    z.object({
+    clean(z.object({
       title: z.string(),
       date: z.coerce.date(),
       summary: z.string(),
@@ -154,14 +188,14 @@ const posts = defineCollection({
       sources: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
       contentWarning: z.boolean().default(false),
       draft: z.boolean().default(false),
-    }),
+    })),
 });
 
 export const resourceTypes = ['article', 'research', 'guide', 'book', 'video', 'toolkit', 'podcast'] as const;
 
 const resources = defineCollection({
   loader: md('resources'),
-  schema: z.object({
+  schema: clean(z.object({
     title: z.string(),
     type: z.enum(resourceTypes),
     summary: z.string(),
@@ -174,12 +208,12 @@ const resources = defineCollection({
     size: z.string().optional(),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
-  }),
+  })),
 });
 
 const events = defineCollection({
   loader: md('events'),
-  schema: z.object({
+  schema: clean(z.object({
     title: z.string(),
     date: z.coerce.date(),
     time: z.string().optional(),
@@ -191,23 +225,36 @@ const events = defineCollection({
     campaign: z.string().optional(),
     registrationUrl: z.string().url().optional(),
     draft: z.boolean().default(false),
-  }),
+  })),
 });
 
 /** Public contributor profiles — only with the person's written consent. */
 const contributors = defineCollection({
   loader: md('contributors'),
   schema: ({ image }) =>
-    z.object({
+    clean(z.object({
       name: z.string(),
       categories: z.array(z.enum(contributorCategories)).default([]),
       location: z.string().optional(),
       bio: z.string(),
       photo: z.object({ src: image(), alt: z.string() }).optional(),
       links: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
-      profileConsent: z.literal(true),
+      profileConsent: boolish.refine((v) => v === true, 'Profiles need the person’s written consent'),
       draft: z.boolean().default(false),
-    }),
+    })),
 });
 
-export const collections = { themes, stories, talks, team, posts, resources, events, contributors };
+/** Newsletter issues, published at /newsletter/<file-name>/. */
+const newsletters = defineCollection({
+  loader: md('newsletters'),
+  schema: ({ image }) =>
+    clean(z.object({
+      title: z.string(),
+      date: z.coerce.date(),
+      summary: z.string(),
+      image: z.object({ src: image(), alt: z.string() }).optional(),
+      draft: z.boolean().default(false),
+    })),
+});
+
+export const collections = { themes, stories, talks, team, posts, resources, events, contributors, newsletters };

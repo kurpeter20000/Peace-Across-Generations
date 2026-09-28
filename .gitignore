@@ -29,3 +29,7 @@ pnpm-debug.log*
 # Original, full-size photos (up to 20 MB each). Web-ready copies are made
 # with `npm run photos` into src/assets/photos/, which is committed.
 /images/
+
+# Content editor build output (copied from node_modules by scripts/cms.mjs)
+/public/admin/cms/sveltia-cms.js
+/public/admin/cms/chunks/

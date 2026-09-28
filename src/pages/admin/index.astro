@@ -11,6 +11,10 @@ import { submissionStatuses } from '../../data/forms';
         <h1>Admin</h1>
         <p class="muted" data-admin-who>Checking your sign-in…</p>
       </header>
+      <div class="admin-links">
+        <a class="btn btn--primary" href="/admin/cms/">Open the content editor</a>
+        <span class="muted">Write blog posts, newsletters, campaigns, stories, events, resources and team profiles.</span>
+      </div>
       <p class="note note--warning" hidden data-admin-error></p>
 
       <div class="tabs" role="tablist" aria-label="Admin sections">
@@ -55,6 +59,7 @@ import { submissionStatuses } from '../../data/forms';
 <script>import '../../scripts/admin.ts';</script>
 
 <style>
+  .admin-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; margin: 0 0 1.5rem; }
   .admin__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1rem; }
   .tabs, .filters { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
   .tabs button, .filters button, :global(.admin .mini) {

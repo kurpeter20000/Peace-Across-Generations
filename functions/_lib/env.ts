@@ -15,6 +15,12 @@ export interface Env {
   ACCESS_AUD?: string;
   /** Secret used to hash IP addresses for rate limiting (never store raw IPs). */
   HASH_SALT?: string;
+  /**
+   * Fine-grained GitHub token for the content editor: this repository only,
+   * Contents read & write. Secret. Set with:
+   *   npx wrangler pages secret put GITHUB_CMS_TOKEN --project-name peace-across-generations
+   */
+  GITHUB_CMS_TOKEN?: string;
   /** Local development only: "1" lets localhost use the admin API without Access. */
   DEV_ADMIN?: string;
 }

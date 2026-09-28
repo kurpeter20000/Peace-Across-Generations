@@ -6,7 +6,8 @@ import Email from '../components/Email.astro';
 import Tbd from '../components/Tbd.astro';
 import site from '../data/site.json';
 
-const sg = site.safeguardingEmail as { user: string; domain: string } | null;
+const sgRaw = site.safeguardingEmail as { user?: string; domain?: string } | null;
+const sg = sgRaw?.user && sgRaw?.domain ? (sgRaw as { user: string; domain: string }) : null;
 ---
 <BaseLayout title="Report a concern" description="Tell us if you are worried about the safety of anyone connected with our work. You will not face retaliation for raising a concern in good faith.">
   <PageHead title="Report a concern">

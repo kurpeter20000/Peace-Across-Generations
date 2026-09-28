@@ -7,7 +7,8 @@ import VideoFacade from './VideoFacade.astro';
 import Tbd from './Tbd.astro';
 
 type Video = { platform: 'youtube' | 'facebook'; url: string; thumbnail?: string } | null;
-const video = site.introVideo as Video;
+const raw = site.introVideo as Video;
+const video = raw && raw.url ? raw : null;
 ---
 <div class="intro-video">
   <p class="eyebrow">Watch our introduction</p>

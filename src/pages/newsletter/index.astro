@@ -3,6 +3,10 @@ import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import NewsletterForm from '../../components/NewsletterForm.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../../lib/content';
+
+const issues = (await getCollection('newsletters', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <BaseLayout title="Newsletter" description="One short email a month from Peace Across Generations: the new campaign, voices worth hearing and ways to take part.">
   <PageHead photo={photos.doveAndEarth} title="Stay in the conversation" eyebrow="Newsletter" lede="One short email a month: the new campaign, voices worth hearing and ways to take part. No spam, no tracking, and you can leave at any time." />
@@ -11,5 +15,26 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
       <NewsletterForm source="newsletter-page" id="newsletter-page" />
     </div>
   </section>
+  {issues.length > 0 && (
+    <section class="section" aria-labelledby="past">
+      <div class="container narrow">
+        <h2 id="past">Past issues</h2>
+        <ul class="issues">
+          {issues.map((i) => (
+            <li class="card card--link">
+              <p class="eyebrow"><time datetime={i.data.date.toISOString().slice(0, 10)}>{formatDate(i.data.date)}</time></p>
+              <h3><a class="card__link" href={`/newsletter/${i.id}/`}>{i.data.title}</a></h3>
+              <p>{i.data.summary}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
 </BaseLayout>
-<style>.narrow { max-width: 720px; }</style>
+<style>
+  .narrow { max-width: 720px; }
+  .issues { list-style: none; padding: 0; display: grid; gap: 1rem; }
+  .issues li { margin: 0; }
+  .issues h3 a { text-decoration: none; color: inherit; }
+</style>

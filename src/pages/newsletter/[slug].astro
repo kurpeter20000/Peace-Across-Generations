@@ -1,0 +1,50 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsletterForm from '../../components/NewsletterForm.astro';
+import SocialShare from '../../components/SocialShare.astro';
+import { formatDate } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const issues = await getCollection('newsletters', ({ data }) => !data.draft);
+  return issues.filter((i) => i.id !== 'thanks').map((issue) => ({ params: { slug: issue.id }, props: { issue } }));
+}
+const { issue } = Astro.props as { issue: CollectionEntry<'newsletters'> };
+const d = issue.data;
+const { Content } = await render(issue);
+const url = new URL(`/newsletter/${issue.id}/`, Astro.site).toString();
+---
+<BaseLayout title={d.title} description={d.summary} ogType="article">
+  <article>
+    <header class="page-head">
+      <div class="container narrow">
+        <p class="eyebrow"><a href="/newsletter/">Newsletter</a> · <time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time></p>
+        <h1>{d.title}</h1>
+        <p class="lede">{d.summary}</p>
+      </div>
+    </header>
+    <div class="container narrow body">
+      {d.image && <figure class="ld-hide"><Picture src={d.image.src} alt={d.image.alt} widths={[480, 800, 1200]} sizes="(min-width: 800px) 760px, 100vw" formats={['avif', 'webp']} loading="lazy" /></figure>}
+      <div class="prose"><Content /></div>
+      <SocialShare title={d.title} url={url} />
+      <div class="card sub">
+        <h2>Get the next issue by email</h2>
+        <NewsletterForm source={`issue:${issue.id}`} id="newsletter-issue" />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .narrow { max-width: 760px; }
+  .eyebrow a { color: inherit; }
+  .body { padding-bottom: 3rem; }
+  .body > :global(* + *) { margin-top: 2rem; }
+  .prose { font-size: 1.1em; }
+  .prose :global(h2) { font-size: 1.4rem; margin-top: 2rem; }
+  .prose :global(img) { border-radius: var(--radius); }
+  figure { margin: 0; }
+  figure :global(img) { border-radius: var(--radius); width: 100%; height: auto; }
+  .sub h2 { font-size: 1.25rem; }
+</style>
