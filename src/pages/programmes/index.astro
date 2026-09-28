@@ -1,36 +1,84 @@
 ---
+// Content from the PAG Programme Portfolio 2026–2027, sections 1 and 8.
 import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
+import Icon from '../../components/Icon.astro';
+import OnThisPage from '../../components/programme/OnThisPage.astro';
+import ContributeCards from '../../components/programme/ContributeCards.astro';
 import { programmes } from '../../data/programmes';
 
 const rows = [
-  { key: 'creative', does: 'Turns creativity into public peace messages', who: 'Young creators 15–35, at home and in the diaspora', rhythm: 'One themed challenge a month; one featured work a week; 4–5 Letters for Peace a month' },
-  { key: 'clubs', does: 'A regular, supervised place to practise peace', who: 'Secondary students; out-of-school youth 18–35', rhythm: 'Meet twice a month' },
-  { key: 'talks', does: 'Brings peace and youth-empowerment experts to young people', who: 'Youth leaders, club members, students, diaspora', rhythm: 'One live session a month, released as audio' },
-  { key: 'conversations', does: 'Honest conversations between young people and elders', who: 'Youth–elder pairs; listeners of every age', rhythm: 'Two episodes a month' },
+  { key: 'creative', does: 'Turns creativity into public peace messages', who: 'Young creators aged 15–35, at home and in the diaspora', rhythm: 'One themed challenge a month; one featured work a week; 4–5 Letters for Peace a month' },
+  { key: 'clubs', does: 'Gives young people a regular, supervised place to practise peace', who: 'Secondary students; out-of-school youth aged 18–35', rhythm: '2–3 school clubs and 1–2 community circles, meeting twice a month' },
+  { key: 'talks', does: 'Brings peace and youth-empowerment experts to young people', who: 'Youth leaders, club members, students, diaspora', rhythm: 'One live session a month, recorded and released as audio' },
+  { key: 'conversations', does: 'Records honest conversations between young people and elders', who: 'Youth–elder pairs; listeners of every age', rhythm: 'Two episodes a month' },
 ];
 const byKey = Object.fromEntries(programmes.map((p) => [p.key, p]));
 const fullTitle: Record<string, string> = { clubs: 'Peace Clubs & Community Peace Circles' };
----
-<BaseLayout title="Our programmes" description="Four core programmes, four running threads, one monthly theme.">
-  <PageHead photo={photos.workshopGroup} title="Our programmes" lede="Four core programmes, four running threads, one monthly theme.">
-    <p>Every month, each programme answers the same theme, so one idea reaches people four ways: as a poem, a club session, an expert talk and an elder’s story.</p>
-  </PageHead>
 
-  <section class="section section--surface">
+const routes: [string, string, string][] = [
+  ['Peace in 90 Seconds', 'Running thread', '/programmes/running-threads/#90-seconds'],
+  ['Letters for Peace', 'Youth Creative Peace', '/programmes/youth-creative-peace/'],
+  ['Arts for Peace', 'Youth Creative Peace', '/programmes/youth-creative-peace/'],
+  ['Peace Across Generations Dialogues', 'Generations in Conversation', '/programmes/generations-in-conversation/'],
+  ['64 Voices, One Future', 'Running thread, with a flagship series inside Generations in Conversation', '/programmes/running-threads/#64-voices'],
+  ['Digital Peace & Information Integrity', 'Running thread: Pause Before You Share', '/programmes/running-threads/#pause'],
+  ['Peace Actions Where We Live', 'Running thread, delivered mainly through clubs and circles', '/programmes/running-threads/#where-we-live'],
+  ['Global Voices for South Sudan', 'Peace Talks guests, and solidarity pieces in Youth Creative Peace', '/programmes/peace-talks/'],
+];
+
+const calendar = [
+  ['October — Unlearn Hate', 'Letter to someone you were taught to distrust; photo of a friendship across communities', 'How hate speech spreads online, plus how to check a claim in two minutes', 'What were you taught about people from other communities, and was it true?', 'Schools approached and readiness checks worked through; first community circle'],
+  ['November — Lower the Gun, Raise the Voice', 'Peace Song Challenge; skits on courage without guns; an open letter on guns', 'Courage without guns: masculinity, cattle and community safety, plus how to disagree without escalating', 'Before guns were common, what made a young man respected?', 'First club meetings; scenes from The Land That Feeds Us All'],
+  ['December — Leadership, Dialogue and Peaceful Public Life', 'Letters to leaders; “the leader I want to be” videos', 'Leading without dividing: young people in civic life, plus public speaking', 'A chief or teacher and a student leader on what makes leadership trusted', 'End-of-term peace assembly; holiday arrangements agreed'],
+  ['January — Healing Without Forgetting', 'Letters Across Generations; poems on memory', 'Grief, memory and healing: what helps and where to find support (education, not treatment)', 'What do we remember, and what should end with us? (9 January: anniversary of the 2005 Comprehensive Peace Agreement)', 'Supervised holiday sessions only; circles focus on listening'],
+  ['February — The Generation That Builds Peace', 'Second Peace Song Challenge; online showcase; Founding Creators recognised', 'What our generation builds next: a panel of pilot contributors, plus turning an idea into a project', 'Youth hosts and elders on commitments for the next phase', 'Clubs present one project if term has started; pilot review at the end of the month'],
+];
+---
+<BaseLayout title="Our programmes" description="Four core programmes, four running threads, one monthly theme — and a clear place for everyone to contribute.">
+  <PageHead photo={photos.workshopGroup} title="Our programmes" eyebrow="Pilot · October 2026 – February 2027" lede="Four core programmes, four running threads, one monthly theme. Every month, each programme answers the same theme, so one idea reaches people four ways: as a poem, a club session, an expert talk and an elder’s story." />
+
+  <OnThisPage links={[['#core', 'Core programmes'], ['#fit', 'How they fit'], ['#routes', 'Eight routes'], ['#calendar', 'Pilot calendar'], ['#more', 'Threads & what’s next'], ['#contribute', 'Get involved']]} />
+
+  <section class="section" id="core" aria-labelledby="core-h">
     <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Four core programmes</p>
+        <h2 id="core-h">Explore each programme in detail</h2>
+        <p>Each page explains why the programme exists, how it works month by month, how we keep people safe, what we aim to achieve — and exactly where you can contribute.</p>
+      </div>
+      <ul class="prog-grid">
+        {programmes.map((p, i) => (
+          <li class="prog-card">
+            <span class="icon-badge"><Icon name={p.icon as any} /></span>
+            <p class="prog-card__n">Programme {i + 1}</p>
+            <h3><a href={p.href}>{fullTitle[p.key] ?? p.title}</a></h3>
+            <p>{p.line}</p>
+            <span class="prog-card__more" aria-hidden="true">Read the full programme →</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section band-off" id="fit" aria-labelledby="fit-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">At a glance</p>
+        <h2 id="fit-h">How the programmes fit together</h2>
+      </div>
       <div class="table-wrap">
         <table class="table-cards">
           <caption class="visually-hidden">Programmes overview</caption>
-          <thead><tr><th scope="col">Programme</th><th scope="col">What it does</th><th scope="col">Who it’s for</th><th scope="col">Rhythm</th></tr></thead>
+          <thead><tr><th scope="col">Programme</th><th scope="col">What it does</th><th scope="col">Who it’s for</th><th scope="col">Pilot rhythm</th></tr></thead>
           <tbody>
             {rows.map((r) => (
               <tr data-programme={r.key}>
-                <td><a class="tag" href={byKey[r.key].href}>{fullTitle[r.key] ?? byKey[r.key].title}</a></td>
+                <td><a href={byKey[r.key].href}>{fullTitle[r.key] ?? byKey[r.key].title}</a></td>
                 <td data-label="What it does">{r.does}</td>
                 <td data-label="Who it’s for">{r.who}</td>
-                <td data-label="Rhythm">{r.rhythm}</td>
+                <td data-label="Pilot rhythm">{r.rhythm}</td>
               </tr>
             ))}
           </tbody>
@@ -39,7 +87,42 @@ const fullTitle: Record<string, string> = { clubs: 'Peace Clubs & Community Peac
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="routes" aria-labelledby="routes-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Nothing left out</p>
+        <h2 id="routes-h">Eight ways to take part — and where each one lives</h2>
+        <p>Our strategy sets out eight participation routes. Every one of them has a home inside the programmes and threads.</p>
+      </div>
+      <ul class="routes">
+        {routes.map(([route, where, href]) => (
+          <li><a href={href}><strong>{route}</strong><span>{where}</span></a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section band-off" id="calendar" aria-labelledby="cal-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">One theme a month</p>
+        <h2 id="cal-h">Pilot calendar: October 2026 – February 2027</h2>
+        <p>Speakers and guests are still to be confirmed; the topics below are the brief each programme works to.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="table-cards">
+          <thead><tr><th scope="col">Month and theme</th><th scope="col">Youth Creative Peace</th><th scope="col">Peace Talks</th><th scope="col">Generations in Conversation</th><th scope="col">Clubs and circles</th></tr></thead>
+          <tbody>
+            {calendar.map(([m, c, t, g, cl]) => (
+              <tr><td>{m}</td><td data-label="Youth Creative Peace">{c}</td><td data-label="Peace Talks">{t}</td><td data-label="Generations in Conversation">{g}</td><td data-label="Clubs and circles">{cl}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="more">
     <div class="container grid grid--2">
       <div class="card card--link" data-programme="threads">
         <h2><a class="card__link" href="/programmes/running-threads/">Running through everything</a></h2>
@@ -47,15 +130,43 @@ const fullTitle: Record<string, string> = { clubs: 'Peace Clubs & Community Peac
       </div>
       <div class="card card--link">
         <h2><a class="card__link" href="/programmes/coming-next/">Coming after the pilot</a></h2>
-        <p>Programmes that will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run them properly.</p>
+        <p>Play for Peace, Peace on Air, a Creators Fellowship, Diaspora Chapters, Peace Forums and a Youth Voices report — and why each one waits for our February 2027 review.</p>
       </div>
     </div>
   </section>
+
+  <ContributeCards
+    title="Find your place"
+    intro="Whoever you are, there is a way to contribute this month."
+    roles={[
+      { who: 'Young creators, 15–35', what: 'Answer this month’s theme with a letter, poem, song, drawing, photo or skit.', href: '/programmes/youth-creative-peace/#contribute', cta: 'Youth Creative Peace', icon: 'pen' },
+      { who: 'Schools and community groups', what: 'Host a Peace Club or a Community Peace Circle that meets twice a month.', href: '/programmes/peace-clubs-and-circles/#contribute', cta: 'Clubs and circles', icon: 'school' },
+      { who: 'Experts and practitioners', what: 'Speak at a monthly Peace Talk, or record a 90-second explainer.', href: '/programmes/peace-talks/#contribute', cta: 'Peace Talks', icon: 'mic' },
+      { who: 'Elders and families', what: 'Nominate an elder, or help record a conversation across generations.', href: '/programmes/generations-in-conversation/#contribute', cta: 'Generations in Conversation', icon: 'generations' },
+      { who: 'Everyone, everywhere', what: 'Pause before you share, and do one small peace action each weekend.', href: '/programmes/running-threads/#contribute', cta: 'Running threads', icon: 'sprout' },
+      { who: 'Ambassadors and volunteers', what: 'Carry our work into your school, community or diaspora network.', href: '/take-action/become-a-peace-ambassador/', cta: 'Become a Peace Ambassador', icon: 'hand' },
+    ]}
+  />
 </BaseLayout>
 
 <style>
-  td .tag { font-size: 1rem; text-decoration: none; }
-  td .tag:hover { text-decoration: underline; }
-  h2 { font-size: 1.3rem; }
   h2 a { text-decoration: none; color: inherit; }
+  .card h2 { font-size: 1.3rem; }
+  .prog-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .prog-card { position: relative; margin: 0; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--color-green); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; transition: box-shadow 0.2s, transform 0.2s; }
+  .prog-card:nth-child(even) { border-top-color: var(--color-navy); }
+  .prog-card:hover { box-shadow: 0 10px 28px rgb(0 51 102 / 0.12); transform: translateY(-2px); }
+  .prog-card__n { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: var(--accent-text); margin: 0.75rem 0 0.25rem; }
+  .prog-card h3 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+  .prog-card h3 a { color: var(--heading); text-decoration: none; }
+  .prog-card h3 a::after { content: ''; position: absolute; inset: 0; }
+  .prog-card p { margin: 0 0 1rem; }
+  .prog-card__more { margin-top: auto; font-family: var(--font-heading); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-text); }
+  .routes { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .routes li { margin: 0; }
+  .routes a { display: flex; flex-direction: column; gap: 0.25rem; height: 100%; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 4px solid var(--color-green); border-radius: var(--radius); text-decoration: none; background: var(--surface); }
+  .routes li:nth-child(even) a { border-left-color: var(--color-navy); }
+  .routes a:hover { background: var(--color-green-tint); }
+  .routes strong { color: var(--heading); font-family: var(--font-heading); }
+  .routes span { color: var(--text); font-size: 0.92rem; }
 </style>

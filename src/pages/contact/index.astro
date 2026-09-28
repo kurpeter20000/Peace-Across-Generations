@@ -18,7 +18,7 @@ const live = socials.filter(([, url]) => url);
     <div class="container narrow">
       <dl class="contact">
         <div><dt><Icon name="mail" /> Email</dt><dd><Email /></dd></div>
-        <div><dt><Icon name="whatsapp" /> WhatsApp (submissions)</dt><dd>{site.whatsapp ?? <Tbd>number</Tbd>}</dd></div>
+        <div><dt><Icon name="whatsapp" /> WhatsApp (submissions)</dt><dd>{site.whatsapp ? <a href={`https://wa.me/${String(site.whatsapp).replace(/\D/g, '')}`} rel="noopener">{String(site.whatsapp).replace(/^\+?(\d{3})(\d{3})(\d{3})(\d{3})$/, '+$1 $2 $3 $4')}</a> : <Tbd>number</Tbd>}</dd></div>
         <div><dt><Icon name="globe" /> Follow us</dt><dd>
           {live.map(([k, url]) => <a class="social" href={url!} rel="noopener">{labels[k]}</a>)}
 

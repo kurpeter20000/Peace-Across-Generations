@@ -1,72 +1,348 @@
 ---
-import { photos } from '../../data/photos';
+// Content from PAG Programme Guide 2: Peace Clubs and Community Peace
+// Circles (v1.1) and the Programme Portfolio 2026–2027.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
+import OnThisPage from '../../components/programme/OnThisPage.astro';
+import ContributeCards from '../../components/programme/ContributeCards.astro';
 import status from '../../data/pilot-status.json';
+import { photos } from '../../data/photos';
 
-const rows = [
-  ['Who', 'Secondary students', 'Out-of-school young adults, 18–35'],
-  ['Size', '25–40 members, at least 40% girls', '12–20 people'],
-  ['Hosted by', 'The school, with a Patron or Matron named by the head teacher', 'A trusted group: church youth fellowship, youth association, student union or women’s group'],
+const compare = [
+  ['Who', 'Secondary students', 'Out-of-school young adults aged 18–35 (adults only during the pilot)'],
+  ['Size', '25–40 members; at least 40% girls', '12–20 people'],
+  ['Hosted by', 'The school, with a Patron or Matron named by the head teacher', 'An existing trusted group: church youth fellowship, youth association, student union or women’s group'],
   ['Meets', 'Twice a month, 60–90 minutes, during term', 'Once or twice a month, 90 minutes'],
-  ['Led by', 'Elected student leaders, supervised by the Patron or Matron', 'A volunteer from the host group, briefed by us'],
+  ['Led by', 'Elected student leaders, supervised by the Patron or Matron', 'A volunteer from the host group, briefed by Peace Across Generations'],
+  ['Peace Week', 'Final week of each month in term: students engage schoolmates inside their school', 'Final week of each month: members take one action in their own neighbourhood'],
+  ['Pilot scale', '2–3 schools', '1–2 circles'],
+  ['Starts', 'November 2026, once all six readiness gates are met', 'October 2026, once a host agrees and a facilitator is briefed'],
+];
+
+const pillars = [
+  ['Participation', 'Students and young adults elect their own leaders, plan and lead Peace Week, and speak on radio'],
+  ['Protection', 'Readiness gates, safeguarding rules, consent and off-site procedures; Pause Before You Share protects peers from harmful rumours'],
+  ['Prevention', 'Dialogue and empathy skills, challenging stereotypes, and family assignments that carry peaceful norms into homes'],
+  ['Partnerships', 'Schools, host groups, parents, a radio station, chiefs and faith leaders'],
+  ['Disengagement and reintegration', 'Not within scope. We work at message level only and refer to specialised organisations where relevant'],
+];
+
+const sessions = [
+  ['November', 'Building our club: agreements, names and stories', 'Lower the Gun, Raise the Voice: what makes a person respected? Plan Peace Week', '23–27 November: scenes from The Land That Feeds Us All; conversations on respect', 'Ask an elder what made someone respected when they were young'],
+  ['December', 'The leader as a peace agent', 'Leadership theme; plan the end-of-term Peace Week', 'Last week of term: end-of-term peace assembly', 'Ask a parent about a leader they trusted, and why'],
+  ['January', 'Holiday session, only if supervised: emotional intelligence and listening', '—', 'No school Peace Week; circles only', 'Share one family tradition with someone from another community'],
+  ['February', 'The danger of a single story (if term has started)', 'Plan Peace Week and the Inter-School Peace Day; prepare the club project', '22–26 February: Peace Week and the first Inter-School Peace Day', 'Ask your family what they hope South Sudan will be like when you are 40'],
+];
+
+const circleGuides = [
+  ['October — Unlearn Hate', 'What is one thing you were taught about another community that you later found untrue?', 'Open neighbours’ conversation; greet someone from another community in their language'],
+  ['November — Lower the Gun, Raise the Voice', 'What makes a young man respected here, and could it be something other than a gun?', 'Read the open letter on guns at a host-group gathering; praise one young person who chose peace'],
+  ['December — Leadership and Dialogue', 'What would a trusted leader in our area do differently?', 'Deliver one respectful, nonpartisan question to a local leader'],
+  ['January — Healing Without Forgetting', 'What should we remember, and what should end with us? (No one needs to share a personal loss.)', 'Visit an elder together, with consent, and listen'],
+  ['February — The Generation That Builds Peace', 'What will this circle keep doing after today?', 'Attend the Inter-School Peace Day or hold a circle celebration'],
 ];
 ---
-<BaseLayout title="Peace Clubs & Community Peace Circles" description="Peace is something you practise, not just something you watch. Supervised school Peace Clubs and Community Peace Circles for young adults.">
-  <div data-programme="clubs">
-    <PageHead photo={photos.workshop1} title="Peace Clubs & Community Peace Circles" eyebrow="Programme">
-      <p class="lede"><strong>Peace is something you practise, not just something you watch.</strong></p>
-      <p>Twice a month, face to face, young people meet to talk, create and take one small action for peace.</p>
-    </PageHead>
-  </div>
+<BaseLayout title="Peace Clubs & Community Peace Circles" description="Supervised School Peace Clubs and Community Peace Circles where young people practise peace every two weeks — and make it visible every month in Peace Week.">
+  <PageHead photo={photos.workshop1} title="Peace Clubs & Community Peace Circles" eyebrow="Programme 2 · Action" lede="Practised every two weeks. Made visible every Peace Week. Peace is something you practise, not just something you watch." />
 
-  <section class="section section--surface">
+  <OnThisPage links={[['#glance', 'At a glance'], ['#why', 'Why'], ['#clubs', 'School Peace Clubs'], ['#circles', 'Community Circles'], ['#peace-week', 'Peace Week'], ['#safeguarding', 'Safeguarding'], ['#timeline', 'Pilot timeline'], ['#contribute', 'Get involved']]} />
+
+  <section class="section" id="glance" aria-labelledby="glance-h">
     <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">At a glance</p>
+        <h2 id="glance-h">Two tracks, one monthly rhythm</h2>
+        <p>Clubs in two or three secondary schools, and circles for young adults who have left school — joined by a shared Peace Week in the final week of every month.</p>
+      </div>
       <div class="table-wrap">
-        <table class="table-cards">
+        <table class="table-cards compare">
           <caption class="visually-hidden">School Peace Clubs compared with Community Peace Circles</caption>
           <thead><tr><th scope="col"><span class="visually-hidden">Detail</span></th><th scope="col">School Peace Clubs</th><th scope="col">Community Peace Circles</th></tr></thead>
           <tbody>
-            {rows.map(([k, club, circle]) => (
-              <tr><th scope="row">{k}</th><td data-label="School Peace Clubs">{club}</td><td data-label="Community Peace Circles">{circle}</td></tr>
-            ))}
+            {compare.map(([k, a, b]) => <tr><th scope="row">{k}</th><td data-label="School Peace Clubs">{a}</td><td data-label="Community Peace Circles">{b}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <div class="rhythm">
+        <div><span>01</span><strong>Meeting 1 — Learn</strong><p>A curriculum session.</p></div>
+        <div><span>02</span><strong>Meeting 2 — Prepare</strong><p>The month’s theme and Peace Week planning.</p></div>
+        <div><span>03</span><strong>Final week — Peace Week</strong><p>Take it to the school and the neighbourhood.</p></div>
+      </div>
+      <p class="status"><strong>Pilot status:</strong> {status.clubsAndCircles}</p>
+    </div>
+  </section>
+
+  <section class="section band-off" id="why" aria-labelledby="why-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Why this programme</p>
+        <h2 id="why-h">Where online messages become real</h2>
+        <p>Online messages reach many people but rarely change behaviour on their own. Clubs and circles are where a letter, a podcast clip or a Peace Talk becomes a conversation among people who see each other’s faces — and then an action others can see.</p>
+        <p>Schools gather young people from many communities, every day, under adult supervision, which makes them the safest place to start. Our founder established school peace clubs in seven secondary schools in 2022.</p>
+        <p>Young people who have left school are often the most exposed to rumours, recruitment and pressure to take sides — and the least reached. Community circles reach them by borrowing the trust of groups they already belong to.</p>
+        <SafetyNote title="Why a small pilot first" variant="info" headingLevel="h3">
+          <p>Clubs involve children. Two or three well-supervised clubs will teach us more than twenty unsupervised ones — and provide the evidence needed before any expansion.</p>
+        </SafetyNote>
+      </div>
+      <div>
+        <h3>Our theory of change</h3>
+        <p>If students and out-of-school young adults practise listening, dialogue and peaceful disagreement regularly in supervised spaces — and take that practice visibly into their schools, homes and neighbourhoods every month — then peaceful behaviour becomes more normal and more admired among their peers and families.</p>
+        <h3>Aligned with Youth, Peace and Security</h3>
+        <p>The programme contributes to four of the five pillars of UN Security Council Resolution 2250 on Youth, Peace and Security, and is explicit about the fifth:</p>
+        <dl class="pillars">
+          {pillars.map(([p, how]) => <div><dt>{p}</dt><dd>{how}</dd></div>)}
+        </dl>
+        <p class="note-small">It also contributes to the African Union’s Continental Framework on Youth, Peace and Security, Agenda 2063 Aspiration 4 (a peaceful and secure Africa), and SDGs 4.7, 16.1 and 16.7.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="clubs" aria-labelledby="clubs-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Track A</p>
+        <h2 id="clubs-h">School Peace Clubs</h2>
+      </div>
+      <div class="two-col">
+        <div>
+          <h3>How schools are chosen</h3>
+          <ul class="ticks">
+            <li>We already have a relationship, and a team member can attend in person at least once a month.</li>
+            <li>The head teacher supports the club and names a committed Patron or Matron and a deputy.</li>
+            <li>Students come from more than one community, wherever possible.</li>
+            <li>Girls can take part fully — at least one girls’ or mixed school with strong female attendance.</li>
+            <li>The location is safe to reach regularly.</li>
+          </ul>
+          <h3>Six readiness gates — no exceptions</h3>
+          <p>No club activity begins until every gate is met and signed off by the safeguarding focal person:</p>
+          <ol class="gates">
+            <li>The Safeguarding & Child Protection Policy and the Code of Conduct are approved.</li>
+            <li>Every adult working with students has signed the Code of Conduct.</li>
+            <li>A named safeguarding focal person is assigned.</li>
+            <li>The head teacher has given written permission and named a Patron or Matron.</li>
+            <li>Guardian consent and student assent are obtained for anyone appearing in content.</li>
+            <li>Referral contacts are identified for any student who becomes distressed.</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Student leadership</h3>
+          <ul class="tiles roles">
+            <li><h4>President</h4><p>Chairs meetings; represents the club; agrees the calendar with the Patron or Matron.</p></li>
+            <li><h4>Secretary</h4><p>Keeps the register and meeting notes; completes the Peace Week report.</p></li>
+            <li><h4>Programmes Coordinator</h4><p>Leads Peace Week planning; organises drama, art and conversations; sets the family assignment.</p></li>
+            <li><h4>Media & Advocacy Lead</h4><p>Prepares posters and creative pieces and radio talking points; documents activities with consent.</p></li>
+          </ul>
+          <h3>How a meeting runs (75 minutes)</h3>
+          <ol class="steps">
+            <li><strong>Opening circle (10 min)</strong> — greeting, one-word check-in, club agreements.</li>
+            <li><strong>Main activity (40 min)</strong> — the curriculum session, or the month’s theme using a Letter for Peace, podcast clip or Peace Talk.</li>
+            <li><strong>Create or plan (20 min)</strong> — a creative piece, or Peace Week tasks and the family assignment.</li>
+            <li><strong>Closing (5 min)</strong> — one word each on how they feel; tasks before next time.</li>
+          </ol>
+          <p class="note-small">The Patron or Matron is present at every meeting and activity, approves every Peace Week activity, and is the first person to receive any concern about a student.</p>
+        </div>
+      </div>
+
+      <h3 class="table-title">The pilot session plan</h3>
+      <div class="table-wrap">
+        <table class="table-cards">
+          <thead><tr><th scope="col">Month</th><th scope="col">Meeting 1: learn</th><th scope="col">Meeting 2: prepare</th><th scope="col">Peace Week</th><th scope="col">Family assignment</th></tr></thead>
+          <tbody>
+            {sessions.map(([m, a, b, c, d]) => <tr><td>{m}</td><td data-label="Meeting 1: learn">{a}</td><td data-label="Meeting 2: prepare">{b}</td><td data-label="Peace Week">{c}</td><td data-label="Family assignment">{d}</td></tr>)}
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container narrow">
-      <h2>What happens in a club</h2>
-      <p>One meeting a month follows our peace curriculum. The other uses that month’s content — a Letter for Peace, a podcast clip or a Peace Talk — to start a discussion. Each month the club carries out one supervised school action, like a peace assembly, an art display or a short drama, and members take home a simple family question, such as asking a parent how disputes were settled when they were young.</p>
-      <h2>What happens in a circle</h2>
-      <p>Every session has three steps: listen to a short piece of content, discuss one question, and agree one small action before the next meeting. If a live local dispute comes up, the facilitator refers it to chiefs or established mediators.</p>
-
-      <SafetyNote title="Safety comes first">
-        <p>Clubs begin only after every safeguarding condition is in place: an approved safeguarding policy and code of conduct, signed by every adult; a named safeguarding focal person; written permission from the head teacher; guardian consent for any student who appears in content; and referral contacts for any student who needs support.</p>
-        <p>Clubs never handle or discuss handling real weapons, never offer counselling, never ask students to recount war experiences and never mediate serious disputes. Sharing is always voluntary, with the right to pass.</p>
-      </SafetyNote>
-
-      <div class="card status">
-        <p class="eyebrow">Pilot status</p>
-        <p>{status.clubsAndCircles}</p>
+  <section class="section band-off" id="circles" aria-labelledby="circles-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Track B</p>
+        <h2 id="circles-h">Community Peace Circles</h2>
       </div>
-
-      <div class="btn-row"><a class="btn btn--primary" href="/schools-and-communities/">Host a club or circle →</a></div>
+      <div class="two-col">
+        <div>
+          <h3>Who hosts and who joins</h3>
+          <ul class="ticks">
+            <li>A host group must be trusted locally, have a safe and accessible venue, offer a volunteer to facilitate, and accept our non-partisan rules. We never partner with a party wing, a candidate’s youth league or any group linked to armed actors.</li>
+            <li>Circles are for adults aged 18–35 during the pilot. Anyone younger is warmly referred to a school club.</li>
+            <li>Mixed circles are the default; a women-only circle is offered where that makes taking part safer or easier.</li>
+            <li>The facilitator comes from the host group and receives a two-hour briefing and the conversation guide. They guide conversation — they are not a mediator.</li>
+          </ul>
+          <SafetyNote title="When a real dispute comes up" variant="warning" headingLevel="h3">
+            <p>If a live local dispute is raised — land, cattle, a killing, a family conflict — the facilitator acknowledges it, does not try to resolve it, and refers it to chiefs, faith leaders or established mediators.</p>
+          </SafetyNote>
+        </div>
+        <div>
+          <h3>Every session: listen, discuss, decide (90 minutes)</h3>
+          <ol class="steps">
+            <li><strong>Welcome (10 min)</strong> — circle agreements: listen without interrupting, no insults, what is shared stays here, anyone may pass.</li>
+            <li><strong>Listen (15 min)</strong> — the month’s piece: a letter, a podcast clip or a Peace Talk excerpt.</li>
+            <li><strong>Discuss (45 min)</strong> — one guide question, in small groups and then together.</li>
+            <li><strong>Decide (15 min)</strong> — the circle’s Peace Week action, and who will do what.</li>
+            <li><strong>Close (5 min)</strong> — report back on last month’s Peace Week.</li>
+          </ol>
+        </div>
+      </div>
+      <h3 class="table-title">Monthly conversation guides</h3>
+      <div class="table-wrap">
+        <table class="table-cards">
+          <thead><tr><th scope="col">Month</th><th scope="col">Guide question</th><th scope="col">Peace Week action</th></tr></thead>
+          <tbody>
+            {circleGuides.map(([m, q, a]) => <tr><td>{m}</td><td data-label="Guide question">{q}</td><td data-label="Peace Week action">{a}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
+
+  <section class="section" id="peace-week" aria-labelledby="pw-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">The final week of every month</p>
+        <h2 id="pw-h">Peace Week</h2>
+        <p>Every club and circle takes the month’s theme beyond its own members in the same week, so the whole initiative becomes visible at once — alongside that month’s Peace Talk and Creator of the Month.</p>
+      </div>
+      <ul class="tiles tiles--4 tiers">
+        <li><p class="eyebrow">Tier 1 · Every month</p><h3>Peace Week where we are</h3><p>Students engage schoolmates inside their school; circle members take one action in their own neighbourhood.</p></li>
+        <li><p class="eyebrow">Tier 2 · From November</p><h3>Peace on Air</h3><p>One club or circle a month records a short peace segment on a partner community radio station.</p></li>
+        <li><p class="eyebrow">Tier 3 · Once a term</p><h3>Inter-School Peace Day</h3><p>Two or three clubs meet at one school, with circle members as guests. The first is in February 2027.</p></li>
+        <li><p class="eyebrow">Tier 4 · After the pilot</p><h3>Community Peace Outreach</h3><p>Markets, public spaces and camps — only after a safety review, led by trained adults 18+.</p></li>
+      </ul>
+      <div class="two-col pw-detail">
+        <div>
+          <h3>A school Peace Week</h3>
+          <p>Students lead and the Patron or Matron approves. Each club chooses at least three:</p>
+          <dl class="days">
+            <div><dt>Monday</dt><dd>Launch at assembly with a poem, song or drama scene</dd></div>
+            <div><dt>Tuesday</dt><dd>Break-time peace conversations using the month’s question card</dd></div>
+            <div><dt>Wednesday</dt><dd>A Pause Before You Share stall: how to check a rumour before forwarding it</dd></div>
+            <div><dt>Thursday</dt><dd>A peace wall where schoolmates add messages, drawings or pledges</dd></div>
+            <div><dt>Friday</dt><dd>Report back at assembly; the family assignment goes home</dd></div>
+          </dl>
+        </div>
+        <div>
+          <h3>Peace Week rules</h3>
+          <ul class="ticks">
+            <li>During the pilot, students stay inside school grounds — except for the radio station and the Inter-School Peace Day.</li>
+            <li>Every activity is approved in advance by the Patron or Matron, or by the host group.</li>
+            <li>Messages stay non-partisan: no party colours, slogans or candidates.</li>
+            <li>Peace Week is cancelled or moved indoors if there is any security concern.</li>
+            <li>On radio, students pre-record, use first names only, take no live phone-in calls, and need separate guardian consent.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-off" id="safeguarding" aria-labelledby="sg-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Safeguarding</p>
+        <h2 id="sg-h">Safety comes first</h2>
+        <ul class="ticks">
+          <li>No team member, volunteer or circle member is ever alone with a student. Activities happen in open, visible spaces with the Patron or Matron present.</li>
+          <li>Adults do not contact students privately by phone or social media.</li>
+          <li>Students appear in photos, recordings or on radio only with guardian consent and their own agreement.</li>
+          <li>Public posts never combine a student’s name, face and school; uniforms and precise locations are avoided.</li>
+          <li>Sharing is always voluntary, with a clear right to pass.</li>
+        </ul>
+        <p><a class="text-link" href="/standards/safeguarding/">Our safeguarding standards →</a></p>
+      </div>
+      <SafetyNote title="What clubs and circles never do">
+        <ul>
+          <li>Collect, display or discuss handling real weapons</li>
+          <li>Provide counselling or process trauma, or ask anyone to recount war experiences</li>
+          <li>Mediate serious disputes</li>
+          <li>Take students into markets, crowds, camps or neighbourhood outreach during the pilot</li>
+        </ul>
+      </SafetyNote>
+    </div>
+  </section>
+
+  <section class="section" id="timeline" aria-labelledby="tl-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Pilot, October 2026 – February 2027</p>
+        <h2 id="tl-h">Pilot timeline</h2>
+        <ol class="steps">
+          <li><strong>1–18 October:</strong> introduction letters and meetings with head teachers; Patrons named; circle host agreed and facilitator briefed.</li>
+          <li><strong>19–25 October:</strong> safeguarding policy, Code of Conduct and consent forms signed; first circle meeting.</li>
+          <li><strong>26–30 October:</strong> readiness gates completed; first Peace Week (circles only).</li>
+          <li><strong>November:</strong> first club meetings once every gate is signed off; first school Peace Week (23–27 November) and first radio slot.</li>
+          <li><strong>December:</strong> end-of-term Peace Week and peace assembly.</li>
+          <li><strong>January:</strong> supervised holiday sessions only; circles focus on listening.</li>
+          <li><strong>February:</strong> Peace Week and the first Inter-School Peace Day (22–26 February); pilot review at month end.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Our pilot goals</h3>
+        <ul class="goals">
+          <li><strong>2–3</strong><span>school clubs with an oriented Patron or Matron</span></li>
+          <li><strong>1–2</strong><span>community circles</span></li>
+          <li><strong>40%</strong><span>girls among club members, at least</span></li>
+          <li><strong>80%</strong><span>of planned meetings held during term</span></li>
+          <li><strong>3+</strong><span>radio segments</span></li>
+          <li><strong>100%</strong><span>of students in content with documented consent</span></li>
+        </ul>
+        <h3>How it connects</h3>
+        <ul class="ticks">
+          <li>Club poems, art and drama go to <strong>Youth Creative Peace</strong>.</li>
+          <li>Clubs hold <strong>Peace Talks</strong> watch parties on one device.</li>
+          <li>Supervised members interview elders for <strong>Generations in Conversation</strong>.</li>
+        </ul>
+        <p class="note-small">After the pilot, and only if the February review shows safe supervision and honest reporting: Community Peace Outreach, a few more schools, a Peace Champion School Award, an Inter-School Peace Summit and holiday leadership camps.</p>
+      </div>
+    </div>
+  </section>
+
+  <ContributeCards
+    intro="Clubs and circles only work with trusted local partners."
+    roles={[
+      { who: 'Head teachers and schools', what: 'Host a supervised Peace Club: give written permission and name a Patron or Matron. We provide the curriculum, monthly content and safeguarding support.', href: '/schools-and-communities/', cta: 'Host a Peace Club', icon: 'school' },
+      { who: 'Youth fellowships, associations and women’s groups', what: 'Host a Community Peace Circle with one of your volunteers as facilitator. We brief them and provide the conversation guides.', href: '/schools-and-communities/', cta: 'Host a circle', icon: 'users' },
+      { who: 'Young adults, 18–35', what: 'Join a circle near you, or help start one through a group you already belong to.', href: '/contact/#form', cta: 'Ask about a circle', icon: 'message' },
+      { who: 'Parents and guardians', what: 'Read how clubs keep students safe, and talk to the Patron or Matron about consent.', href: '/standards/safeguarding/', cta: 'Our safeguarding', icon: 'shield' },
+      { who: 'Community radio stations', what: 'Give a monthly slot to Peace on Air, recorded by club and circle members.', href: '/take-action/partner/#radio', cta: 'Partner on radio', icon: 'headphones' },
+      { who: 'Chiefs, faith leaders and support services', what: 'Be a referral point for disputes, or for students who need psychosocial support. We refer; we do not treat or mediate.', href: '/take-action/partner/#form', cta: 'Partner with us', icon: 'hand' },
+    ]}
+  />
 </BaseLayout>
 
 <style>
-  .narrow { max-width: 860px; }
-  .narrow > h2:not(:first-child) { margin-top: 2rem; }
-  .status { margin-top: 1.5rem; border-left: 5px solid var(--color-green); }
-  tbody th { background: var(--surface-alt); width: 18%; }
+  .compare tbody th { background: var(--surface-alt); width: 18%; }
   @media (max-width: 719px) {
-    .table-cards tbody th { display: block; width: 100%; background: none; padding: 0.25rem 1rem; font-size: 1.1rem; }
-    .table-cards td:first-child::before { display: block; }
-    .table-cards td:first-child { font-family: var(--font-body); font-weight: 400; color: var(--text); }
+    .compare tbody th { display: block; width: 100%; background: none; padding: 0.25rem 1rem; font-size: 1.1rem; }
+    .compare td:first-of-type::before { display: block; }
+    .compare td:first-of-type { font-family: var(--font-body); font-weight: 400; color: var(--text); }
   }
+  .rhythm { display: grid; gap: 1rem; margin-top: 1.5rem; }
+  @media (min-width: 760px) { .rhythm { grid-template-columns: repeat(3, 1fr); } }
+  .rhythm > div { background: var(--color-navy); color: #e6edf5; border-radius: var(--radius); padding: 1.25rem 1.4rem; }
+  .rhythm > div:last-child { background: var(--color-green); color: #fff; }
+  .rhythm span { font-family: var(--font-heading); font-weight: 700; color: var(--color-green-light); }
+  .rhythm > div:last-child span { color: #fff; opacity: 0.8; }
+  .rhythm strong { display: block; font-family: var(--font-heading); color: #fff; font-size: 1.1rem; margin: 0.25rem 0; }
+  .rhythm p { margin: 0; color: inherit; }
+  .status { margin-top: 1.5rem; background: var(--color-green-tint); border-radius: var(--radius-sm); padding: 0.9rem 1.1rem; max-width: none; }
+  .pillars { margin: 0 0 1rem; display: grid; gap: 0.6rem; }
+  .pillars div { border-left: 4px solid var(--color-green); padding-left: 0.9rem; }
+  .pillars dt { font-family: var(--font-heading); font-weight: 700; color: var(--heading); }
+  .pillars dd { margin: 0; font-size: 0.95rem; color: var(--text-muted); }
+  .gates { padding-left: 1.3rem; }
+  .gates li { margin-bottom: 0.4rem; }
+  .roles { grid-template-columns: 1fr 1fr; margin-bottom: 1rem; }
+  .roles h4 { font-family: var(--font-heading); color: var(--heading); font-size: 1rem; margin: 0 0 0.3rem; }
+  .roles p { font-size: 0.92rem; margin: 0; }
+  .roles > li { padding: 1rem; }
+  .table-title { margin-top: 2.5rem; font-size: 1.25rem; }
+  @media (min-width: 1100px) { .tiles--4 { grid-template-columns: repeat(4, 1fr); } }
+  .tiers .eyebrow { font-size: 0.72rem; margin-bottom: 0.4rem; }
+  .pw-detail { margin-top: 2.5rem; }
+  .days { margin: 0; display: grid; gap: 0.5rem; }
+  .days div { display: grid; grid-template-columns: 110px 1fr; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+  .days dt { font-family: var(--font-heading); font-weight: 700; color: var(--accent-text); }
+  .days dd { margin: 0; }
 </style>

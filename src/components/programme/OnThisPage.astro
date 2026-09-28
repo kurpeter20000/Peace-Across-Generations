@@ -1,0 +1,21 @@
+---
+// In-page navigation for long programme pages.
+interface Props { links: [string, string][] }
+const { links } = Astro.props;
+---
+<nav class="otp" aria-label="On this page">
+  <div class="container">
+    <ul>
+      {links.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .otp { border-bottom: 1px solid var(--line); background: var(--surface); position: sticky; top: 78px; z-index: 20; }
+  @media (max-width: 1279px) { .otp { position: static; } }
+  .otp ul { list-style: none; margin: 0; padding: 0.75rem 0; display: flex; gap: 0.25rem 1.25rem; overflow-x: auto; scrollbar-width: thin; }
+  .otp li { margin: 0; flex: none; }
+  .otp a { display: inline-block; padding: 0.35rem 0; text-decoration: none; font-family: var(--font-heading); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--heading); border-bottom: 2px solid transparent; }
+  .otp a:hover { color: var(--accent-text); border-bottom-color: var(--color-green); }
+</style>

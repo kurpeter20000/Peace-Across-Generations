@@ -395,3 +395,33 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .band-navy .text-link { color: #9fd67a; }
 .band-sky { background: var(--color-sky-light); }
 @media (prefers-color-scheme: dark) { .band-sky { background: var(--surface-alt); } }
+
+/* ---------- Programme pages ---------- */
+.two-col { display: grid; gap: 2.5rem; }
+@media (min-width: 960px) { .two-col { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+.two-col h3 { font-size: 1.2rem; margin-top: 1.5rem; }
+.two-col h3:first-child { margin-top: 0; }
+.ticks { list-style: none; padding: 0; }
+.ticks li { position: relative; padding-left: 1.6rem; margin-bottom: 0.65rem; }
+.ticks li::before { content: '✓'; position: absolute; left: 0; color: var(--color-green); font-weight: 700; }
+.tiles { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+@media (min-width: 760px) { .tiles { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .tiles--3 { grid-template-columns: repeat(3, 1fr); } }
+.tiles > li { margin: 0; max-width: none; background: var(--surface); border: 1px solid var(--line); border-top: 5px solid var(--color-green); border-radius: var(--radius); padding: 1.5rem; }
+.tiles > li:nth-child(even) { border-top-color: var(--color-navy); }
+.tiles h3 { font-size: 1.2rem; }
+.tiles .muted-line { font-size: 0.93rem; color: var(--text-muted); }
+.goals { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+@media (min-width: 640px) { .goals { grid-template-columns: repeat(3, 1fr); } }
+.goals li { margin: 0; max-width: none; background: var(--surface); border-radius: var(--radius); padding: 1rem; border-left: 4px solid var(--color-green); box-shadow: 0 2px 8px rgb(0 51 102 / 0.05); }
+.goals strong { display: block; font-family: var(--font-heading); font-size: 1.8rem; color: var(--heading); line-height: 1.1; }
+.goals span { font-size: 0.88rem; color: var(--text-muted); }
+.note-small { font-size: 0.92rem; color: var(--text-muted); margin-top: 1.25rem; }
+.glance-wrap { display: grid; gap: 2rem; align-items: start; }
+@media (min-width: 1000px) { .glance-wrap { grid-template-columns: 1.7fr 1fr; } }
+.glance-side { background: var(--color-navy); color: #e6edf5; border-radius: var(--radius); padding: 1.75rem; }
+.glance-side h2, .glance-side h3 { color: #fff; font-size: 1.35rem; }
+.glance-side p { color: #e6edf5; }
+.glance-side .btn--secondary { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.85); }
+.glance-side .btn--secondary:hover { background: rgb(255 255 255 / 0.1); }
+.stack-btns { display: grid; gap: 0.6rem; margin-top: 1rem; }

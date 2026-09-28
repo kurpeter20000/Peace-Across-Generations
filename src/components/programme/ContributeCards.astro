@@ -1,0 +1,45 @@
+---
+// "Where you can contribute": one card per kind of visitor, each with a
+// clear next step.
+import Icon from '../Icon.astro';
+export interface Role { who: string; what: string; href: string; cta: string; icon?: string; external?: boolean }
+interface Props { roles: Role[]; title?: string; intro?: string; id?: string }
+const { roles, title = 'Where you can contribute', intro, id = 'contribute' } = Astro.props;
+---
+<section class="section contribute" id={id} aria-labelledby={`${id}-h`}>
+  <div class="container">
+    <div class="section-title">
+      <p class="eyebrow">Get involved</p>
+      <h2 id={`${id}-h`}>{title}</h2>
+      {intro && <p>{intro}</p>}
+    </div>
+    <ul class="contribute__grid">
+      {roles.map((r) => (
+        <li class="contribute__card">
+          <span class="icon-badge"><Icon name={(r.icon ?? 'hand') as any} /></span>
+          <h3>{r.who}</h3>
+          <p>{r.what}</p>
+          <a class="btn btn--primary btn--arrow" href={r.href} rel={r.external ? 'noopener' : undefined} target={r.external ? '_blank' : undefined}>{r.cta}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .contribute { background: var(--color-offwhite); }
+  @media (prefers-color-scheme: dark) { .contribute { background: var(--surface-alt); } }
+  .contribute__grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+  @media (min-width: 640px) { .contribute__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .contribute__grid { grid-template-columns: repeat(3, 1fr); } }
+  .contribute__card {
+    margin: 0; max-width: none; display: flex; flex-direction: column; align-items: flex-start;
+    background: var(--surface); border-radius: var(--radius); padding: 1.5rem; border-left: 5px solid var(--color-green);
+    box-shadow: 0 2px 10px rgb(0 51 102 / 0.06);
+  }
+  .contribute__card:nth-child(even) { border-left-color: var(--color-navy); }
+  .contribute__card .icon-badge { background: var(--color-green-tint); color: var(--color-green); }
+  .contribute__card h3 { font-size: 1.15rem; }
+  .contribute__card p { font-size: 0.97rem; color: var(--text-muted); }
+  .contribute__card .btn { margin-top: auto; font-size: 0.78rem; }
+</style>

@@ -1,30 +1,69 @@
 ---
+// Content from the PAG Programme Portfolio 2026–2027, section 7.
 import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
+import ContributeCards from '../../components/programme/ContributeCards.astro';
 
 const next = [
-  ['Play for Peace', 'Inter-community football, volleyball and wrestling with mixed teams and a peace conversation after each match', '2027'],
-  ['Peace on Air', 'A regular radio slot built from our episodes, letters and talks', '2027'],
-  ['Youth Peace Creators Fellowship', 'A cohort of 20–30 young people trained in storytelling, digital safety and facilitation', 'Mid-2027'],
-  ['Diaspora Chapters', 'Volunteer focal points hosting circles and translating in countries with large South Sudanese communities', '2027'],
-  ['Peace Forums', 'In-person Peace Talks, starting in Juba or Bor', 'Late 2027'],
-  ['Youth Voices on Peace', 'A published report and anthology of the pilot’s best work', '2027'],
+  ['Play for Peace', 'Inter-community football, volleyball and wrestling with mixed teams and a short peace conversation after each match', 'Crowds, travel, first aid and security need partners and planning', '2027'],
+  ['Peace on Air', 'A regular radio slot built from podcast episodes, letters read aloud and Peace Talks', 'Needs a station partner and steady production; during the pilot, our audio is simply offered free to stations', '2027'],
+  ['Youth Peace Creators Fellowship', 'A cohort of 20–30 young people trained in storytelling, digital safety and facilitation', 'Needs a curriculum, mentors and funding; the pilot’s Founding Creators and club leaders are the natural first cohort', 'Mid-2027'],
+  ['Diaspora Chapters', 'Volunteer focal points in countries with large South Sudanese communities, who host circles and translate', 'Needs trusted focal persons and safeguards against political gatekeeping', '2027'],
+  ['Peace Forums', 'In-person versions of Peace Talks, starting in Juba or Bor', 'Venues, travel and security; grows from the strongest online topics', 'Late 2027'],
+  ['Youth Voices on Peace', 'A published report and anthology of pilot contributions and what young people said', 'Needs a full pilot’s worth of material, and consent to reuse it', '2027'],
+];
+
+const moments = [
+  ['18 June', 'International Day for Countering Hate Speech'],
+  ['9 July', 'South Sudan’s Independence Day'],
+  ['12 August', 'International Youth Day'],
+  ['21 September', 'International Day of Peace — also the anniversary of our 3,000-day commitment'],
 ];
 ---
 <BaseLayout title="Coming after the pilot" description="Programmes that will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run them properly.">
-  <PageHead photo={photos.footballMatch1} title="Coming after the pilot" lede="These programmes are worth doing well — so each will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run it properly." />
-  <section class="section section--surface">
+  <PageHead photo={photos.footballMatch1} title="Coming after the pilot" eyebrow="After the February 2027 review" lede="These programmes are worth doing well — so each will start only when our February 2027 review shows we have the partners, funding and safety arrangements to run it properly." />
+
+  <section class="section" aria-labelledby="next-h">
     <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Planned, not yet running</p>
+        <h2 id="next-h">What comes next — and why it waits</h2>
+        <p>We would rather start late than start something we cannot keep safe or keep going.</p>
+      </div>
       <div class="table-wrap">
         <table class="table-cards">
-          <thead><tr><th scope="col">Programme</th><th scope="col">What it would do</th><th scope="col">Earliest start</th></tr></thead>
+          <thead><tr><th scope="col">Programme</th><th scope="col">What it would do</th><th scope="col">Why it waits</th><th scope="col">Earliest start</th></tr></thead>
           <tbody>
-            {next.map(([p, what, when]) => <tr><td>{p}</td><td data-label="What it would do">{what}</td><td data-label="Earliest start">{when}</td></tr>)}
+            {next.map(([p, what, why, when]) => <tr><td>{p}</td><td data-label="What it would do">{what}</td><td data-label="Why it waits">{why}</td><td data-label="Earliest start">{when}</td></tr>)}
           </tbody>
         </table>
       </div>
-      <div class="btn-row"><a class="btn btn--secondary" href="/take-action/partner/#form">Interested in partnering on one of these? →</a></div>
     </div>
   </section>
+
+  <section class="section band-off" aria-labelledby="moments-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">From the second year</p>
+        <h2 id="moments-h">Annual moments we will build around</h2>
+      </div>
+      <ul class="tiles">
+        {moments.map(([d, what]) => <li><h3>{d}</h3><p>{what}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <ContributeCards
+    title="Help one of these start sooner"
+    intro="Each of these programmes waits on something specific. If you can provide it, talk to us."
+    roles={[
+      { who: 'Sports clubs and coaches', what: 'Help plan safe, mixed-team matches for Play for Peace, with first aid and security in place.', href: '/take-action/partner/#form', cta: 'Talk to us', icon: 'users' },
+      { who: 'Radio stations', what: 'Become the station partner Peace on Air needs — and start by airing our free pilot audio today.', href: '/take-action/partner/#radio', cta: 'Get radio files', icon: 'headphones' },
+      { who: 'Trainers and mentors', what: 'Help shape the Youth Peace Creators Fellowship curriculum, or mentor a fellow.', href: '/take-action/volunteer/', cta: 'Volunteer', icon: 'school' },
+      { who: 'South Sudanese in the diaspora', what: 'Tell us you would be willing to act as a trusted, non-partisan focal person for a future chapter.', href: '/take-action/become-a-peace-ambassador/', cta: 'Become a Peace Ambassador', icon: 'globe' },
+      { who: 'Universities and venues', what: 'Offer a safe venue for a future Peace Forum in Juba or Bor.', href: '/take-action/partner/#form', cta: 'Partner with us', icon: 'school' },
+      { who: 'Funders', what: 'Support the programmes that wait on funding, under our independence rules.', href: '/take-action/partner/#form', cta: 'Start a conversation', icon: 'hand' },
+    ]}
+  />
 </BaseLayout>

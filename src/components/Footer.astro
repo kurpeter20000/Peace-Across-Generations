@@ -59,7 +59,7 @@ const anySocial = socials.some(([, url]) => url);
         <ul class="footer-links">
           <li><Email icon class="footer-icon-link" /></li>
           <li class="footer-icon-link"><Icon name="whatsapp" />
-            {site.whatsapp ? <a href={`https://wa.me/${String(site.whatsapp).replace(/\D/g, '')}`}>WhatsApp</a> : <span>WhatsApp <Tbd>number</Tbd></span>}
+            {site.whatsapp ? <a href={`https://wa.me/${String(site.whatsapp).replace(/\D/g, '')}`} rel="noopener">WhatsApp {String(site.whatsapp).replace(/^\+?(\d{3})(\d{3})(\d{3})(\d{3})$/, '+$1 $2 $3 $4')}</a> : <span>WhatsApp <Tbd>number</Tbd></span>}
           </li>
         </ul>
         <h2 class="footer-h">{t('footer.follow')}</h2>
@@ -98,6 +98,8 @@ const anySocial = socials.some(([, url]) => url);
   .footer-social { display: flex; gap: 0.75rem; list-style: none; padding: 0; }
   .footer-social li { margin: 0; }
   .footer-social a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgb(255 255 255 / 0.1); }
-  .independence { border-top: 1px solid rgb(255 255 255 / 0.18); padding-top: 1.5rem; padding-inline: max(0px, calc((100% - 75ch) / 2)); margin: 1rem 0 0.75rem; font-size: 0.95rem; max-width: none; text-align: center; }
+  /* One straight line on wide screens; it wraps only where the screen is too narrow. */
+  .independence { border-top: 1px solid rgb(255 255 255 / 0.18); padding-top: 1.5rem; margin: 1rem 0 0.75rem; font-size: 0.9rem; max-width: none; text-align: center; }
+  @media (min-width: 1200px) { .independence { white-space: nowrap; font-size: 0.85rem; } }
   .copyright { font-size: 0.85rem; opacity: 0.85; margin: 0; max-width: none; text-align: center; }
 </style>

@@ -1,80 +1,236 @@
 ---
-import { photos } from '../../data/photos';
+// Content from PAG Programme Guide 4: Generations in Conversation (v1.0)
+// and the Programme Portfolio 2026–2027.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
 import StoryList from '../../components/StoryList.astro';
-import Tbd from '../../components/Tbd.astro';
-import Email from '../../components/Email.astro';
+import AtAGlance from '../../components/programme/AtAGlance.astro';
+import OnThisPage from '../../components/programme/OnThisPage.astro';
+import ContributeCards from '../../components/programme/ContributeCards.astro';
+import { photos } from '../../data/photos';
 import { publishedStories } from '../../lib/content';
 
 const episodes = (await publishedStories()).filter((s) => s.data.programme === 'conversations').slice(0, 6);
 
 const formats = [
-  ['Main episode', 'A young person and an elder talk around one question, sometimes across communities', '15–25 minutes, twice a month'],
-  ['Ask an Elder', 'One elder, one question', '60 seconds, weekly'],
-  ['What I’d Tell My Younger Self', 'Elders, and people in their thirties, speak to teenagers', '1–2 minutes'],
-  ['Letters Across Generations', 'An elder and a young person write to each other', 'Occasional'],
-  ['64 Voices, One Future', 'Each episode features a different community and ends with one question: What should our children inherit, and what should end with us?', 'Ongoing'],
+  ['Main episode', 'A young person and an elder talk around one question, sometimes across communities', '15–25 minutes, audio or video · two a month'],
+  ['Ask an Elder', 'One elder answers one question', '60 seconds · weekly'],
+  ['What I’d Tell My Younger Self', 'Elders, and people in their thirties, speak directly to teenagers', '1–2 minutes · occasional'],
+  ['Letters Across Generations', 'An elder and a young person write to each other; read aloud and discussed', 'At least once, in January'],
+  ['64 Voices, One Future', 'Each episode features a different community and ends with the same question', 'Grows slowly · no quota'],
 ];
+
+const plan = [
+  ['October — Unlearn Hate', '“The story I was told”: what elders were taught about other communities, and what they found', 'How our grandparents settled disputes', 'Who taught you who your enemies were? / What made a neighbour a friend?'],
+  ['November — Lower the Gun, Raise the Voice', 'What made a man respected before the gun', 'A cattle-keeping elder and a farmer’s son on sharing land', 'What does real courage look like? / What did a young man carry before a gun?'],
+  ['December — Leadership, Dialogue and Peaceful Public Life', 'Leadership that people trusted: a chief or teacher with a student leader', 'Women who kept the peace: a woman elder with a young woman', 'Which leader did you trust, and why? / How did women stop fights in your youth?'],
+  ['January — Healing Without Forgetting', 'What we remember, and what we release', 'Letters Across Generations, read and discussed (9 January: anniversary of the 2005 Comprehensive Peace Agreement)', 'What did peace in 2005 feel like? / What helped you carry grief?'],
+  ['February — The Generation That Builds Peace', 'What we will pass forward: commitments from elders and youth', '64 Voices special: the voices of the pilot', 'What should our children inherit? / What should end with us?'],
+];
+
+const questions = {
+  Remember: ['What did peace look like on an ordinary day when you were young?', 'Who were your neighbours, and how did your families help each other?', 'How were disputes settled in your village before guns were common?', 'What songs, sayings or customs helped people live together?'],
+  Reflect: ['What changed, and when did you first notice it?', 'Was what you were taught about other communities true?', 'What role did women play in keeping the peace?', 'What mistake do you see young people repeating?'],
+  'Pass forward': ['What should our children inherit from your generation?', 'What should end with us?', 'If you could say one thing to every young person in South Sudan, what would it be?', 'What gives you hope?'],
+};
 ---
 <BaseLayout title="Generations in Conversation" description="Young people ask. Elders answer from what they have lived. Together they decide what should be passed forward — and what should end with them.">
-  <div data-programme="conversations">
-    <PageHead photo={photos.handsGenerations} title="Generations in Conversation" eyebrow="Programme">
-      <p class="lede"><strong>Young people ask. Elders answer from what they have lived. Together they decide what should be passed forward — and what should end with them.</strong></p>
-    </PageHead>
-  </div>
+  <PageHead photo={photos.handsGenerations} title="Generations in Conversation" eyebrow="Programme 4 · Our name, made audible" lede="Remember. Reflect. Pass forward. Young people ask; elders answer from what they have lived; together they decide what should be passed forward — and what should end with them." />
 
-  <section class="section section--surface">
+  <OnThisPage links={[['#glance', 'At a glance'], ['#why', 'Why'], ['#formats', 'Formats'], ['#episode', 'Inside an episode'], ['#plan', 'Monthly plan'], ['#care', 'Recording with care'], ['#episodes', 'Listen'], ['#contribute', 'Get involved']]} />
+
+  <section class="section" id="glance">
+    <div class="container glance-wrap">
+      <AtAGlance
+        tagline="Carry elders’ wisdom about living together to young people — and give young people a respectful way to question what they have inherited."
+        items={[
+          ['Formats', 'Main episodes · Ask an Elder · What I’d Tell My Younger Self · Letters Across Generations · 64 Voices, One Future'],
+          ['Rhythm', 'Two main episodes a month (weeks 2 and 4) and one Ask an Elder clip a week'],
+          ['Languages', 'Recorded in the language the elder chooses, with an English summary or subtitles'],
+          ['Where to listen', 'WhatsApp audio, Facebook, YouTube, community radio, and club and circle sessions'],
+          ['Hosts', 'Young people aged 18–35, trained to the programme’s standard; our founder hosts the first episodes'],
+          ['Anonymity', 'Anyone can take part voice-only, with no name and no photograph'],
+        ]}
+      />
+      <aside class="glance-side">
+        <h2>Have an elder whose story should be heard?</h2>
+        <p>Tell us about them. We explain everything in their own language before anything is recorded.</p>
+        <div class="stack-btns">
+          <a class="btn btn--primary btn--block btn--arrow" href="#contribute">Nominate an elder</a>
+          <a class="btn btn--secondary btn--block" href="#episodes">Listen to episodes</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section band-off" id="why" aria-labelledby="why-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Why this programme</p>
+        <h2 id="why-h">Wisdom that is disappearing</h2>
+        <p>Elders hold knowledge that is disappearing: how disputes were settled before guns were everywhere, how communities shared land and water, how people from different groups married, traded and buried each other. Young people rarely hear it — and when they do, it often comes with the grievances too.</p>
+        <p>Many families pass down enemies along with wisdom. A structured, respectful conversation lets young people ask what they were taught and whether it was true, and lets elders say what they want the next generation to carry — and to leave behind.</p>
+        <p>Hearing an elder from another community speak with warmth about the past is one of the most direct ways to humanise people who have been turned into strangers. Audio suits South Sudan’s oral traditions, low-data phones and community radio.</p>
+      </div>
+      <div>
+        <h3>What we aim to do</h3>
+        <ul class="ticks">
+          <li>Record and release ten main episodes and at least ten short clips during the pilot.</li>
+          <li>Bring young people and elders into respectful exchange, including across communities.</li>
+          <li>Document traditional practices for preventing and resolving conflict.</li>
+          <li>Begin the 64 Voices, One Future series at a careful, steady pace.</li>
+          <li>Train at least three youth hosts to run interviews to our standard.</li>
+        </ul>
+        <div class="closing-q">
+          <p class="eyebrow">The 64 Voices closing question</p>
+          <p class="closing-q__text">What should our children inherit — and what should end with us?</p>
+          <p class="note-small">Every 64 Voices episode ends with this question to both speakers. Over time, the answers from many communities become one archive. The figure 64 is widely cited, not an official count — so we will never claim to have heard every community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="formats" aria-labelledby="formats-h">
     <div class="container">
-      <h2>Formats</h2>
+      <div class="section-title">
+        <p class="eyebrow">Five formats</p>
+        <h2 id="formats-h">Ways to listen and take part</h2>
+      </div>
+      <ul class="tiles tiles--3">
+        {formats.map(([f, what, len]) => <li><h3>{f}</h3><p>{what}</p><p class="muted-line">{len}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section band-off" id="episode" aria-labelledby="ep-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Episode structure</p>
+        <h2 id="ep-h">Inside an episode</h2>
+        <dl class="runshow">
+          <div><dt>30 sec</dt><dd><strong>Cold open</strong> — the strongest line from the conversation.</dd></div>
+          <div><dt>1 min</dt><dd><strong>Introduction</strong> — the theme and both speakers, named as they wish.</dd></div>
+          <div><dt>5–7 min</dt><dd><strong>Remember</strong> — what was life, and peace, like when the elder was young?</dd></div>
+          <div><dt>5–7 min</dt><dd><strong>Reflect</strong> — what changed, why, and what did we learn?</dd></div>
+          <div><dt>5–7 min</dt><dd><strong>Pass forward</strong> — what should the next generation carry, and what should end with us?</dd></div>
+          <div><dt>1 min</dt><dd><strong>Close</strong> — one action for listeners, and an invitation to send letters and questions.</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h3>Questions we ask</h3>
+        {Object.entries(questions).map(([k, qs]) => (
+          <div class="qgroup">
+            <p class="qgroup__k">{k}</p>
+            <ul>{qs.map((q) => <li>{q}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="plan" aria-labelledby="plan-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Pilot, October 2026 – February 2027</p>
+        <h2 id="plan-h">Month by month</h2>
+      </div>
       <div class="table-wrap">
         <table class="table-cards">
-          <thead><tr><th scope="col">Format</th><th scope="col">What it is</th><th scope="col">Length</th></tr></thead>
-          <tbody>
-            {formats.map(([f, what, len]) => <tr><td>{f}</td><td data-label="What it is">{what}</td><td data-label="Length">{len}</td></tr>)}
-          </tbody>
+          <thead><tr><th scope="col">Month and theme</th><th scope="col">Episode A</th><th scope="col">Episode B</th><th scope="col">Ask an Elder questions</th></tr></thead>
+          <tbody>{plan.map(([m, a, b, q]) => <tr><td>{m}</td><td data-label="Episode A">{a}</td><td data-label="Episode B">{b}</td><td data-label="Ask an Elder questions">{q}</td></tr>)}</tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container narrow">
-      <h2>Questions we ask</h2>
-      <ul class="questions">
-        <li>What were you taught about people from other communities, and was it true?</li>
-        <li>Before guns were common, what made a young man respected?</li>
-        <li>What did peace look like on an ordinary day when you were young?</li>
-        <li>What is one thing you would ask my generation never to repeat?</li>
-      </ul>
-      <SafetyNote title="How we record with care">
-        <p>We explain consent in the elder’s own language and record their agreement. Contributors can hear the edit before it is published, and can withdraw. We ask about wisdom, choices and hopes — not for graphic accounts of violence. We never name perpetrators or blame a community. Grief is welcome; pressure to forgive is not. Anyone can take part anonymously, voice only.</p>
+  <section class="section band-off" id="care" aria-labelledby="care-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Ethics, consent and safety</p>
+        <h2 id="care-h">How we record with care</h2>
+        <ul class="ticks">
+          <li>We visit or call the elder first, explain the purpose and where the episode will be heard, and agree the language and any topics to avoid.</li>
+          <li>Consent is explained in the elder’s own language and recorded at the start of every session.</li>
+          <li>Speakers may hear the edit before release, ask for changes that restore their meaning, and withdraw at any time — even after release.</li>
+          <li>Anonymity is always offered: voice only, no name, no photograph.</li>
+          <li>We never pay for stories. A small token of respect, such as tea or transport, is customary.</li>
+          <li>We respect elder protocol: proper greetings and titles, and patience with pauses.</li>
+        </ul>
+      </div>
+      <SafetyNote title="What we never do">
+        <ul>
+          <li>Name alleged perpetrators, or blame a community</li>
+          <li>Include details that could expose anyone to retaliation</li>
+          <li>Ask for graphic accounts of violence</li>
+          <li>Pressure anyone to forgive — grief is welcome</li>
+          <li>Interview children about experiences of conflict (under-18s interview elders only with an adult present, on other topics)</li>
+          <li>Feature serving politicians or party officials as elders during the pilot</li>
+        </ul>
       </SafetyNote>
     </div>
   </section>
 
-  <section class="section section--surface" aria-labelledby="episodes">
+  <section class="section" id="episodes" aria-labelledby="eps-h">
     <div class="container">
-      <h2 id="episodes">Latest episodes</h2>
+      <div class="section-title">
+        <p class="eyebrow">Listen</p>
+        <h2 id="eps-h">Latest episodes</h2>
+      </div>
       <StoryList stories={episodes} emptyText="Our first episodes are being recorded and reviewed with care. Check back soon." showCta={false} />
     </div>
   </section>
 
-  <section class="section">
-    <div class="container narrow">
-      <div class="card cta">
-        <h2>Record a conversation in your family</h2>
-        <p>Have an elder whose story should be heard? Download our one-page interview guide <Tbd>interview guide PDF</Tbd> and get in touch. Under 18? Interview only with an adult present.</p>
-        <Email class="btn btn--primary" label="Get in touch" subject="Generations in Conversation – recording" icon />
+  <section class="section band-off" aria-labelledby="goals-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Honest targets</p>
+        <h2 id="goals-h">Our pilot goals</h2>
+        <ul class="goals">
+          <li><strong>10</strong><span>main episodes</span></li>
+          <li><strong>10+</strong><span>Ask an Elder clips</span></li>
+          <li><strong>5+</strong><span>communities represented</span></li>
+          <li><strong>3+</strong><span>languages</span></li>
+          <li><strong>40%</strong><span>of episodes with women elders, at least</span></li>
+          <li><strong>3+</strong><span>youth hosts trained</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>After the pilot</h3>
+        <ul class="ticks">
+          <li><strong>Peace on Air</strong> — a regular radio series built from episodes, with a partner station.</li>
+          <li><strong>The 64 Voices archive</strong> — a growing, searchable collection of voices from across South Sudan.</li>
+          <li>A <strong>documentary series</strong> with a production partner.</li>
+          <li><strong>Live recordings</strong> at Peace Forums, with an audience of young people.</li>
+          <li>A <strong>book</strong> of the best conversations, in the languages spoken and in English.</li>
+        </ul>
       </div>
     </div>
   </section>
+
+  <ContributeCards
+    roles={[
+      { who: 'Families and communities', what: 'Nominate an elder whose wisdom about living together should be heard. We explain everything in their language first.', href: '/contact/#form', cta: 'Nominate an elder', icon: 'generations' },
+      { who: 'Elders', what: 'Share what peace looked like in your youth, answer one question for Ask an Elder, or write a Letter Across Generations.', href: '/contact/#form', cta: 'Take part', icon: 'heart' },
+      { who: 'Young people, 18–35', what: 'Become a youth host: prepare questions, conduct interviews and help with clips. We train you first.', href: '/take-action/become-a-peace-ambassador/', cta: 'Become a youth host', icon: 'mic' },
+      { who: 'Interpreters and translators', what: 'Help us record elders in their chosen language and check translations for meaning.', href: '/take-action/volunteer/', cta: 'Volunteer', icon: 'globe' },
+      { who: 'Listeners', what: 'Listen, share episodes on WhatsApp, and send us the questions you want elders to answer.', href: '#episodes', cta: 'Listen to episodes', icon: 'headphones' },
+      { who: 'Community radio stations', what: 'Air radio-ready cuts of each episode, free of charge.', href: '/take-action/partner/#radio', cta: 'Get radio files', icon: 'message' },
+    ]}
+  />
 </BaseLayout>
 
 <style>
-  .narrow { max-width: 860px; }
-  .questions { list-style: none; padding: 0; display: grid; gap: 0.75rem; margin-bottom: 2rem; }
-  .questions li { margin: 0; font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 1.1rem; border-left: 4px solid var(--color-leaf); padding-left: 1rem; }
-  .cta { border-top: 6px solid var(--color-leaf); }
+  .runshow { margin: 0; }
+  .runshow div { display: grid; grid-template-columns: 80px 1fr; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
+  .runshow dt { font-family: var(--font-heading); font-weight: 700; color: var(--accent-text); font-size: 0.9rem; }
+  .runshow dd { margin: 0; }
+  .closing-q { background: var(--color-navy); color: #e6edf5; border-radius: var(--radius); padding: 1.5rem; margin-top: 1.5rem; }
+  .closing-q .eyebrow { color: var(--color-green-light); }
+  .closing-q__text { font-family: var(--font-heading); font-weight: 700; color: #fff; font-size: 1.35rem; line-height: 1.3; }
+  .closing-q .note-small { color: #cfdbe8; }
+  .qgroup { margin-bottom: 1.25rem; }
+  .qgroup__k { font-family: var(--font-heading); font-weight: 700; color: var(--accent-text); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; margin-bottom: 0.4rem; }
+  .qgroup ul { list-style: none; padding: 0; margin: 0; }
+  .qgroup li { border-left: 3px solid var(--color-navy); padding: 0.3rem 0 0.3rem 0.8rem; margin-bottom: 0.4rem; font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 0.98rem; }
 </style>

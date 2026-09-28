@@ -1,76 +1,247 @@
 ---
-import { photos } from '../../data/photos';
+// Content from PAG Programme Guide 1: Youth Creative Peace (v1.0) and the
+// Programme Portfolio 2026–2027.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
-import GoogleFormCard from '../../components/GoogleFormCard.astro';
+import AtAGlance from '../../components/programme/AtAGlance.astro';
+import OnThisPage from '../../components/programme/OnThisPage.astro';
+import ContributeCards from '../../components/programme/ContributeCards.astro';
+import { photos } from '../../data/photos';
+import site from '../../data/site.json';
 
 const strands = [
-  ['Letters for Peace', 'An open letter of up to 500 words — or a voice note — to South Sudan, a leader, a future child, a former enemy or the next generation.'],
-  ['Poetry and spoken word', 'Written or performed poems in any language, with a short English summary.'],
-  ['Music', 'An original peace song. Send a 60-second clip. Watch for our Peace Song Challenge in November and February.'],
-  ['Visual art and photography', 'Drawings, posters, and phone photos of what peace looks like on an ordinary day.'],
-  ['Drama and comedy', 'A 2–5 minute phone skit. Comedy may laugh at habits and choices — never at a community.'],
-  ['Global solidarity', 'Friends of South Sudan: send a short message that supports South Sudanese voices without speaking for them.'],
+  { name: 'Letters for Peace', what: 'An open letter of up to 500 words — or a voice note of up to three minutes — to South Sudan, a community, a leader, a future child, a former enemy or the next generation. Any language, with an English summary where possible.', how: '4–5 published every month. We edit lightly (spelling, length, clarity) and never change your meaning. The strongest letters are read aloud for WhatsApp and radio.' },
+  { name: 'Poetry and spoken word', what: 'Written poems of any length, or recorded performances of up to three minutes, in any language. Recorded pieces carry subtitles or an English summary.', how: 'Featured in the weekly slot. Selected poems join the discussion pack used in Peace Clubs and Circles.' },
+  { name: 'Music', what: 'Original songs about peace, unity, courage and the future. Send a 60-second clip; the full song can follow.', how: 'A Peace Song Challenge runs twice in the pilot — November and February. Winners are chosen by a diverse panel, never by public votes, so a challenge never becomes community against community. Use your own beats, live instruments, your voice, or properly licensed tracks.' },
+  { name: 'Visual art and photography', what: 'Drawings, posters, paintings, approved murals, and phone photos of what peace looks like on an ordinary day.', how: 'A monthly photo or art prompt. Murals need the wall owner’s written permission (and the head teacher’s for schools). People in photos must agree; children’s faces only with guardian consent. Switch off location data first.' },
+  { name: 'Drama and comedy', what: 'Short phone skits of 2–5 minutes, and longer school or community plays — including The Land That Feeds Us All, about farmers and cattle keepers.', how: 'Clubs perform and the best skits are published. Comedy may laugh at habits and choices — never at a community, accent or appearance. Only obviously fake props; forum theatre is encouraged.' },
+  { name: 'Global solidarity', what: 'Short messages (up to 60 seconds or 150 words) from friends of South Sudan — especially peers from African countries that have faced similar struggles.', how: 'One a month, by invitation. Messages support South Sudanese voices without speaking for them.' },
 ];
----
-<BaseLayout title="Youth Creative Peace" description="Our front door. Anyone with a phone, a pen or a voice can take part this month.">
-  <div data-programme="creative">
-    <PageHead photo={photos.groupWithBooklets} title="Youth Creative Peace" eyebrow="Programme">
-      <p class="lede"><strong>Our front door. Anyone with a phone, a pen or a voice can take part this month.</strong></p>
-      <p>Each month we announce one theme and one prompt. You answer in whatever form you are good at. We feature one work every week and name one Creator of the Month.</p>
-    </PageHead>
-  </div>
 
-  <section class="section section--surface" aria-labelledby="make">
+const plan = [
+  ['October — Unlearn Hate', 'Write to someone you were taught to distrust', 'Photo: a friendship across communities. Poem: “The story I was told”', 'Programme launch; first featured work in the week of 12 October'],
+  ['November — Lower the Gun, Raise the Voice', 'Write to a young man who carries a gun', 'Peace Song Challenge 1; skits on courage without guns; scenes from The Land That Feeds Us All', 'Song Challenge selection at month end'],
+  ['December — Leadership, Dialogue and Peaceful Public Life', 'Write to a leader: what I need from you', 'Video: “the leader I want to be”; posters on peaceful public language', 'Letters shared with the Peace Talk on civic leadership'],
+  ['January — Healing Without Forgetting', 'Letters Across Generations between an elder and a young person', 'Poems on memory; art: “what we keep”', 'Extra care: no one is asked to describe violence'],
+  ['February — The Generation That Builds Peace', 'Write to a child who will inherit South Sudan in 2040', 'Peace Song Challenge 2; showcase gallery', 'Showcase; Founding Creators recognised; pilot review'],
+];
+
+const recognition = [
+  ['Featured work', 'One contributor each week', 'Published in the midweek slot with the creator’s story, plus a digital certificate'],
+  ['Creator of the Month', 'One contributor each month', 'Announced in week 4 with a short profile and certificate, and an invitation to co-host a Peace Talk or appear in an episode'],
+  ['Founding Creators', 'The first 100 people whose work is accepted', 'A digital certificate, a listing on the Founding Creators wall (with consent), and the first invitation to the 2027 Youth Peace Creators Fellowship'],
+  ['February showcase', 'Selected pilot contributors', 'An online gallery, and one small in-person event in Juba or Bor if it is safe and funded'],
+];
+
+const wa = site.whatsapp ? `https://wa.me/${String(site.whatsapp).replace(/\D/g, '')}` : '/take-action/share-your-voice/';
+---
+<BaseLayout title="Youth Creative Peace" description="Our front door: letters, poetry, music, art, photography, drama and solidarity messages for peace. Anyone with a phone, a pen or a voice can take part this month.">
+  <PageHead photo={photos.groupWithBooklets} title="Youth Creative Peace" eyebrow="Programme 1 · Our front door" lede="Whatever you already have is enough. Anyone with a phone, a pen or a voice can take part this month." />
+
+  <OnThisPage links={[['#glance', 'At a glance'], ['#why', 'Why'], ['#strands', 'What you can make'], ['#how', 'How it works'], ['#plan', 'Monthly plan'], ['#recognition', 'Recognition'], ['#safety', 'Safety'], ['#contribute', 'Get involved']]} />
+
+  <section class="section" id="glance">
+    <div class="container glance-wrap">
+      <AtAGlance
+        tagline="One themed call a month. Answer in whatever form you are good at."
+        items={[
+          ['Purpose', 'Turn young people’s creativity into public messages that make peace visible, human and easy to share'],
+          ['Who takes part', 'Young creators aged 15–35 in South Sudan and the diaspora; club and circle members; elders; friends of South Sudan'],
+          ['Strands', 'Letters for Peace · poetry and spoken word · music · visual art and photography · drama and comedy · global solidarity'],
+          ['Rhythm', 'One themed call a month; one featured work each week; 4–5 Letters for Peace a month; Creator of the Month in week 4'],
+          ['Languages', 'Any language — with an English summary where possible'],
+          ['Cost to take part', 'Nothing. No money, no title, no professional equipment and no perfect English needed'],
+        ]}
+      />
+      <aside class="glance-side">
+        <h2>Send your work this month</h2>
+        <p>Deadline: the 20th of each month.</p>
+        <div class="stack-btns">
+          <a class="btn btn--primary btn--block btn--arrow" href="/take-action/share-your-voice/">Share your voice</a>
+          {site.youthCreativeForm && <a class="btn btn--secondary btn--block" href={site.youthCreativeForm} rel="noopener" target="_blank">Sign up with the Google Form ↗</a>}
+          <a class="btn btn--secondary btn--block" href={wa} rel="noopener">Send on WhatsApp</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section band-off" id="why" aria-labelledby="why-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Why this programme</p>
+        <h2 id="why-h">Peace needs content as memorable as hate</h2>
+        <p>Song, poetry and storytelling are how many South Sudanese communities have always carried memory, praise and warning. Hateful content spreads because it is short, emotional and memorable; peace needs content with the same qualities, made by people the audience recognises as their own.</p>
+        <p>Most young people will not write a policy paper or attend a conference — but many will record a 60-second poem on a phone. That is why this is our front door.</p>
+      </div>
+      <div>
+        <h3>What we aim to do</h3>
+        <ul class="ticks">
+          <li>Give young South Sudanese a low-barrier, safe way to express peace publicly, in their own language and form.</li>
+          <li>Build a growing library of consented peace content that clubs, circles and radio can reuse.</li>
+          <li>Carry each month’s theme into homes, schools and communities.</li>
+          <li>Grow a network of repeat contributors — the Founding Creators.</li>
+          <li>Model our standards: dignity, evidence, nonviolence and non-partisanship.</li>
+        </ul>
+        <SafetyNote title="Contribution, not overclaim" variant="info" headingLevel="h3">
+          <p>A poem does not end a conflict. What this programme can change is what is normal to say, share and admire in public — and we measure that honestly.</p>
+        </SafetyNote>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="strands" aria-labelledby="strands-h">
     <div class="container">
-      <h2 id="make">What you can make</h2>
-      <ul class="grid grid--3 plain">
-        {strands.map(([s, what]) => <li class="card card--tag" data-programme="creative"><h3>{s}</h3><p>{what}</p></li>)}
+      <div class="section-title">
+        <p class="eyebrow">Six strands</p>
+        <h2 id="strands-h">What you can make</h2>
+      </div>
+      <ul class="tiles tiles--3">
+        {strands.map((s) => (
+          <li>
+            <h3>{s.name}</h3>
+            <p>{s.what}</p>
+            <p class="muted-line"><strong>How it runs:</strong> {s.how}</p>
+          </li>
+        ))}
       </ul>
     </div>
   </section>
 
-  <section class="section section--tight" id="sign-up">
-    <div class="container narrow"><GoogleFormCard headingLevel="h2" /></div>
-  </section>
-
-  <section class="section" aria-labelledby="month">
-    <div class="container narrow">
-      <h2 id="month">How each month works</h2>
-      <ol class="steps">
-        <li><strong>Week 1</strong> — We announce the theme with one prompt and one example.</li>
-        <li><strong>Weeks 1–4</strong> — You send your work by WhatsApp or email. We check every piece for consent and safety.</li>
-        <li><strong>Every week</strong> — We feature one work, with the creator’s story.</li>
-        <li><strong>Week 4</strong> — We name the Creator of the Month.</li>
-      </ol>
-    </div>
-  </section>
-
-  <section class="section section--surface">
-    <div class="container narrow grid">
+  <section class="section band-off" id="how" aria-labelledby="how-h">
+    <div class="container two-col">
       <div>
-        <h2>Recognition</h2>
-        <p>Featured creators receive a certificate and a public thank-you. The first 100 contributors become <strong>Founding Creators</strong>. In February 2027 we will hold an online showcase of the pilot’s best work.</p>
+        <p class="eyebrow">The monthly cycle</p>
+        <h2 id="how-h">How it works</h2>
+        <ol class="steps">
+          <li><strong>Announce (days 1–3).</strong> We publish the theme, one prompt per strand, an example and the deadline — the 20th of the month.</li>
+          <li><strong>You send your work</strong> through the form on this site, WhatsApp or email. Everyone gets a reply within 48 hours.</li>
+          <li><strong>First review (within 3 days).</strong> We check consent, originality, age and our publication red lines.</li>
+          <li><strong>Second review.</strong> Anything touching violence, a named community, trauma, politics or a minor is checked by a second reviewer.</li>
+          <li><strong>Prepare.</strong> A light edit, captions and an English summary. You approve any real edit or translation.</li>
+          <li><strong>Publish.</strong> One featured work every week, with one call to action and one question.</li>
+          <li><strong>Take it offline.</strong> The month’s best pieces go to clubs and circles and are offered to community radio.</li>
+          <li><strong>Thank everyone.</strong> Every contributor hears back. Unpublished work gets kind, private feedback — never public rejection.</li>
+        </ol>
       </div>
-      <SafetyNote title="Before you send">
-        <ul>
-          <li>It must be your own work, or properly credited.</li>
-          <li>If you are under 18, a parent or guardian must consent too.</li>
-          <li>No real weapons in photos, skits or art.</li>
-          <li>No piece may name a whole community as guilty.</li>
+      <div>
+        <h3>What to send us</h3>
+        <ul class="ticks">
+          <li>The work: a letter (up to 500 words), voice note (up to 3 minutes), video (30–120 seconds), photo, drawing, poem or song clip.</li>
+          <li>Your public name — or a pen name.</li>
+          <li>Your age group, and your state or country if you are comfortable sharing it.</li>
+          <li>The language, and a short English summary if you can.</li>
+          <li>Confirmation that it is your own work, or who you are crediting.</li>
+          <li>Your consent to light editing and publication, and whether we may tag you.</li>
+          <li>Anything we should know to keep you safe.</li>
         </ul>
-      </SafetyNote>
-      <div class="btn-row">
-        <a class="btn btn--primary" href="/take-action/share-your-voice/">Share your voice →</a>
-        <a class="btn btn--secondary" href="/stories/letters/">Read Letters for Peace →</a>
+        <p><a class="text-link" href="/take-action/share-your-voice/">Send your work →</a></p>
       </div>
     </div>
   </section>
+
+  <section class="section" id="plan" aria-labelledby="plan-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Pilot, October 2026 – February 2027</p>
+        <h2 id="plan-h">Month by month</h2>
+      </div>
+      <div class="table-wrap">
+        <table class="table-cards">
+          <thead><tr><th scope="col">Month and theme</th><th scope="col">Letters for Peace prompt</th><th scope="col">Other strands</th><th scope="col">Highlights</th></tr></thead>
+          <tbody>
+            {plan.map(([m, l, o, h]) => <tr><td>{m}</td><td data-label="Letters for Peace prompt">{l}</td><td data-label="Other strands">{o}</td><td data-label="Highlights">{h}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-off" id="recognition" aria-labelledby="rec-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Recognition costs nothing but matters</p>
+        <h2 id="rec-h">Recognition</h2>
+      </div>
+      <ul class="tiles tiles--4">
+        {recognition.map(([t, who, what]) => (
+          <li><h3>{t}</h3><p class="muted-line"><strong>{who}</strong></p><p>{what}</p></li>
+        ))}
+      </ul>
+      <p class="note-small">Creator of the Month rotates across strands, genders and locations. It goes to work that answers the theme, shows one human truth, invites reflection rather than blame and meets every safety rule.</p>
+    </div>
+  </section>
+
+  <section class="section" id="safety" aria-labelledby="safety-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Safety, consent and ethics</p>
+        <h2 id="safety-h">Your safety comes first</h2>
+        <ul class="ticks">
+          <li>Every published piece has signed or recorded consent. Anyone under 18 also needs a parent or guardian’s consent — and their names, school uniforms and precise locations stay out of public posts.</li>
+          <li>You may use a pen name, delay publication, or ask us to remove your work at any time. We aim to remove it within 48 hours.</li>
+          <li>If publishing could expose you to backlash, we offer a pen name, a delay, or removing location details — or we decline and explain privately.</li>
+          <li>Pieces about loss carry a short content note and a support line. No one is asked to describe violence.</li>
+        </ul>
+      </div>
+      <SafetyNote title="What we never publish">
+        <ul>
+          <li>Calls for violence or revenge, slurs, or blaming a whole community</li>
+          <li>Graphic images, or real weapons in photos, skits or artwork</li>
+          <li>Unverified accusations against a named person</li>
+          <li>Work that is copied or not properly credited</li>
+          <li>Comedy that targets a community, accent or appearance</li>
+        </ul>
+        <p><a href="/standards/community-guidelines/">Our community guidelines</a></p>
+      </SafetyNote>
+    </div>
+  </section>
+
+  <section class="section band-off" aria-labelledby="goals-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Honest targets</p>
+        <h2 id="goals-h">Our pilot goals</h2>
+        <ul class="goals">
+          <li><strong>100+</strong><span>contributions</span></li>
+          <li><strong>24+</strong><span>Letters for Peace published</span></li>
+          <li><strong>20</strong><span>featured works</span></li>
+          <li><strong>40%</strong><span>women and girls among identifiable contributors, at least</span></li>
+          <li><strong>3+</strong><span>languages other than English</span></li>
+          <li><strong>100%</strong><span>published work with documented consent</span></li>
+        </ul>
+        <p class="note-small">These are goals, not results. We report progress honestly on the <a href="/3000-days/">3,000 Days page</a>.</p>
+      </div>
+      <div>
+        <h3>How it connects</h3>
+        <ul class="ticks">
+          <li><strong>Peace Clubs & Circles</strong> submit group poems, art and drama, and use published pieces to start discussions.</li>
+          <li><strong>Generations in Conversation</strong> shares Letters Across Generations between elders and young people.</li>
+          <li><strong>Peace Talks</strong> welcomes Creators of the Month as co-hosts.</li>
+        </ul>
+        <h3>After the pilot</h3>
+        <ul class="ticks">
+          <li>A <strong>Youth Voices on Peace</strong> anthology of the pilot’s best consented work (2027).</li>
+          <li>An annual <strong>Peace Song Challenge</strong> around 21 September.</li>
+          <li>The <strong>Youth Peace Creators Fellowship</strong>, with Founding Creators as the first cohort.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <ContributeCards
+    intro="Whoever you are, there is a way in."
+    roles={[
+      { who: 'Young creators, 15–35', what: 'Send a letter, poem, song, photo, drawing or skit for this month’s theme. Under 18? A parent or guardian must agree too.', href: '/take-action/share-your-voice/', cta: 'Share your voice', icon: 'pen' },
+      { who: 'Sign up as a creator', what: 'Join Youth Creative Peace or send your materials through our Google Form.', href: site.youthCreativeForm ?? '/take-action/share-your-voice/', cta: 'Open the Google Form', icon: 'sprout', external: !!site.youthCreativeForm },
+      { who: 'Diaspora creators and translators', what: 'Submit work, or help translate, caption and summarise pieces in South Sudanese languages.', href: '/take-action/volunteer/', cta: 'Volunteer to translate', icon: 'globe' },
+      { who: 'Elders', what: 'Write a Letter Across Generations with a young person, or answer a young person’s letter.', href: '/programmes/generations-in-conversation/#contribute', cta: 'How elders take part', icon: 'generations' },
+      { who: 'Poets, musicians and theatre groups', what: 'Mentor young creators or sit on a selection panel for the Peace Song Challenge.', href: '/take-action/become-a-peace-ambassador/', cta: 'Become a Peace Ambassador', icon: 'mic' },
+      { who: 'Community radio stations', what: 'Broadcast letters, poems and songs, free of charge.', href: '/take-action/partner/#radio', cta: 'Ask for radio files', icon: 'headphones' },
+    ]}
+  />
 </BaseLayout>
 
 <style>
-  .narrow { max-width: 860px; }
-  .plain { list-style: none; padding: 0; }
-  .plain li { margin: 0; }
+  @media (min-width: 1100px) { .tiles--4 { grid-template-columns: repeat(4, 1fr); } }
 </style>

@@ -1,15 +1,20 @@
 ---
-import { photos } from '../../data/photos';
+// Content from PAG Programme Guide 3: Peace Talks (v1.0) and the
+// Programme Portfolio 2026–2027.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import SafetyNote from '../../components/SafetyNote.astro';
 import Tbd from '../../components/Tbd.astro';
+import AtAGlance from '../../components/programme/AtAGlance.astro';
+import OnThisPage from '../../components/programme/OnThisPage.astro';
+import ContributeCards from '../../components/programme/ContributeCards.astro';
+import { photos } from '../../data/photos';
+import site from '../../data/site.json';
 import { monthName, formatDate } from '../../lib/content';
 
 const talks = (await getCollection('talks')).sort((a, b) => a.data.month.localeCompare(b.data.month));
 const statusLabel = { upcoming: 'Upcoming', live: 'Live now', recorded: 'Recording available' };
-
 const events = talks
   .filter((t) => t.data.date)
   .map((t) => ({
@@ -21,52 +26,149 @@ const events = talks
     location: { '@type': 'VirtualLocation', url: t.data.facebookLiveUrl ?? 'https://www.facebook.com/' },
     isAccessibleForFree: true,
   }));
----
-<BaseLayout title="Peace Talks" description="One expert. One live conversation. Every month. Free — live on Facebook, then as audio small enough to share on WhatsApp." jsonLd={events}>
-  <div data-programme="talks">
-    <PageHead photo={photos.founderSpeaking} title="Peace Talks" eyebrow="Programme">
-      <p class="lede"><strong>One expert. One live conversation. Every month. Free.</strong></p>
-      <p>Peace Talks brings peace and youth-empowerment experts to young people — live on Facebook, then as an audio file small enough to share on WhatsApp.</p>
-    </PageHead>
-  </div>
 
-  <section class="section section--surface">
-    <div class="container grid grid--2">
+const plan = [
+  ['October — Unlearn Hate', 'How hate speech spreads online', 'Checking a claim in two minutes', 'Fact-checker or media-literacy trainer'],
+  ['November — Lower the Gun, Raise the Voice', 'Courage without guns: masculinity, cattle and community safety', 'Disagreeing without escalating', 'Peacebuilding practitioner or respected traditional leader'],
+  ['December — Leadership, Dialogue and Peaceful Public Life', 'Leading without dividing: young people in civic life', 'Public speaking', 'Youth leader with civic experience'],
+  ['January — Healing Without Forgetting', 'Grief, memory and healing: what helps', 'Listening well, and knowing where to find support', 'Mental-health educator (education, not treatment)'],
+  ['February — The Generation That Builds Peace', 'What our generation builds next', 'Turning an idea into a project', 'Panel of pilot contributors with an entrepreneur'],
+];
+const wa = site.whatsapp ? `https://wa.me/${String(site.whatsapp).replace(/\D/g, '')}?text=${encodeURIComponent('Hello Peace Across Generations, I have a question for the next Peace Talk: ')}` : '/contact/';
+---
+<BaseLayout title="Peace Talks" description="One expert. One hour. One action for the week. Free monthly live sessions with peace and youth-empowerment experts — built for low data." jsonLd={events}>
+  <PageHead photo={photos.founderSpeaking} title="Peace Talks" eyebrow="Programme 3 · Learning" lede="One expert. One hour. One action for the week. Live and free, every month — then as audio small enough to share on WhatsApp." />
+
+  <OnThisPage links={[['#glance', 'At a glance'], ['#why', 'Why'], ['#format', 'The format'], ['#low-data', 'Built for low data'], ['#schedule', 'Schedule'], ['#speakers', 'Speakers'], ['#contribute', 'Get involved']]} />
+
+  <section class="section" id="glance">
+    <div class="container glance-wrap">
+      <AtAGlance
+        tagline="Every session pairs a peace topic with a skill you can use straight away."
+        items={[
+          ['Purpose', 'Give young South Sudanese direct access to credible expertise on peace and practical skills for their future'],
+          ['Format', '45–60 minutes: a 20-minute talk, 20–25 minutes of youth questions, and one action for the week'],
+          ['Rhythm', 'One session a month, in the last week of the month, in the early evening (South Sudan time)'],
+          ['Where', 'Live on Facebook; audio on WhatsApp within 48 hours; short clips; a free radio version; watch parties'],
+          ['Who it’s for', 'Youth leaders, students, club and circle members, diaspora youth — and anyone interested'],
+          ['Cost to take part', 'Free. No new app to install'],
+        ]}
+      />
+      <aside class="glance-side">
+        <h2>Send a question for the next talk</h2>
+        <p>Questions are collected in advance on WhatsApp, and live in the Facebook comments.</p>
+        <div class="stack-btns">
+          <a class="btn btn--primary btn--block btn--arrow" href={wa} rel="noopener">Send a question</a>
+          <a class="btn btn--secondary btn--block" href="#schedule">See the schedule</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section band-off" id="why" aria-labelledby="why-h">
+    <div class="container two-col">
       <div>
-        <h2>The format (45–60 minutes)</h2>
-        <ol class="steps">
-          <li>The expert speaks for about 20 minutes on the month’s theme.</li>
-          <li>A young co-host leads 20–25 minutes of questions from the audience.</li>
-          <li>We close with one practical action you can take that week.</li>
-        </ol>
-        <blockquote class="pull">Every session pairs a peace topic with a skill you can use — for example, how hate speech spreads online, plus how to check a claim in two minutes.</blockquote>
+        <p class="eyebrow">Why this programme</p>
+        <h2 id="why-h">Expertise, without the cost of a room</h2>
+        <p>Most young South Sudanese will never sit in a room with a peacebuilding expert, a fact-checker or a successful entrepreneur. Online sessions remove the cost of travel and let experts inside the country, in the diaspora and elsewhere in Africa give an hour of their time.</p>
+        <p>Peace is more convincing when it comes with practical skills and a sense of a future — so every session pairs a peace topic with a skill: checking a claim, disagreeing without escalating, speaking in public, turning an idea into a project.</p>
       </div>
-      <div class="card">
-        <h2>Built for low data</h2>
-        <ul>
-          <li>Live on Facebook — no new app to install.</li>
-          <li>Audio-only version on WhatsApp within 48 hours.</li>
-          <li>Short 60–90 second clips the week after.</li>
-          <li>Free to community radio stations.</li>
-          <li><strong>Watch parties:</strong> a club or circle watches together on one phone or projector, so one data bundle serves thirty people.</li>
+      <div>
+        <h3>What we aim to do</h3>
+        <ul class="ticks">
+          <li>Hold five well-run sessions during the pilot, each tied to the month’s theme.</li>
+          <li>Reach young people with little data through audio, clips, radio and group watch parties.</li>
+          <li>Put young people’s voices at the centre: a youth co-host every session and questions from the audience.</li>
+          <li>Connect online learning to offline action through clubs, circles and the weekly action.</li>
+          <li>Build a network of trusted speakers for in-person Peace Forums after the pilot.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="schedule">
+  <section class="section" id="format" aria-labelledby="format-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Run of show</p>
+        <h2 id="format-h">What happens in a session</h2>
+        <dl class="runshow">
+          <div><dt>0–3 min</dt><dd><strong>Welcome</strong> — the youth co-host introduces the theme, the session rules and how to send questions.</dd></div>
+          <div><dt>3–5 min</dt><dd><strong>Introduction</strong> — why this topic, why this speaker.</dd></div>
+          <div><dt>5–25 min</dt><dd><strong>The talk</strong> — one story, one sourced fact, one practical skill.</dd></div>
+          <div><dt>25–48 min</dt><dd><strong>Your questions</strong> — screened questions, with priority to young people, women, remote participants and watch parties.</dd></div>
+          <div><dt>48–53 min</dt><dd><strong>One action this week</strong> — a single, safe, specific thing everyone can do.</dd></div>
+          <div><dt>53–55 min</dt><dd><strong>Close</strong> — next month’s theme and the creative call.</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h3>Questions and moderation</h3>
+        <ul class="ticks">
+          <li>Questions that accuse a named person or blame a community are not read out.</li>
+          <li>Partisan campaigning, personal data and requests for private contact are removed.</li>
+          <li>Hateful comments are hidden — not read aloud and not argued with live.</li>
+          <li>If a factual error is made, it is corrected publicly in the session summary.</li>
+        </ul>
+        <h3>Youth co-hosts</h3>
+        <p>A different young person co-hosts each session — chosen from Founding Creators, club leaders and circle members. During the pilot co-hosts are 18 or older, and each gets a script card and a rehearsal first.</p>
+        <SafetyNote title="Extra care in January" variant="info" headingLevel="h3">
+          <p>The session on grief and healing carries a content note. No one is invited to share personal trauma in the chat, and support contacts are shown during and after the session. It is education, not treatment.</p>
+        </SafetyNote>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-off" id="low-data" aria-labelledby="ld-h">
     <div class="container">
-      <h2 id="schedule">Upcoming and past talks</h2>
-      <p>Pilot schedule (topics confirmed, speakers to be announced):</p>
+      <div class="section-title">
+        <p class="eyebrow">Designed for South Sudan’s data costs</p>
+        <h2 id="ld-h">Built for low data</h2>
+      </div>
+      <ul class="tiles tiles--3 channels">
+        <li><h3>Facebook Live</h3><p>The full live session, on a platform most people already use.</p><p class="muted-line">Live</p></li>
+        <li><h3>WhatsApp audio</h3><p>An audio-only version under 10 MB, with a three-point summary.</p><p class="muted-line">Within 48 hours</p></li>
+        <li><h3>Short clips</h3><p>60–90 second clips of the strongest moments on Facebook, TikTok, YouTube and WhatsApp Status.</p><p class="muted-line">The following week</p></li>
+        <li><h3>Community radio</h3><p>An edited 25–30 minute version, offered free to stations.</p><p class="muted-line">Within one week</p></li>
+        <li><h3>Watch parties</h3><p>A club, circle or group of friends watches together on one device — one data bundle for the whole group.</p><p class="muted-line">Live or within the month</p></li>
+      </ul>
+      <div class="two-col wp">
+        <div>
+          <h3>How to host a watch party</h3>
+          <ol class="steps">
+            <li>Register your watch party with us by the day before.</li>
+            <li>Where possible, we support the host with a small data bundle.</li>
+            <li>Your group agrees one question to send to the speaker.</li>
+            <li>After the session, spend 15 minutes on one discussion question from the co-host.</li>
+            <li>Tell us how many people attended and what you discussed.</li>
+          </ol>
+        </div>
+        <div class="wp__cta">
+          <p>One phone. One projector. Thirty people. The conversation after the talk is often more valuable than the talk itself.</p>
+          <a class="btn btn--primary btn--arrow" href="/contact/#form">Register a watch party</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="schedule" aria-labelledby="sched-h">
+    <div class="container">
+      <div class="section-title">
+        <p class="eyebrow">Pilot, October 2026 – February 2027</p>
+        <h2 id="sched-h">Topics and skills, month by month</h2>
+        <p>Topics are confirmed; speakers will be announced.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="table-cards">
+          <thead><tr><th scope="col">Month and theme</th><th scope="col">Peace topic</th><th scope="col">Practical skill</th><th scope="col">Speaker profile</th></tr></thead>
+          <tbody>{plan.map(([m, t, s, p]) => <tr><td>{m}</td><td data-label="Peace topic">{t}</td><td data-label="Practical skill">{s}</td><td data-label="Speaker profile">{p}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <h3 class="table-title">Upcoming and past sessions</h3>
       <ul class="talks">
         {talks.map(({ data: t }) => (
-          <li class="card card--tag" data-programme="talks">
+          <li>
             <p class="eyebrow">{monthName(t.month)} · {statusLabel[t.status]}</p>
-            <h3>{t.topic}{t.skill && <span class="skill"> — plus {t.skill.charAt(0).toLowerCase() + t.skill.slice(1)}</span>}</h3>
-            <dl>
-              <div><dt>Date</dt><dd>{t.date ? `${formatDate(t.date)}${t.time ? `, ${t.time} (Juba time)` : ''}` : <Tbd>date</Tbd>}</dd></div>
-              <div><dt>Speaker</dt><dd>{t.speaker === 'TBD' ? <Tbd>speaker to be announced</Tbd> : t.speaker}</dd></div>
-            </dl>
+            <h4>{t.topic}</h4>
+            <p>{t.date ? `${formatDate(t.date)}${t.time ? `, ${t.time} (Juba time)` : ''}` : <Tbd>date</Tbd>} · Speaker: {t.speaker === 'TBD' ? <Tbd>to be announced</Tbd> : t.speaker}</p>
             {t.recording && <p><a href={`/${t.recording}/`}>Listen to the recording</a></p>}
           </li>
         ))}
@@ -74,23 +176,84 @@ const events = talks
     </div>
   </section>
 
-  <section class="section section--surface">
-    <div class="container narrow">
-      <SafetyNote title="Our speaker standard" variant="info">
-        <p>Every speaker, whatever their position, speaks without campaigning or promoting a party. Officials and politicians take part only in issue-based sessions, under the same rules as everyone else. Factual claims are sourced. Audience questions are screened, and none may accuse a named person or community.</p>
-      </SafetyNote>
-      <div class="btn-row"><a class="btn btn--secondary" href="/take-action/partner/#speak">Suggest a speaker or offer to speak →</a></div>
+  <section class="section band-off" id="speakers" aria-labelledby="sp-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Who speaks</p>
+        <h2 id="sp-h">Our speakers</h2>
+        <ul class="ticks">
+          <li>Peacebuilding and conflict-transformation practitioners</li>
+          <li>Fact-checkers and media-literacy trainers</li>
+          <li>Mental-health educators — teaching, not treating</li>
+          <li>Youth leaders, community organisers and civic educators</li>
+          <li>Traditional and faith leaders</li>
+          <li>Entrepreneurs and professionals</li>
+          <li>South Sudanese diaspora professionals, and peers from other African countries that have faced similar struggles</li>
+        </ul>
+        <p class="note-small">Across the pilot: at least two women among five speakers, at least one diaspora or international voice, and more than one community represented.</p>
+      </div>
+      <div>
+        <h3>How we choose speakers</h3>
+        <dl class="criteria">
+          <div><dt>Credibility</dt><dd>Real expertise or lived experience, recognised by others</dd></div>
+          <div><dt>Non-partisan conduct</dt><dd>Willing to speak without campaigning for a party, candidate or armed actor</dd></div>
+          <div><dt>Clarity</dt><dd>Able to explain ideas simply to a multilingual youth audience</dd></div>
+          <div><dt>Public record</dt><dd>No history of hate speech, incitement or collective blame</dd></div>
+        </dl>
+        <SafetyNote title="Our speaker standard" variant="info" headingLevel="h3">
+          <p>Every speaker agrees in writing not to campaign or promote a party, to avoid blaming any community, to source factual claims, and to accept screened audience questions. Officials and politicians take part only in issue-based sessions, under the same rules. Speakers are not paid during the pilot; we support data costs and share the recording.</p>
+        </SafetyNote>
+      </div>
     </div>
   </section>
+
+  <section class="section" aria-labelledby="goals-h">
+    <div class="container two-col">
+      <div>
+        <p class="eyebrow">Honest targets</p>
+        <h2 id="goals-h">Our pilot goals</h2>
+        <ul class="goals">
+          <li><strong>5</strong><span>live sessions, October to February</span></li>
+          <li><strong>2+</strong><span>watch parties by a club or circle</span></li>
+          <li><strong>1+</strong><span>diaspora or international speaker</span></li>
+          <li><strong>2+</strong><span>women among the five speakers</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>After the pilot: Peace Forums</h3>
+        <p>The strongest topics can become in-person Peace Forums, starting in Juba or Bor at a partner venue — with the same shape (expert, youth questions, one action) and recorded for everyone who cannot attend.</p>
+      </div>
+    </div>
+  </section>
+
+  <ContributeCards
+    roles={[
+      { who: 'Experts and practitioners', what: 'Offer to speak on a month’s theme — and bring one story, one sourced fact and one practical skill.', href: '/take-action/partner/#speak', cta: 'Offer to speak', icon: 'mic' },
+      { who: 'Young people, 18–35', what: 'Co-host a session: open it, run the questions and close it, with a rehearsal beforehand.', href: '/contact/#form', cta: 'Ask to co-host', icon: 'users' },
+      { who: 'Clubs, circles and friends', what: 'Host a watch party on one device and send the speaker your group’s question.', href: '/contact/#form', cta: 'Register a watch party', icon: 'generations' },
+      { who: 'Everyone', what: 'Send a question in advance, or suggest a speaker we should invite.', href: wa, cta: 'Send a question', icon: 'message', external: true },
+      { who: 'Community radio stations', what: 'Broadcast the free 25–30 minute radio version of each session.', href: '/take-action/partner/#radio', cta: 'Get the radio version', icon: 'headphones' },
+      { who: 'Universities and venues', what: 'Help us bring Peace Forums to Juba or Bor after the pilot.', href: '/take-action/partner/#form', cta: 'Partner with us', icon: 'school' },
+    ]}
+  />
 </BaseLayout>
 
 <style>
-  .narrow { max-width: 860px; }
+  .runshow { margin: 0; }
+  .runshow div { display: grid; grid-template-columns: 96px 1fr; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); }
+  .runshow dt { font-family: var(--font-heading); font-weight: 700; color: var(--accent-text); font-size: 0.9rem; }
+  .runshow dd { margin: 0; }
+  .wp { margin-top: 2.5rem; align-items: center; }
+  .wp__cta { background: var(--color-green); color: #fff; border-radius: var(--radius); padding: 1.75rem; }
+  .wp__cta p { color: #fff; font-family: var(--font-heading); font-weight: 600; font-size: 1.15rem; }
+  .wp__cta .btn { background: #fff; color: var(--color-green); }
+  .table-title { margin-top: 2.5rem; font-size: 1.25rem; }
   .talks { list-style: none; padding: 0; display: grid; gap: 1rem; }
-  .talks li { margin: 0; }
-  .skill { font-weight: 400; color: var(--text); }
-  dl { display: grid; gap: 0.25rem; margin: 0; }
-  dl div { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  dt { font-weight: 600; }
-  dd { margin: 0; }
+  @media (min-width: 800px) { .talks { grid-template-columns: repeat(2, 1fr); } }
+  .talks li { margin: 0; max-width: none; background: var(--surface); border: 1px solid var(--line); border-left: 5px solid var(--color-navy); border-radius: var(--radius); padding: 1.25rem; }
+  .talks h4 { font-family: var(--font-heading); color: var(--heading); font-size: 1.05rem; margin: 0 0 0.4rem; }
+  .criteria { margin: 0 0 1rem; display: grid; gap: 0.6rem; }
+  .criteria div { border-left: 4px solid var(--color-green); padding-left: 0.9rem; }
+  .criteria dt { font-family: var(--font-heading); font-weight: 700; color: var(--heading); }
+  .criteria dd { margin: 0; font-size: 0.95rem; color: var(--text-muted); }
 </style>

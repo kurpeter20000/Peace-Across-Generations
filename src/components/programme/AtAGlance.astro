@@ -1,0 +1,26 @@
+---
+// "At a glance" facts panel for a programme page.
+interface Props { items: [string, string][]; tagline?: string }
+const { items, tagline } = Astro.props;
+---
+<div class="glance">
+  {tagline && <p class="glance__tagline">{tagline}</p>}
+  <dl class="glance__grid">
+    {items.map(([k, v]) => (
+      <div class="glance__item">
+        <dt>{k}</dt>
+        <dd>{v}</dd>
+      </div>
+    ))}
+  </dl>
+</div>
+
+<style>
+  .glance { background: var(--surface); border: 1px solid var(--line); border-top: 6px solid var(--color-green); border-radius: var(--radius); box-shadow: 0 18px 44px rgb(0 51 102 / 0.08); padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); }
+  .glance__tagline { font-family: var(--font-heading); font-weight: 700; color: var(--heading); font-size: clamp(1.2rem, 1rem + 0.8vw, 1.5rem); margin-bottom: 1.25rem; max-width: none; }
+  .glance__grid { display: grid; gap: 0; margin: 0; }
+  @media (min-width: 760px) { .glance__grid { grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem; } }
+  .glance__item { padding: 0.85rem 0; border-top: 1px solid var(--line); }
+  dt { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.74rem; font-weight: 600; color: var(--accent-text); margin-bottom: 0.2rem; }
+  dd { margin: 0; color: var(--text); }
+</style>
