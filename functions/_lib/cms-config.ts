@@ -282,10 +282,12 @@ export function cmsConfig(origin: string) {
         fields: [
           { name: 'order', label: 'Order on the page', widget: 'number', value_type: 'int' },
           { name: 'role', label: 'Role', widget: 'string' },
-          { name: 'open', label: 'Role is open (show “Volunteer with us”)', widget: 'boolean', default: true },
+          { name: 'open', label: 'Role still open (hidden from the website)', widget: 'boolean', default: true, hint: 'Add the name, photo and bio, then switch this off to show the person on the Our team page.' },
           { name: 'name', label: 'Name', widget: 'string', required: false },
           { name: 'bio', label: 'Bio (60–80 words)', widget: 'text', required: false },
           { name: 'photo', label: 'Photo', widget: 'image', required: false, media_folder: '/src/content/team/images', public_folder: './images' },
+          { name: 'owns', label: 'What this role owns (shown on the website)', widget: 'text', required: false },
+          { name: 'lookingFor', label: 'The person we want (for recruiting; not shown on the team page)', widget: 'text', required: false },
           body('Notes (optional)', false),
         ],
       },

@@ -167,6 +167,10 @@ const team = defineCollection({
       bio: z.string().nullable().default(null),
       photo: image().nullable().default(null),
       open: z.boolean().default(true),
+      /** What this role owns (shown under the person's name once the role is filled). */
+      owns: z.string().optional(),
+      /** The person we want (used for recruiting; not shown on the team page). */
+      lookingFor: z.string().optional(),
     })),
 });
 
