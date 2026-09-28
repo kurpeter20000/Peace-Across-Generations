@@ -4,6 +4,7 @@ import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import ContributeCards from '../../components/programme/ContributeCards.astro';
+import ProgrammeGallery from '../../components/programme/ProgrammeGallery.astro';
 
 const next = [
   ['Play for Peace', 'Inter-community football, volleyball and wrestling with mixed teams and a short peace conversation after each match', 'Crowds, travel, first aid and security need partners and planning', '2027'],
@@ -41,6 +42,12 @@ const moments = [
       </div>
     </div>
   </section>
+
+  <ProgrammeGallery
+    eyebrow="What Play for Peace could look like"
+    photos={[photos.footballMatch3, photos.footballMatch4, photos.footballTeam3]}
+    caption="Football, volleyball and wrestling already bring young people together — Play for Peace would add a peace conversation after every match."
+  />
 
   <section class="section band-off" aria-labelledby="moments-h">
     <div class="container">

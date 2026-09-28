@@ -8,6 +8,7 @@ import StoryList from '../../components/StoryList.astro';
 import AtAGlance from '../../components/programme/AtAGlance.astro';
 import OnThisPage from '../../components/programme/OnThisPage.astro';
 import ContributeCards from '../../components/programme/ContributeCards.astro';
+import ProgrammeGallery from '../../components/programme/ProgrammeGallery.astro';
 import { photos } from '../../data/photos';
 import { publishedStories } from '../../lib/content';
 
@@ -90,6 +91,12 @@ const questions = {
       </div>
     </div>
   </section>
+
+  <ProgrammeGallery
+    eyebrow="Listening closely"
+    photos={[photos.founderListening, photos.handsSunset]}
+    caption="A good conversation starts with listening — and ends with what one generation chooses to pass to the next."
+  />
 
   <section class="section" id="formats" aria-labelledby="formats-h">
     <div class="container">

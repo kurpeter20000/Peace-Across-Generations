@@ -1,27 +1,31 @@
 ---
 import Icon from './Icon.astro';
 import DayCounter from './DayCounter.astro';
+import Photo from './Photo.astro';
+import { photos } from '../data/photos';
 import { t } from '../i18n';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-type Item = { href: string; label: string; children?: { href: string; label: string }[] };
+type Item = { href: string; label: string; icon?: string; desc?: string; children?: { href: string; label: string; icon?: string; desc?: string }[]; panel?: { photo: (typeof photos)[keyof typeof photos]; caption: string } };
 const links: Item[] = [
   { href: '/', label: t('nav.home') },
   {
     href: '/about/', label: t('nav.about'),
+    panel: { photo: photos.founderPortrait, caption: 'Meet our founder and team' },
     children: [
-      { href: '/about/', label: 'About us' },
-      { href: '/about/team/', label: 'Our team' },
-      { href: '/3000-days/', label: '3,000 Days for Peace' },
+      { href: '/about/', label: 'About us', icon: 'leaf', desc: 'Our mission, vision and story' },
+      { href: '/about/team/', label: 'Our team', icon: 'users', desc: 'The people leading the work' },
+      { href: '/3000-days/', label: '3,000 Days for Peace', icon: 'calendar', desc: 'Our commitment to 2034' },
     ],
   },
   { href: '/programmes/', label: t('nav.programmes') },
   {
     href: '/campaigns/', label: 'Campaigns & Stories',
+    panel: { photo: photos.megaphone, caption: 'Real voices from South Sudan' },
     children: [
-      { href: '/campaigns/current/', label: 'This month\u2019s campaign' },
-      { href: '/campaigns/', label: 'All campaigns' },
-      { href: '/stories/', label: 'Stories & Voices' },
+      { href: '/campaigns/current/', label: 'This month\u2019s campaign', icon: 'sun', desc: 'What we\u2019re asking right now' },
+      { href: '/campaigns/', label: 'All campaigns', icon: 'calendar', desc: 'Every theme, month by month' },
+      { href: '/stories/', label: 'Stories & Voices', icon: 'heart', desc: 'Letters, poems, songs and film' },
     ],
   },
   { href: '/take-action/', label: t('nav.takeAction') },
@@ -70,9 +74,24 @@ const isSection = (item: Item) =>
               <button type="button" class:list={['sub-toggle', { current: isSection(l) }]} aria-expanded="false" aria-controls={`sub-${i}`} data-sub-toggle>
                 {l.label}<svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <ul class="submenu" id={`sub-${i}`}>
-                {l.children.map((c) => <li><a href={c.href} aria-current={path === clean(c.href) ? 'page' : undefined}>{c.label}</a></li>)}
-              </ul>
+              <div class="submenu" id={`sub-${i}`}>
+                <ul class="submenu__list">
+                  {l.children.map((c) => (
+                    <li>
+                      <a href={c.href} aria-current={path === clean(c.href) ? 'page' : undefined}>
+                        {c.icon && <span class="submenu__icon"><Icon name={c.icon as any} /></span>}
+                        <span><span class="submenu__label">{c.label}</span>{c.desc && <span class="submenu__desc">{c.desc}</span>}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                {l.panel && (
+                  <div class="submenu__panel">
+                    <Photo photo={l.panel.photo} ratio="portrait" sizes="140px" widths={[200, 280]} rounded={true} />
+                    <p>{l.panel.caption}</p>
+                  </div>
+                )}
+              </div>
             </li>
           ) : (
             <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
@@ -145,16 +164,35 @@ const isSection = (item: Item) =>
   .caret { width: 12px; height: 12px; transition: transform 0.2s ease; }
   .sub-toggle[aria-expanded='true'] .caret { transform: rotate(180deg); }
   nav .submenu {
-    display: none; position: absolute; top: calc(100% + 6px); left: 0; min-width: 230px; z-index: 60;
-    flex-direction: column; gap: 0; padding: 0.4rem; background: #fff;
-    border: 1px solid #e3e7eb; border-radius: 12px; box-shadow: 0 14px 34px rgb(0 51 102 / 0.14);
+    display: none; flex-direction: column; position: absolute; top: calc(100% + 10px); left: 0; min-width: 210px; z-index: 60;
+    padding: 0.6rem; background: #fff; gap: 0;
+    border: 1px solid #e3e7eb; border-radius: 14px; box-shadow: 0 20px 44px rgb(0 51 102 / 0.16);
   }
-  .submenu a { padding: 0.7rem 0.9rem; text-transform: none; letter-spacing: 0; font-size: 0.92rem; }
+  .submenu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .submenu a {
+    display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.65rem 0.7rem; border-radius: 10px;
+    text-transform: none; letter-spacing: 0; font-size: 0.92rem;
+  }
+  .submenu__icon {
+    display: grid; place-items: center; flex: none; width: 30px; height: 30px; margin-top: 0.05rem;
+    border-radius: 8px; background: var(--color-green-tint); color: var(--color-green-dark);
+  }
+  .submenu__icon :global(svg) { width: 16px; height: 16px; }
+  .submenu__label { display: block; font-weight: 700; }
+  .submenu__desc { display: block; font-family: var(--font-body); font-weight: 400; font-size: 0.8rem; color: var(--text-muted); text-transform: none; margin-top: 0.1rem; }
   /* Desktop: open on hover or keyboard focus (works without JavaScript), or when clicked. */
   @media (min-width: 1280px) {
     .has-sub:hover .submenu, .has-sub:focus-within .submenu, .sub-toggle[aria-expanded='true'] + .submenu { display: flex; }
-    .has-sub::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 8px; }
+    .has-sub::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 10px; }
+    nav .submenu { min-width: 460px; flex-direction: row; align-items: stretch; }
+    .submenu__list { flex: 1; justify-content: center; }
+    .submenu__panel {
+      flex: none; width: 150px; display: flex; flex-direction: column; gap: 0.6rem; padding: 0.5rem 0.5rem 0.5rem 0.9rem;
+      margin-left: 0.4rem; border-left: 1px solid #eceff2; justify-content: center;
+    }
+    .submenu__panel p { margin: 0; font-family: var(--font-heading); font-weight: 600; font-size: 0.82rem; color: var(--color-navy); line-height: 1.3; }
   }
+  @media (max-width: 1279px) { .submenu__panel { display: none; } }
   .nav-cta { background: #2e7130; color: #fff; white-space: nowrap; padding-inline: 1.2rem; border-radius: 4px; font-size: 0.8rem; }
   .nav-cta:hover { background: #245a26; color: #fff; }
   .site-header :global(:focus-visible) { outline-color: #2e7130; }
@@ -169,6 +207,7 @@ const isSection = (item: Item) =>
     nav a { padding: 0.85rem 0.5rem; font-size: 0.92rem; border-bottom: 1px solid #eceff2; border-radius: 0; }
     .sub-toggle { width: 100%; justify-content: space-between; padding: 0.85rem 0.5rem; font-size: 0.92rem; border-bottom: 1px solid #eceff2; border-radius: 0; }
     .submenu { position: static; box-shadow: none; border: 0; border-radius: 0; padding: 0 0 0 1rem; min-width: 0; background: #f5f7f8; }
+    .submenu__icon { background: #fff; }
     .sub-toggle[aria-expanded='true'] + .submenu { display: flex; }
     :global(html:not(.js)) .submenu { display: flex; }
     .nav-cta { width: 100%; }

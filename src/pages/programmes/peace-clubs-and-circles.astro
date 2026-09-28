@@ -7,6 +7,7 @@ import SafetyNote from '../../components/SafetyNote.astro';
 import OnThisPage from '../../components/programme/OnThisPage.astro';
 import ContributeCards from '../../components/programme/ContributeCards.astro';
 import status from '../../data/pilot-status.json';
+import ProgrammeGallery from '../../components/programme/ProgrammeGallery.astro';
 import { photos } from '../../data/photos';
 
 const compare = [
@@ -97,6 +98,12 @@ const circleGuides = [
       </div>
     </div>
   </section>
+
+  <ProgrammeGallery
+    eyebrow="A regular place to meet"
+    photos={[photos.footballTeam2, photos.footballTeamKneeling2]}
+    caption="A club or circle is, above all, a group that keeps meeting — twice a month, term after term."
+  />
 
   <section class="section" id="clubs" aria-labelledby="clubs-h">
     <div class="container">

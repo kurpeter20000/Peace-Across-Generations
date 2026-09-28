@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
+import { photos } from '../../data/photos';
 ---
 <BaseLayout title="Community guidelines" description="What Peace Across Generations removes and does not publish, in comments, submissions and events.">
-  <PageHead title="Community guidelines" eyebrow="Our standards" lede="For comments, submissions and events." />
+  <PageHead photo={photos.studentsWriting} title="Community guidelines" eyebrow="Our standards" lede="For comments, submissions and events." />
   <section class="section section--surface">
     <div class="container narrow">
       <h2>We remove, and do not publish:</h2>

@@ -9,6 +9,7 @@ import Tbd from '../../components/Tbd.astro';
 import AtAGlance from '../../components/programme/AtAGlance.astro';
 import OnThisPage from '../../components/programme/OnThisPage.astro';
 import ContributeCards from '../../components/programme/ContributeCards.astro';
+import ProgrammeGallery from '../../components/programme/ProgrammeGallery.astro';
 import { photos } from '../../data/photos';
 import site from '../../data/site.json';
 import { monthName, formatDate } from '../../lib/content';
@@ -85,6 +86,12 @@ const wa = site.whatsapp ? `https://wa.me/${String(site.whatsapp).replace(/\D/g,
       </div>
     </div>
   </section>
+
+  <ProgrammeGallery
+    eyebrow="A room, and a founder listening"
+    photos={[photos.workshop3, photos.founderPortrait]}
+    caption="Peace Talks brings an expert, a room full of young people, and questions that get answered."
+  />
 
   <section class="section" id="format" aria-labelledby="format-h">
     <div class="container two-col">

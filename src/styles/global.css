@@ -371,8 +371,15 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .tiles { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
 @media (min-width: 760px) { .tiles { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1100px) { .tiles--3 { grid-template-columns: repeat(3, 1fr); } }
-.tiles > li { margin: 0; max-width: none; background: var(--surface); border: 1px solid var(--line); border-top: 5px solid var(--color-green); border-radius: var(--radius); padding: 1.5rem; }
+.tiles > li {
+  margin: 0; max-width: none; background: var(--surface); border: 1px solid var(--line); border-top: 5px solid var(--color-green);
+  border-radius: var(--radius); padding: 1.5rem; box-shadow: 0 1px 2px rgb(0 51 102 / 0.04);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
 .tiles > li:nth-child(even) { border-top-color: var(--color-navy); }
+@media (prefers-reduced-motion: no-preference) {
+  .tiles > li:hover { box-shadow: 0 14px 32px rgb(0 51 102 / 0.1); transform: translateY(-3px); }
+}
 .tiles h3 { font-size: 1.2rem; }
 .tiles .muted-line { font-size: 0.93rem; color: var(--text-muted); }
 .goals { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }

@@ -4,12 +4,13 @@ import PageHead from '../../components/PageHead.astro';
 import Email from '../../components/Email.astro';
 import corrections from '../../data/corrections.json';
 import { formatDate } from '../../lib/content';
+import { photos } from '../../data/photos';
 
 type Correction = { date: string; item: string; change: string };
 const log = (corrections as Correction[]).sort((a, b) => b.date.localeCompare(a.date));
 ---
 <BaseLayout title="Corrections and withdrawal" description="How we correct factual errors publicly, and how to ask us to change or remove your work.">
-  <PageHead title="Corrections and withdrawal" eyebrow="Our standards" />
+  <PageHead photo={photos.doveAndEarth} title="Corrections and withdrawal" eyebrow="Our standards" />
   <section class="section section--surface">
     <div class="container narrow">
       <p class="lede">We correct factual errors publicly and promptly. If you contributed something and want it changed or removed, email <Email subject="Withdrawal request" /> with the subject “Withdrawal request”. We will act as quickly as we can and confirm when it is done.</p>

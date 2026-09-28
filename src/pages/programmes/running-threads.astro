@@ -7,6 +7,7 @@ import PageHead from '../../components/PageHead.astro';
 import Icon from '../../components/Icon.astro';
 import OnThisPage from '../../components/programme/OnThisPage.astro';
 import ContributeCards from '../../components/programme/ContributeCards.astro';
+import ProgrammeGallery from '../../components/programme/ProgrammeGallery.astro';
 
 const wa = `https://wa.me/${String(site.whatsapp).replace(/\D/g, '')}`;
 
@@ -127,6 +128,12 @@ const pauseMonths = [
       </div>
     </div>
   </section>
+
+  <ProgrammeGallery
+    eyebrow="Unity in diversity"
+    photos={[photos.unityInDiversity, photos.noWarFence]}
+    caption="64 Voices is a standard we hold ourselves to across every programme — and a message we hope spreads further than our own work."
+  />
 
   <ContributeCards
     roles={[

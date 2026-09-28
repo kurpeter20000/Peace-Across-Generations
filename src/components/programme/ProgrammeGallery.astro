@@ -1,0 +1,21 @@
+---
+// A short photo band for programme pages: breaks up long text sections with
+// real moments from the work, using the existing photo mosaic layout.
+import PhotoMosaic from '../PhotoMosaic.astro';
+import type { Photo } from '../../data/photos';
+interface Props { photos: Photo[]; eyebrow?: string; caption?: string }
+const { photos, eyebrow = 'In practice', caption } = Astro.props;
+---
+<section class="section prog-gallery" aria-label={eyebrow}>
+  <div class="container">
+    {eyebrow && <p class="eyebrow prog-gallery__eyebrow">{eyebrow}</p>}
+    <PhotoMosaic photos={photos} />
+    {caption && <p class="prog-gallery__caption">{caption}</p>}
+  </div>
+</section>
+
+<style>
+  .prog-gallery { padding-block: clamp(1.5rem, 1rem + 2vw, 2.5rem); }
+  .prog-gallery__eyebrow { margin-bottom: 0.9rem; }
+  .prog-gallery__caption { margin: 1rem 0 0; max-width: 62ch; color: var(--text-muted); font-size: 0.95rem; }
+</style>

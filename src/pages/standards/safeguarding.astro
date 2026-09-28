@@ -3,9 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import Tbd from '../../components/Tbd.astro';
 import Email from '../../components/Email.astro';
+import { photos } from '../../data/photos';
 ---
 <BaseLayout title="Safeguarding" description="How Peace Across Generations protects children, young people and adults connected with its work.">
-  <PageHead title="Safeguarding" eyebrow="Our standards" />
+  <PageHead photo={photos.workshop3} title="Safeguarding" eyebrow="Our standards" />
   <section class="section section--surface">
     <div class="container narrow">
       <ul class="rules">

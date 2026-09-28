@@ -7,6 +7,7 @@ import SafetyNote from '../../components/SafetyNote.astro';
 import AtAGlance from '../../components/programme/AtAGlance.astro';
 import OnThisPage from '../../components/programme/OnThisPage.astro';
 import ContributeCards from '../../components/programme/ContributeCards.astro';
+import ProgrammeGallery from '../../components/programme/ProgrammeGallery.astro';
 import { photos } from '../../data/photos';
 import site from '../../data/site.json';
 
@@ -89,6 +90,12 @@ const wa = site.whatsapp ? `https://wa.me/${String(site.whatsapp).replace(/\D/g,
       </div>
     </div>
   </section>
+
+  <ProgrammeGallery
+    eyebrow="Peace, made visible"
+    photos={[photos.noWarPoster, photos.stopWar, photos.footballTeamSmall]}
+    caption="Public messages are the point: signs, murals and art that make peace visible in everyday life."
+  />
 
   <section class="section" id="strands" aria-labelledby="strands-h">
     <div class="container">
