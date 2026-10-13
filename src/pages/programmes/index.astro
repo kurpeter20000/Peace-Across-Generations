@@ -25,16 +25,6 @@ const rows = [
 const byKey = Object.fromEntries(programmes.map((p) => [p.key, p]));
 const fullTitle: Record<string, string> = { clubs: 'Peace Clubs & Community Peace Circles' };
 
-const routes: [string, string, string][] = [
-  ['Peace in 90 Seconds', 'Running thread', '/programmes/running-threads/#90-seconds'],
-  ['Letters for Peace', 'Youth Creative Peace', '/programmes/youth-creative-peace/'],
-  ['Arts for Peace', 'Youth Creative Peace', '/programmes/youth-creative-peace/'],
-  ['Peace Across Generations Dialogues', 'Generations in Conversation', '/programmes/generations-in-conversation/'],
-  ['64 Voices, One Future', 'Running thread, with a flagship series inside Generations in Conversation', '/programmes/running-threads/#64-voices'],
-  ['Digital Peace & Information Integrity', 'Running thread: Pause Before You Share', '/programmes/running-threads/#pause'],
-  ['Peace Actions Where We Live', 'Running thread, delivered mainly through clubs and circles', '/programmes/running-threads/#where-we-live'],
-  ['Global Voices for South Sudan', 'Peace Talks guests, and solidarity pieces in Youth Creative Peace', '/programmes/peace-talks/'],
-];
 
 const involve = [
   { icon: 'pen', title: 'Share your voice', text: 'Send a letter, poem, song, drawing or photo — whatever form you’re good at.', href: '/take-action/share-your-voice/', cta: 'Share your voice' },
@@ -46,7 +36,7 @@ const involve = [
 <BaseLayout title="Our programmes" description="Four core programmes, four running threads, one monthly theme — and a clear place for everyone to contribute.">
   <PageHead photo={photos.workshopGroup} title="Our programmes" eyebrow="Pilot · October 2026 – February 2027" lede="Four core programmes, four running threads, one monthly theme. Every month, each programme answers the same theme, so one idea reaches people four ways: as a poem, a club session, an expert talk and an elder’s story." />
 
-  <OnThisPage links={[['#core', 'Core programmes'], ['#fit', 'How they fit'], ['#routes', 'Eight routes'], ['#involve', 'Get involved'], ['#more', 'Threads & what’s next'], ['#contribute', 'Find your place']]} />
+  <OnThisPage links={[['#core', 'Core programmes'], ['#fit', 'How they fit'], ['#routes', 'Every route'], ['#involve', 'Get involved'], ['#more', 'Threads & what’s next'], ['#contribute', 'Find your place']]} />
 
   <section class="section" id="core" aria-labelledby="core-h">
     <div class="container">
@@ -100,34 +90,30 @@ const involve = [
   </section>
 
   <section class="section" id="routes" aria-labelledby="routes-h">
-    <div class="container">
+    <div class="container narrow">
       <div class="section-title">
         <p class="eyebrow">Nothing left out</p>
-        <h2 id="routes-h">Eight ways to take part — and where each one lives</h2>
-        <p>Our strategy sets out eight participation routes. Every one of them has a home inside the programmes and threads.</p>
+        <h2 id="routes-h">Every way to take part has a home</h2>
       </div>
-      <ul class="routes">
-        {routes.map(([route, where, href]) => (
-          <li><a href={href}><strong>{route}</strong><span>{where}</span></a></li>
-        ))}
-      </ul>
+      <p><strong>Letters for Peace</strong> and <strong>Arts for Peace</strong> both live inside <a href="/programmes/youth-creative-peace/">Youth Creative Peace</a>. <strong>Peace Across Generations Dialogues</strong> is our <a href="/programmes/generations-in-conversation/">Generations in Conversation</a> programme by another name. And <strong>Global Voices for South Sudan</strong> shows up as guests on <a href="/programmes/peace-talks/">Peace Talks</a> and solidarity pieces inside Youth Creative Peace.</p>
+      <p>The rest run through everything we do, in every programme at once: <strong>Peace in 90 Seconds</strong>, <strong>64 Voices, One Future</strong>, <strong>Pause Before You Share</strong> and <strong>Peace Where We Live</strong>. You can read about all four on the <a href="/programmes/running-threads/">running threads</a> page.</p>
     </div>
   </section>
 
-  <section class="section band-green involve" id="involve" aria-labelledby="involve-h">
+  <section class="section band-off involve" id="involve" aria-labelledby="involve-h">
     <div class="container">
-      <div class="section-title section-title--center">
+      <div class="section-title">
         <p class="eyebrow">You don’t need money, a title or perfect English</p>
         <h2 id="involve-h">Four ways to get involved today</h2>
         <p>If you have a phone, a pen or a voice, there is a place for you here.</p>
       </div>
       <ul class="involve__grid">
-        {involve.map((i) => (
-          <li class="involve__card">
+        {involve.map((i, idx) => (
+          <li class="involve__card" data-alt={idx % 2}>
             <span class="icon-badge involve__icon"><Icon name={i.icon as any} /></span>
             <h3>{i.title}</h3>
             <p>{i.text}</p>
-            <a class="btn btn--light btn--block" href={i.href}>{i.cta} →</a>
+            <a class="btn btn--secondary btn--block" href={i.href}>{i.cta} →</a>
           </li>
         ))}
       </ul>
@@ -186,22 +172,19 @@ const involve = [
   .prog-card h3 a::after { content: ''; position: absolute; inset: 0; }
   .prog-card p { margin: 0 0 1rem; }
   .prog-card__more { margin-top: auto; font-family: var(--font-heading); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-text); }
-  .routes { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-  .routes li { margin: 0; }
-  .routes a { display: flex; flex-direction: column; gap: 0.25rem; height: 100%; padding: 1rem 1.1rem; border: 1px solid var(--line); border-left: 4px solid var(--color-green); border-radius: var(--radius); text-decoration: none; background: var(--surface); }
-  .routes li:nth-child(even) a { border-left-color: var(--color-navy); }
-  .routes a:hover { background: var(--color-green-tint); }
-  .routes strong { color: var(--heading); font-family: var(--font-heading); }
-  .routes span { color: var(--text); font-size: 0.92rem; }
+  .narrow { max-width: 760px; }
+  .narrow p { max-width: none; }
+  .narrow a { font-weight: 600; }
 
-  .involve .section-title p { color: #e6f0e7; }
-  .involve__grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .involve__grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
   .involve__card {
-    margin: 0; background: rgb(255 255 255 / 0.08); border: 1px solid rgb(255 255 255 / 0.25); border-radius: var(--radius);
-    padding: 1.75rem 1.5rem; display: flex; flex-direction: column; text-align: center; align-items: center;
+    margin: 0; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--color-green); border-radius: var(--radius);
+    padding: 1.5rem; display: flex; flex-direction: column;
   }
-  .involve__icon { background: #fff; color: var(--color-green-dark); }
-  .involve__card h3 { color: #fff; font-size: 1.1rem; margin: 0 0 0.5rem; }
-  .involve__card p { color: #e6f0e7; font-size: 0.93rem; margin: 0 0 1.5rem; max-width: none; }
+  .involve__card[data-alt='1'] { border-top-color: var(--color-navy); }
+  .involve__icon { background: var(--color-green-tint); color: var(--color-green-dark); }
+  .involve__card[data-alt='1'] .involve__icon { background: var(--color-sky-light); color: var(--color-navy); }
+  .involve__card h3 { font-size: 1.05rem; margin: 0 0 0.4rem; }
+  .involve__card p { font-size: 0.92rem; color: var(--text-muted); margin: 0 0 1.25rem; max-width: none; }
   .involve__card .btn { margin-top: auto; }
 </style>
