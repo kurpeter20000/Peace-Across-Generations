@@ -36,18 +36,17 @@ const routes: [string, string, string][] = [
   ['Global Voices for South Sudan', 'Peace Talks guests, and solidarity pieces in Youth Creative Peace', '/programmes/peace-talks/'],
 ];
 
-const calendar = [
-  ['October — Unlearn Hate', 'Letter to someone you were taught to distrust; photo of a friendship across communities', 'How hate speech spreads online, plus how to check a claim in two minutes', 'What were you taught about people from other communities, and was it true?', 'Schools approached and readiness checks worked through; first community circle'],
-  ['November — Lower the Gun, Raise the Voice', 'Peace Song Challenge; skits on courage without guns; an open letter on guns', 'Courage without guns: masculinity, cattle and community safety, plus how to disagree without escalating', 'Before guns were common, what made a young man respected?', 'First club meetings; scenes from The Land That Feeds Us All'],
-  ['December — Leadership, Dialogue and Peaceful Public Life', 'Letters to leaders; “the leader I want to be” videos', 'Leading without dividing: young people in civic life, plus public speaking', 'A chief or teacher and a student leader on what makes leadership trusted', 'End-of-term peace assembly; holiday arrangements agreed'],
-  ['January — Healing Without Forgetting', 'Letters Across Generations; poems on memory', 'Grief, memory and healing: what helps and where to find support (education, not treatment)', 'What do we remember, and what should end with us? (9 January: anniversary of the 2005 Comprehensive Peace Agreement)', 'Supervised holiday sessions only; circles focus on listening'],
-  ['February — The Generation That Builds Peace', 'Second Peace Song Challenge; online showcase; Founding Creators recognised', 'What our generation builds next: a panel of pilot contributors, plus turning an idea into a project', 'Youth hosts and elders on commitments for the next phase', 'Clubs present one project if term has started; pilot review at the end of the month'],
+const involve = [
+  { icon: 'pen', title: 'Share your voice', text: 'Send a letter, poem, song, drawing or photo — whatever form you’re good at.', href: '/take-action/share-your-voice/', cta: 'Share your voice' },
+  { icon: 'school', title: 'Join a club or circle', text: 'Bring a regular, supervised place for peace into your school or community.', href: '/programmes/peace-clubs-and-circles/#contribute', cta: 'Start a club or circle' },
+  { icon: 'hand', title: 'Become a Peace Ambassador', text: 'Carry this work into your own school, community or diaspora network.', href: '/take-action/become-a-peace-ambassador/', cta: 'Become an Ambassador' },
+  { icon: 'globe', title: 'Partner with us', text: 'Speak at a Peace Talk, host a radio cut, or offer a venue, skill or platform.', href: '/take-action/partner/', cta: 'Partner with us' },
 ];
 ---
 <BaseLayout title="Our programmes" description="Four core programmes, four running threads, one monthly theme — and a clear place for everyone to contribute.">
   <PageHead photo={photos.workshopGroup} title="Our programmes" eyebrow="Pilot · October 2026 – February 2027" lede="Four core programmes, four running threads, one monthly theme. Every month, each programme answers the same theme, so one idea reaches people four ways: as a poem, a club session, an expert talk and an elder’s story." />
 
-  <OnThisPage links={[['#core', 'Core programmes'], ['#fit', 'How they fit'], ['#routes', 'Eight routes'], ['#calendar', 'Pilot calendar'], ['#more', 'Threads & what’s next'], ['#contribute', 'Get involved']]} />
+  <OnThisPage links={[['#core', 'Core programmes'], ['#fit', 'How they fit'], ['#routes', 'Eight routes'], ['#involve', 'Get involved'], ['#more', 'Threads & what’s next'], ['#contribute', 'Find your place']]} />
 
   <section class="section" id="core" aria-labelledby="core-h">
     <div class="container">
@@ -115,23 +114,23 @@ const calendar = [
     </div>
   </section>
 
-  <section class="section band-off" id="calendar" aria-labelledby="cal-h">
+  <section class="section band-green involve" id="involve" aria-labelledby="involve-h">
     <div class="container">
-      <div class="section-title">
-        <p class="eyebrow">One theme a month</p>
-        <h2 id="cal-h">Pilot calendar: October 2026 – February 2027</h2>
-        <p>Speakers and guests are still to be confirmed; the topics below are the brief each programme works to.</p>
+      <div class="section-title section-title--center">
+        <p class="eyebrow">You don’t need money, a title or perfect English</p>
+        <h2 id="involve-h">Four ways to get involved today</h2>
+        <p>If you have a phone, a pen or a voice, there is a place for you here.</p>
       </div>
-      <div class="table-wrap">
-        <table class="table-cards">
-          <thead><tr><th scope="col">Month and theme</th><th scope="col">Youth Creative Peace</th><th scope="col">Peace Talks</th><th scope="col">Generations in Conversation</th><th scope="col">Clubs and circles</th></tr></thead>
-          <tbody>
-            {calendar.map(([m, c, t, g, cl]) => (
-              <tr><td>{m}</td><td data-label="Youth Creative Peace">{c}</td><td data-label="Peace Talks">{t}</td><td data-label="Generations in Conversation">{g}</td><td data-label="Clubs and circles">{cl}</td></tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ul class="involve__grid">
+        {involve.map((i) => (
+          <li class="involve__card">
+            <span class="icon-badge involve__icon"><Icon name={i.icon as any} /></span>
+            <h3>{i.title}</h3>
+            <p>{i.text}</p>
+            <a class="btn btn--light btn--block" href={i.href}>{i.cta} →</a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -194,4 +193,15 @@ const calendar = [
   .routes a:hover { background: var(--color-green-tint); }
   .routes strong { color: var(--heading); font-family: var(--font-heading); }
   .routes span { color: var(--text); font-size: 0.92rem; }
+
+  .involve .section-title p { color: #e6f0e7; }
+  .involve__grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .involve__card {
+    margin: 0; background: rgb(255 255 255 / 0.08); border: 1px solid rgb(255 255 255 / 0.25); border-radius: var(--radius);
+    padding: 1.75rem 1.5rem; display: flex; flex-direction: column; text-align: center; align-items: center;
+  }
+  .involve__icon { background: #fff; color: var(--color-green-dark); }
+  .involve__card h3 { color: #fff; font-size: 1.1rem; margin: 0 0 0.5rem; }
+  .involve__card p { color: #e6f0e7; font-size: 0.93rem; margin: 0 0 1.5rem; max-width: none; }
+  .involve__card .btn { margin-top: auto; }
 </style>
