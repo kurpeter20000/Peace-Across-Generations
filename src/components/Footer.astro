@@ -38,6 +38,10 @@ const anySocial = socials.some(([, url]) => url);
       <div>
         <p class="footer-tagline">{site.tagline}</p>
         <p>{site.positioning}</p>
+        <a class="footer-parent" href={site.parentOrganization.url} rel="noopener">
+          <span>An initiative of</span>
+          <img src={site.parentOrganization.logo} alt={site.parentOrganization.name} width="140" height="49" loading="lazy" />
+        </a>
         <p class="footer-day"><DayCounter /></p>
         <h2 class="footer-h">Newsletter</h2>
         <NewsletterForm variant="footer" source="footer" id="newsletter-footer" />
@@ -87,6 +91,9 @@ const anySocial = socials.some(([, url]) => url);
   @media (min-width: 700px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1000px) { .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
   .footer-tagline { font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; color: #fff; }
+  .footer-parent { display: inline-flex; align-items: center; gap: 0.6rem; margin: 0.6rem 0 1rem; padding: 0.4rem 0.75rem; background: rgb(255 255 255 / 0.08); border-radius: var(--radius); }
+  .footer-parent span { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.85; }
+  .footer-parent img { height: 28px; width: auto; display: block; background: #fff; border-radius: 4px; padding: 2px 4px; }
   .footer-day { display: inline-block; background: rgb(255 255 255 / 0.08); border-radius: 999px; padding: 0.3rem 0.9rem; }
   .footer-h { color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 0.75rem; }
   .footer-h + ul, .footer-h + p { margin-bottom: 1.5rem; }

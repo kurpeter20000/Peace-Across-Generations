@@ -39,6 +39,11 @@ const orgLd = {
   description: site.positioning,
   url: Astro.site?.toString(),
   logo: new URL('/icon-512.png', Astro.site).toString(),
+  parentOrganization: {
+    '@type': 'Organization',
+    name: site.parentOrganization.name,
+    url: site.parentOrganization.url,
+  },
 };
 const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
 ---

@@ -1,4 +1,5 @@
 ---
+import site from '../../data/site.json';
 import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
@@ -36,9 +37,9 @@ const messages = [
   'We should inherit culture and wisdom, not enemies and unfinished revenge.',
 ];
 ---
-<BaseLayout title="About us" description="Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative for South Sudan. Our story, mission, vision, approach and principles.">
-  <PageHead photo={photos.workshopDiscussion} title="About Peace Across Generations" eyebrow="Independent · Youth-led · Non-partisan">
-    <p class="lede">Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.</p>
+<BaseLayout title="About us" description="Peace Across Generations is a peace initiative of Edupower Youth Foundation: a youth-led and non-partisan peacebuilding initiative for South Sudan. Our story, mission, vision, approach and principles.">
+  <PageHead photo={photos.workshopDiscussion} title="About Peace Across Generations" eyebrow="Youth-led · Non-partisan · An Edupower Youth Foundation initiative">
+    <p class="lede">Peace Across Generations is a peace initiative of Edupower Youth Foundation: youth-led and non-partisan, connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.</p>
   </PageHead>
 
   <nav class="container jump" aria-label="On this page">
@@ -132,13 +133,16 @@ const messages = [
   <section class="section section--surface" id="independence">
     <div class="container narrow">
       <SafetyNote title="Our independence" variant="info">
-        <p>Peace Across Generations is independent from any political party, candidate, armed actor, government institution or other organisation. We may work with public institutions, civil society, media, schools, traditional and faith leaders and partners when that work advances peace and does not compromise our independence, safety or editorial standards.</p>
+        <p>Peace Across Generations is a peace initiative of <a href={site.parentOrganization.url} rel="noopener">Edupower Youth Foundation</a>. We are independent from any political party, candidate, armed actor or government institution. We may work with public institutions, civil society, media, schools, traditional and faith leaders and partners when that work advances peace and does not compromise our independence, safety or editorial standards.</p>
         <ul>
           <li>No party, candidate or armed actor may use our name, logo, events or content as an endorsement.</li>
           <li>We disclose partnerships and sponsorships where relevant.</li>
-          <li>During the pilot we are an initiative, not a registered NGO. We will say so honestly until that changes.</li>
+          <li>During the pilot we operate as an initiative of Edupower Youth Foundation, not a separately registered NGO. We will say so honestly until that changes.</li>
         </ul>
       </SafetyNote>
+      <a class="parent-badge" href={site.parentOrganization.url} rel="noopener">
+        <img src={site.parentOrganization.logo} alt={site.parentOrganization.name} width="160" height="56" loading="lazy" />
+      </a>
     </div>
   </section>
 
@@ -159,6 +163,8 @@ const messages = [
 
 <style>
   .narrow { max-width: 860px; }
+  .parent-badge { display: inline-block; margin-top: 1.25rem; }
+  .parent-badge img { height: 48px; width: auto; display: block; }
   .jump ul { list-style: none; padding: 1.5rem 0; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; }
   .jump li { margin: 0; }
   .jump a { display: inline-block; padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; font-weight: 600; font-size: 0.92rem; }

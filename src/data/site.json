@@ -1,13 +1,18 @@
 {
   "name": "Peace Across Generations",
   "tagline": "Every Voice. Every Generation. One Peace.",
-  "positioning": "An independent, youth-led, non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders.",
-  "description": "Peace Across Generations is an independent, youth-led and non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.",
-  "email": {
-    "user": "peaceacrossgenerations",
-    "domain": "gmail.com"
+  "parentOrganization": {
+    "name": "Edupower Youth Foundation",
+    "url": "https://edupoweryouthfoundation.org",
+    "logo": "/brand/edupower-logo.png"
   },
-  "whatsapp": "+211925903077",
+  "positioning": "A peace initiative of Edupower Youth Foundation — youth-led, non-partisan, connecting South Sudanese across communities, generations and borders.",
+  "description": "Peace Across Generations is a peace initiative of Edupower Youth Foundation: a youth-led, non-partisan peacebuilding initiative connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.",
+  "email": {
+    "user": "info",
+    "domain": "peaceacrossgen.org"
+  },
+  "whatsapp": "+211927048411",
   "introVideo": {
     "platform": "youtube",
     "url": "https://www.youtube.com/watch?v=e3fQjlvb-Tc"
