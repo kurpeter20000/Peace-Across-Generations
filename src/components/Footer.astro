@@ -39,7 +39,7 @@ const anySocial = socials.some(([, url]) => url);
         <p class="footer-tagline">{site.tagline}</p>
         <p>{site.positioning}</p>
         <a class="footer-parent" href={site.parentOrganization.url} rel="noopener">
-          <span>An initiative of</span>
+          <span>An initiative of {site.parentOrganization.name}</span>
           <img src={site.parentOrganization.logo} alt={site.parentOrganization.name} width="140" height="49" loading="lazy" />
         </a>
         <p class="footer-day"><DayCounter /></p>
