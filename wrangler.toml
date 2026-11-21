@@ -4,6 +4,9 @@ name = "peace-across-generations"
 pages_build_output_dir = "./dist"
 compatibility_date = "2026-09-01"
 
+[assets]
+directory = "./dist"
+
 # Private database: submissions, enquiries, newsletter, counters.
 [[d1_databases]]
 binding = "DB"
