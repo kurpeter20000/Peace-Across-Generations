@@ -63,7 +63,7 @@ const prompts = [
     <div class="container">
       <h2 id="bank">Prompts that work any month</h2>
       <dl class="grid grid--2 prompts">
-        {prompts.map(([k, v]) => <div class="card"><dt>{k}</dt><dd>{v}</dd></div>)}
+        {prompts.map(([k, v]) => <div class="card"><dt class="chip">{k}</dt><dd>{v}</dd></div>)}
       </dl>
     </div>
   </section>
@@ -72,9 +72,8 @@ const prompts = [
 <style>
   .plain { list-style: none; padding: 0; }
   .plain li { margin: 0; }
-  .month { border-top: 6px solid var(--color-green); }
-  .month__msg { font-family: var(--font-heading); font-weight: 600; font-size: 1.2rem; color: var(--heading); }
+  .month__msg { font-family: var(--font-heading); font-weight: 500; font-style: italic; font-size: 1.2rem; color: var(--heading); }
   .prompts { margin: 0; }
-  dt { font-family: var(--font-heading); font-weight: 700; color: var(--accent-text); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+  dt { margin-bottom: 0.6rem; }
   dd { margin: 0; font-size: 1.05rem; }
 </style>

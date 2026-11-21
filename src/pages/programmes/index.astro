@@ -53,7 +53,7 @@ const involve = [
               <span class="icon-badge prog-card__icon"><Icon name={p.icon as any} /></span>
             </div>
             <div class="prog-card__body">
-              <p class="prog-card__n">Programme {i + 1}</p>
+              <p class="prog-card__n"><span class="prog-card__num">{String(i + 1).padStart(2, '0')}</span> Programme</p>
               <h3><a href={p.href}>{fullTitle[p.key] ?? p.title}</a></h3>
               <p>{p.line}</p>
               <span class="prog-card__more" aria-hidden="true">Read the full programme →</span>
@@ -153,20 +153,21 @@ const involve = [
   .prog-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
   .prog-card {
     position: relative; margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-    overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 10px rgb(0 51 102 / 0.05);
+    overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow);
     transition: box-shadow 0.25s ease, transform 0.25s ease;
   }
-  .prog-card:hover { box-shadow: 0 18px 40px rgb(0 51 102 / 0.14); transform: translateY(-4px); }
+  .prog-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-4px); }
   .prog-card__photo { position: relative; }
   .prog-card__photo :global(img) { transition: transform 0.5s ease; }
   .prog-card:hover .prog-card__photo :global(img) { transform: scale(1.06); }
   .prog-card__icon {
-    position: absolute; left: 1rem; bottom: -18px; margin: 0; background: #fff; box-shadow: 0 6px 16px rgb(0 51 102 / 0.18);
-    color: var(--color-green-dark);
+    position: absolute; left: 1rem; bottom: -18px; margin: 0; background: #fff; box-shadow: 0 6px 16px rgb(15 48 95 / 0.18);
+    color: var(--color-terracotta);
   }
-  .prog-card:nth-child(even) .prog-card__icon { color: var(--color-navy); }
+  .prog-card:nth-child(even) .prog-card__icon { color: var(--color-olive); }
   .prog-card__body { padding: 2rem 1.5rem 1.5rem; display: flex; flex-direction: column; flex: 1; }
-  .prog-card__n { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: var(--accent-text); margin: 0 0 0.35rem; }
+  .prog-card__n { display: flex; align-items: baseline; gap: 0.4rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; color: var(--accent-text); margin: 0 0 0.35rem; }
+  .prog-card__num { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 500; letter-spacing: normal; text-transform: none; color: var(--color-green); }
   .prog-card h3 { font-size: 1.2rem; margin: 0 0 0.5rem; }
   .prog-card h3 a { color: var(--heading); text-decoration: none; }
   .prog-card h3 a::after { content: ''; position: absolute; inset: 0; }
@@ -178,12 +179,12 @@ const involve = [
 
   .involve__grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
   .involve__card {
-    margin: 0; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--color-green); border-radius: var(--radius);
-    padding: 1.5rem; display: flex; flex-direction: column;
+    margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1.5rem; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .involve__card[data-alt='1'] { border-top-color: var(--color-navy); }
+  .involve__card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
   .involve__icon { background: var(--color-green-tint); color: var(--color-green-dark); }
-  .involve__card[data-alt='1'] .involve__icon { background: var(--color-sky-light); color: var(--color-navy); }
+  .involve__card[data-alt='1'] .involve__icon { background: var(--color-olive-tint); color: var(--color-olive); }
   .involve__card h3 { font-size: 1.05rem; margin: 0 0 0.4rem; }
   .involve__card p { font-size: 0.92rem; color: var(--text-muted); margin: 0 0 1.25rem; max-width: none; }
   .involve__card .btn { margin-top: auto; }

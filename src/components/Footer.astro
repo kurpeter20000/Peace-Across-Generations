@@ -3,7 +3,6 @@ import site from '../data/site.json';
 import Email from './Email.astro';
 import Icon from './Icon.astro';
 import Tbd from './Tbd.astro';
-import DayCounter from './DayCounter.astro';
 import NewsletterForm from './NewsletterForm.astro';
 import { t } from '../i18n';
 
@@ -33,6 +32,12 @@ const socialLabels = { facebook: 'Facebook', instagram: 'Instagram', youtube: 'Y
 const anySocial = socials.some(([, url]) => url);
 ---
 <footer class="site-footer">
+  <div class="footer-newsletter">
+    <div class="container footer-newsletter__inner">
+      <p class="footer-newsletter__text">One letter a month. Stories, campaigns and ways to act.</p>
+      <NewsletterForm variant="footer" source="footer" id="newsletter-footer" />
+    </div>
+  </div>
   <div class="container">
     <div class="footer-grid">
       <div>
@@ -42,9 +47,6 @@ const anySocial = socials.some(([, url]) => url);
           <span>An initiative of {site.parentOrganization.name}</span>
           <img src={site.parentOrganization.logo} alt={site.parentOrganization.name} width="140" height="49" loading="lazy" />
         </a>
-        <p class="footer-day"><DayCounter /></p>
-        <h2 class="footer-h">Newsletter</h2>
-        <NewsletterForm variant="footer" source="footer" id="newsletter-footer" />
       </div>
       <nav aria-label="Explore">
         <h2 class="footer-h">{t('footer.explore')}</h2>
@@ -83,18 +85,22 @@ const anySocial = socials.some(([, url]) => url);
 </footer>
 
 <style>
-  .site-footer { background: var(--footer-bg); color: var(--footer-text); padding-block: 3rem 2rem; margin-top: 0; }
+  .site-footer { background: var(--footer-bg); color: var(--footer-text); padding-block: 2.25rem 1.5rem; margin-top: 0; }
   .site-footer :global(a) { color: #fff; }
-  .site-footer :global(a:hover) { color: #9fd67a; }
-  .site-footer :global(:focus-visible) { outline-color: #9fd67a; }
-  .footer-grid { display: grid; gap: 2rem; }
+  .site-footer :global(a:hover) { color: var(--color-sun-deep); }
+  .site-footer :global(:focus-visible) { outline-color: var(--color-sun); }
+  .footer-newsletter { border-bottom: 1px solid rgb(255 255 255 / 0.15); margin-bottom: 2rem; }
+  .footer-newsletter__inner { padding-block: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; }
+  .footer-newsletter__text { margin: 0; flex: 1 1 320px; font-family: var(--font-heading); font-size: 1.15rem; color: #fff; }
+  .footer-newsletter :global(.newsletter) { flex: 1 1 380px; max-width: 480px; }
+  .footer-newsletter :global(.newsletter__consent) { font-size: 0.78rem; opacity: 0.85; }
+  .footer-grid { display: grid; gap: 1.75rem; }
   @media (min-width: 700px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1000px) { .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
-  .footer-tagline { font-family: var(--font-heading); font-weight: 700; font-size: 1.25rem; color: #fff; }
-  .footer-parent { display: inline-flex; align-items: center; gap: 0.6rem; margin: 0.6rem 0 1rem; padding: 0.4rem 0.75rem; background: rgb(255 255 255 / 0.08); border-radius: var(--radius); }
+  @media (min-width: 1000px) { .footer-grid { grid-template-columns: 1.3fr 1fr 1fr 1fr; } }
+  .footer-tagline { font-family: var(--font-heading); font-weight: 700; font-size: 1.15rem; color: #fff; margin-bottom: 0.5rem; }
+  .footer-parent { display: inline-flex; align-items: center; gap: 0.6rem; margin: 0.6rem 0 0; padding: 0.4rem 0.75rem; background: rgb(255 255 255 / 0.08); border-radius: var(--radius); }
   .footer-parent span { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.85; }
   .footer-parent img { height: 28px; width: auto; display: block; background: #fff; border-radius: 4px; padding: 2px 4px; }
-  .footer-day { display: inline-block; background: rgb(255 255 255 / 0.08); border-radius: 999px; padding: 0.3rem 0.9rem; }
   .footer-h { color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 0.75rem; }
   .footer-h + ul, .footer-h + p { margin-bottom: 1.5rem; }
   .footer-links { list-style: none; padding: 0; }

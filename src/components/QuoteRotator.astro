@@ -20,9 +20,9 @@ const { quotes } = Astro.props;
   li { margin: 0; scroll-snap-align: start; }
   blockquote {
     margin: 0; height: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 1.25rem; border-top: 4px solid var(--color-leaf);
+    padding: 1.25rem;
   }
-  p { font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 1.02rem; margin: 0; }
-  p::before { content: '“'; }
-  p::after { content: '”'; }
+  p { font-family: var(--font-heading); font-style: italic; font-weight: 500; color: var(--heading); font-size: 1.05rem; margin: 0; }
+  p::before { content: '“'; color: var(--color-green); }
+  p::after { content: '”'; color: var(--color-green); }
 </style>

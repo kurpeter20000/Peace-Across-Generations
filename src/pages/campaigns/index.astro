@@ -3,10 +3,11 @@ import { photos } from '../../data/photos';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHead from '../../components/PageHead.astro';
 import CampaignCard from '../../components/CampaignCard.astro';
-import { allCampaigns, currentTheme, campaignUrl } from '../../lib/content';
+import { allCampaigns, currentTheme, campaignUrl, monthName, approachStages } from '../../lib/content';
 
 const campaigns = await allCampaigns();
 const current = await currentTheme();
+const stage = current && approachStages.find((s) => s.key === current.data.stage);
 ---
 <BaseLayout title="Campaigns" description="One campaign a month. Each asks one question and invites everyone to answer — in a video, a letter, a poem, a song, a story or a conversation.">
   <PageHead photo={photos.loveCrowd} title="Campaigns" lede="One campaign a month. Each asks one question and invites everyone to answer — in a video, a letter, a poem, a song, a story or a conversation.">
@@ -18,13 +19,48 @@ const current = await currentTheme();
     )}
   </PageHead>
 
+  {current && (
+    <section class="band-green now-band">
+      <div class="container now-band__inner">
+        <div>
+          <p class="eyebrow">Now · {stage && `${stage.n} ${stage.name} · `}{monthName(current.data.month)}</p>
+          <h2>{current.data.title}</h2>
+          <p class="now-band__intro">{current.data.intro}</p>
+        </div>
+        <div class="now-band__answer">
+          <p class="eyebrow">How to answer</p>
+          {current.data.contributionTypes.length > 0 ? (
+            <ul class="chips">{current.data.contributionTypes.map((c) => <li class="chip">{c}</li>)}</ul>
+          ) : null}
+          <p>{current.data.message ?? current.data.creativePrompt}</p>
+          <a class="btn btn--light" href={campaignUrl(current)} data-track="cta:join-now-band">Join {current.data.title} →</a>
+        </div>
+      </div>
+    </section>
+  )}
+
   <section class="section section--surface">
     <div class="container">
-      <h2>The pilot season, September 2026 – February 2027</h2>
-      <p>Together the six campaigns follow our approach: understand, unlearn, choose, lead, heal and build. <a href="/about/#approach">About our approach</a></p>
-      <div class="grid grid--3">
+      <div class="section-title">
+        <p class="eyebrow">Pilot season · September 2026 – February 2027</p>
+        <h2>Six campaigns. Each asks one question.</h2>
+        <p>Together they follow our approach: understand, unlearn, choose, lead, heal and build. <a href="/about/#approach">About our approach</a></p>
+      </div>
+      <div class="grid grid--3 season-grid">
         {campaigns.map((c) => <CampaignCard campaign={c} current={c.id === current?.id} />)}
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .now-band__inner { display: grid; gap: 2rem; padding-block: clamp(2.5rem, 2rem + 2vw, 4rem); }
+  .now-band__inner > * { min-width: 0; }
+  @media (min-width: 900px) { .now-band__inner { grid-template-columns: 1.2fr 1fr; align-items: center; } }
+  .now-band h2 { color: #fff; font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem); }
+  .now-band__intro { max-width: 46ch; }
+  .now-band__answer { background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.25); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .now-band .chips { margin: 0; }
+  .now-band .chip { background: rgb(255 255 255 / 0.15); color: #fff; }
+  .season-grid .campaign-card { height: 100%; }
+</style>

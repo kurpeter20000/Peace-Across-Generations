@@ -257,10 +257,11 @@ const wa = site.whatsapp ? `https://wa.me/${String(site.whatsapp).replace(/\D/g,
   .table-title { margin-top: 2.5rem; font-size: 1.25rem; }
   .talks { list-style: none; padding: 0; display: grid; gap: 1rem; }
   @media (min-width: 800px) { .talks { grid-template-columns: repeat(2, 1fr); } }
-  .talks li { margin: 0; max-width: none; background: var(--surface); border: 1px solid var(--line); border-left: 5px solid var(--color-navy); border-radius: var(--radius); padding: 1.25rem; }
+  .talks li { margin: 0; max-width: none; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; }
   .talks h4 { font-family: var(--font-heading); color: var(--heading); font-size: 1.05rem; margin: 0 0 0.4rem; }
   .criteria { margin: 0 0 1rem; display: grid; gap: 0.6rem; }
-  .criteria div { border-left: 4px solid var(--color-green); padding-left: 0.9rem; }
+  .criteria div { border-top: 1px solid var(--line); padding-top: 0.75rem; }
+  .criteria div:first-child { border-top: 0; padding-top: 0; }
   .criteria dt { font-family: var(--font-heading); font-weight: 700; color: var(--heading); }
   .criteria dd { margin: 0; font-size: 0.95rem; color: var(--text-muted); }
 </style>

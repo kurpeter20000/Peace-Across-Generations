@@ -16,7 +16,7 @@ const { items, tagline } = Astro.props;
 </div>
 
 <style>
-  .glance { background: var(--surface); border: 1px solid var(--line); border-top: 6px solid var(--color-green); border-radius: var(--radius); box-shadow: 0 18px 44px rgb(0 51 102 / 0.08); padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); }
+  .glance { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lift); padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); }
   .glance__tagline { font-family: var(--font-heading); font-weight: 700; color: var(--heading); font-size: clamp(1.2rem, 1rem + 0.8vw, 1.5rem); margin-bottom: 1.25rem; max-width: none; }
   .glance__grid { display: grid; gap: 0; margin: 0; }
   @media (min-width: 760px) { .glance__grid { grid-template-columns: repeat(2, 1fr); column-gap: 2.5rem; } }

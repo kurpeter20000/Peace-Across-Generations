@@ -199,7 +199,7 @@ const actions = [
   @media (min-width: 900px) { .intro { grid-template-columns: 1.35fr 1fr; gap: 4.5rem; } }
   .intro__text { font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.7rem); line-height: 1.45; max-width: 34ch; }
   .intro__text::first-letter { float: left; font-weight: 700; font-size: 3.4em; line-height: 0.82; margin: 0.06em 0.12em 0 0; color: var(--color-green); }
-  .campaign-card { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: 0 24px 60px rgb(0 51 102 / 0.14); border-top: 6px solid var(--color-green); }
+  .campaign-card { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-feature); }
   .campaign-card__img :global(img) { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
   .campaign-card__body { padding: 1.5rem; }
   .campaign-card h3 { font-size: 1.5rem; }
@@ -218,7 +218,7 @@ const actions = [
   .why__lede { font-size: 1.1rem; }
 
   /* Values */
-  .beliefs { list-style: none; padding: 0; margin: 0; display: grid; border-top: 2px solid var(--color-navy); }
+  .beliefs { list-style: none; padding: 0; margin: 0; display: grid; border-top: 1px solid var(--line-deep); }
   @media (min-width: 700px) { .beliefs { grid-template-columns: repeat(2, 1fr); column-gap: 3rem; } }
   @media (min-width: 1000px) { .beliefs { grid-template-columns: repeat(3, 1fr); } }
   .beliefs li { margin: 0; max-width: none; display: flex; gap: 1rem; align-items: baseline; padding: 1.35rem 0; border-bottom: 1px solid var(--line); }
@@ -228,16 +228,16 @@ const actions = [
   /* Take action */
   .act { display: grid; gap: 2.5rem; align-items: center; }
   @media (min-width: 900px) { .act { grid-template-columns: 1fr 1fr; gap: 4rem; } }
-  .act__photo :global(img) { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); box-shadow: 0 24px 60px rgb(0 51 102 / 0.18); }
+  .act__photo :global(img) { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow-feature); }
   .act h2 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
   .act__list { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.75rem; }
   .act__list li { margin: 0; max-width: none; }
   .act__list a {
     display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 1rem; align-items: center;
-    background: #fff; text-decoration: none; border-radius: var(--radius-sm); padding: 1rem 1.2rem;
-    border-left: 5px solid var(--color-green); box-shadow: 0 2px 10px rgb(0 51 102 / 0.06); transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #fff; border: 1px solid var(--line); text-decoration: none; border-radius: var(--radius-sm); padding: 1rem 1.2rem;
+    box-shadow: var(--shadow); transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .act__list a:hover { transform: translateX(4px); box-shadow: 0 10px 24px rgb(0 51 102 / 0.12); }
+  .act__list a:hover { transform: translateX(4px); box-shadow: var(--shadow-lift); }
   .act__list strong { font-family: var(--font-heading); color: var(--color-navy); font-size: 1.05rem; }
   .act__list span { grid-column: 1; font-size: 0.93rem; color: var(--text-muted); }
   .act__list :global(svg) { grid-column: 2; grid-row: 1 / span 2; width: 22px; height: 22px; color: var(--color-green); }
@@ -246,7 +246,7 @@ const actions = [
   .split-band { display: grid; }
   @media (min-width: 960px) { .split-band { grid-template-columns: 1.15fr 1fr; } }
   .split-band__video { background: #fff; color: var(--text); border-top: 1px solid var(--line); }
-  .split-band__ask { background: linear-gradient(135deg, #245a26, var(--color-green)); color: #fff; display: flex; align-items: center; }
+  .split-band__ask { background: var(--color-terracotta); color: #fff; display: flex; align-items: center; }
   .split-band__inner { padding: clamp(2.5rem, 2rem + 3vw, 5rem) clamp(1rem, 4vw, 4.5rem); max-width: 720px; }
   .split-band__ask h2 { color: #fff; }
   .split-band h2 { font-size: clamp(1.4rem, 1.2rem + 1vw, 1.95rem); }
