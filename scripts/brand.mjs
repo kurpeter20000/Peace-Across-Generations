@@ -1,9 +1,12 @@
-// Generates optimised brand assets from public/brand/pag-logo.png.
+// Generates optimised brand assets from public/brand/pag-logo.png (the full
+// lock-up: dove symbol + wordmark + tagline) and public/brand/pag-icon.png
+// (the dove symbol alone, used for favicons/app icons/social image).
 // Run with: npm run brand
 import sharp from 'sharp';
+import { existsSync } from 'node:fs';
 
 const src = 'public/brand/pag-logo.png';
-const trimmed = await sharp(src).trim().toBuffer({ resolveWithObject: true });
+const trimmed = await sharp(src).trim({ threshold: 5 }).toBuffer({ resolveWithObject: true });
 console.log('trimmed logo', trimmed.info.width, 'x', trimmed.info.height);
 
 // Header lock-up: 2x of ~200 px display width
@@ -16,10 +19,17 @@ for (const w of [400]) {
   console.log(png, pinfo.size, 'bytes');
 }
 
-// Symbol (dove over the three figures) is the left ~31% of the trimmed lock-up
-const { width, height } = trimmed.info;
-const symW = Math.round(width * 0.335);
-const symbol = await sharp(trimmed.data).extract({ left: 0, top: 0, width: symW, height }).trim().toBuffer({ resolveWithObject: true });
+// Symbol (the dove) comes from its own dedicated file when present — far more
+// reliable than cropping it out of the full lock-up — falling back to the
+// left ~33.5% of the trimmed lock-up if no dedicated icon file exists.
+const iconSrc = 'public/brand/pag-icon.png';
+const symbol = existsSync(iconSrc)
+  ? await sharp(iconSrc).trim({ threshold: 5 }).toBuffer({ resolveWithObject: true })
+  : await (async () => {
+      const { width, height } = trimmed.info;
+      const symW = Math.round(width * 0.335);
+      return sharp(trimmed.data).extract({ left: 0, top: 0, width: symW, height }).trim({ threshold: 5 }).toBuffer({ resolveWithObject: true });
+    })();
 const side = Math.max(symbol.info.width, symbol.info.height);
 const pad = Math.round(side * 0.06);
 const square = await sharp(symbol.data)
@@ -37,9 +47,9 @@ for (const [size, name] of [[32, 'favicon-32.png'], [180, 'apple-touch-icon.png'
 const logoForOg = await sharp(trimmed.data).resize({ width: 760 }).png().toBuffer();
 const ogText = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
   <rect width="1200" height="630" fill="#ffffff"/>
-  <rect y="570" width="1200" height="60" fill="#003366"/>
-  <rect y="562" width="1200" height="8" fill="#2E7130"/>
-  <text x="600" y="470" text-anchor="middle" font-family="Poppins, Segoe UI, Arial, sans-serif" font-weight="700" font-size="44" fill="#003366">Every Voice. Every Generation. One Peace.</text>
+  <rect y="570" width="1200" height="60" fill="#0F305F"/>
+  <rect y="562" width="1200" height="8" fill="#318226"/>
+  <text x="600" y="470" text-anchor="middle" font-family="Lora, Georgia, serif" font-weight="600" font-size="44" fill="#0F305F">Every Voice. Every Generation. One Peace.</text>
 </svg>`);
 const og = await sharp(ogText)
   .composite([{ input: logoForOg, top: 90, left: 220 }])

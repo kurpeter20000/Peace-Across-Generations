@@ -16,7 +16,7 @@ const fonts = [
   { name: 'Poppins', data: font(700), weight: 700, style: 'normal' },
 ];
 
-const trimmed = await sharp('public/brand/pag-logo.png').trim().resize({ width: 520 }).png().toBuffer({ resolveWithObject: true });
+const trimmed = await sharp('public/brand/pag-logo.png').trim({ threshold: 5 }).resize({ width: 520 }).png().toBuffer({ resolveWithObject: true });
 const logo = `data:image/png;base64,${trimmed.data.toString('base64')}`;
 const logoH = Math.round((trimmed.info.height / trimmed.info.width) * 520);
 
@@ -38,18 +38,18 @@ const h = (type, style, children) => ({ type, props: { style, children } });
 
 async function render(title, eyebrow) {
   const size = title.length > 70 ? 50 : title.length > 42 ? 58 : 68;
-  const tree = h('div', { width: 1200, height: 630, display: 'flex', flexDirection: 'column', background: '#EAF4FD', fontFamily: 'Poppins' }, [
+  const tree = h('div', { width: 1200, height: 630, display: 'flex', flexDirection: 'column', background: '#F2F5F9', fontFamily: 'Poppins' }, [
     h('div', { display: 'flex', flexDirection: 'column', flexGrow: 1, padding: '56px 72px 0' }, [
       { type: 'img', props: { src: logo, width: 520 * 0.62, height: logoH * 0.62, style: { marginBottom: 36 } } },
       eyebrow
-        ? h('div', { fontSize: 24, fontWeight: 600, color: '#2E7130', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 12 }, eyebrow)
+        ? h('div', { fontSize: 24, fontWeight: 600, color: '#318226', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 12 }, eyebrow)
         : null,
-      h('div', { fontSize: size, fontWeight: 700, color: '#003366', lineHeight: 1.15, display: 'flex' }, title),
+      h('div', { fontSize: size, fontWeight: 700, color: '#0F305F', lineHeight: 1.15, display: 'flex' }, title),
     ].filter(Boolean)),
-    h('div', { height: 10, background: '#2E7130', display: 'flex' }, []),
-    h('div', { height: 74, background: '#003366', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 72px', color: '#ffffff', fontSize: 26, fontWeight: 600 }, [
+    h('div', { height: 10, background: '#318226', display: 'flex' }, []),
+    h('div', { height: 74, background: '#0F305F', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 72px', color: '#ffffff', fontSize: 26, fontWeight: 600 }, [
       h('div', { display: 'flex' }, 'Independent · Youth-led · Non-partisan'),
-      h('div', { display: 'flex', fontWeight: 400, color: '#cfe0f2' }, HOST),
+      h('div', { display: 'flex', fontWeight: 400, color: '#cdd9ea' }, HOST),
     ]),
   ]);
   const svg = await satori(tree, { width: 1200, height: 630, fonts });

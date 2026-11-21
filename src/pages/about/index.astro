@@ -40,6 +40,7 @@ const messages = [
 <BaseLayout title="About us" description="Peace Across Generations is a peace initiative of Edupower Youth Foundation: a youth-led and non-partisan peacebuilding initiative for South Sudan. Our story, mission, vision, approach and principles.">
   <PageHead photo={photos.workshopDiscussion} title="About Peace Across Generations" eyebrow="Youth-led · Non-partisan · An Edupower Youth Foundation initiative">
     <p class="lede">Peace Across Generations is a peace initiative of Edupower Youth Foundation: youth-led and non-partisan, connecting South Sudanese across communities, generations and borders to speak, listen, create and act for peace.</p>
+    <p class="parent-line">A peacebuilding initiative of <a href="https://www.edupoweryouthfoundation.org/what-we-do/peace-across-generations" rel="noopener">EduPower Youth Foundation</a>.</p>
   </PageHead>
 
   <nav class="container jump" aria-label="On this page">
@@ -146,7 +147,7 @@ const messages = [
     </div>
   </section>
 
-  <section class="section band-off" aria-label="Networks we aspire to work with">
+  <section class="section band-off" aria-label="Organisations whose work inspires us">
     <div class="container"><NetworksMarquee /></div>
   </section>
 
@@ -170,8 +171,7 @@ const messages = [
   .jump a { display: inline-block; padding: 0.45rem 0.9rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; font-weight: 600; font-size: 0.92rem; }
   .story { display: grid; gap: 2rem; align-items: start; }
   @media (min-width: 960px) { .story { grid-template-columns: 1.1fr 1fr; } }
-  .statement { border-top: 6px solid var(--color-green); }
-  .statement p:last-child { font-family: var(--font-heading); font-weight: 600; color: var(--heading); font-size: 1.2rem; line-height: 1.4; }
+  .statement p:last-child { font-family: var(--font-heading); font-weight: 500; color: var(--heading); font-size: 1.2rem; line-height: 1.4; }
   .stages { list-style: none; padding: 0; display: grid; gap: 0.75rem; margin-bottom: 2rem; }
   @media (min-width: 640px) { .stages { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 1000px) { .stages { grid-template-columns: repeat(3, 1fr); } }
@@ -184,6 +184,5 @@ const messages = [
   .plain li { margin: 0; }
   .plain h3 { color: var(--accent-text); }
   .more { margin-top: 1.25rem; }
-  .team-teaser { border-top: 6px solid var(--color-green); }
   .team-teaser h2 a { text-decoration: none; color: inherit; }
 </style>
